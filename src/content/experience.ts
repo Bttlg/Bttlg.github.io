@@ -9,7 +9,7 @@ export const experience: Experience[] = [
     role: { mn: "Full-stack хөгжүүлэгч (backend гол)", en: "Full-stack Developer (backend-focused)" },
     period: { from: "2023-03", to: null },
     summary: {
-      mn: "Байгууллага, иргэдэд зориулсан цахим гэрээ байгуулах, цахим гарын үсээр баталгаажуулах платформ. Backend микросервисүүд, төлбөр ба банкны интеграц, Next.js frontend-ийг хөгжүүлсэн.",
+      mn: "Байгууллага, иргэдэд зориулсан цахим гэрээ байгуулах, цахим гарын үсгээр баталгаажуулах платформ. Backend микросервисүүд, төлбөр ба банкны интеграц, Next.js frontend-ийг хөгжүүлсэн.",
       en: "Platform for creating and digitally signing contracts for businesses and citizens. Built the backend microservices, payment and bank integrations, and the Next.js frontend.",
     },
     highlights: {

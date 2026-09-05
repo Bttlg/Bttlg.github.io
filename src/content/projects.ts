@@ -15,7 +15,7 @@ export const projects: Project[] = [
     highlights: {
       mn: [
         "Spring Cloud микросервисүүд, RabbitMQ, Redis, AWS SQS/SNS дээр асинхрон урсгал",
-        "PDF үүсгэх, цахим гарын үсэ, гэрээний callback-ийн middleware-үүд",
+        "PDF үүсгэх, цахим гарын үсэг, гэрээний callback-ийн middleware-үүд",
         "Next.js 16, OpenTelemetry-тэй frontend",
       ],
       en: [
