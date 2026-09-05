@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { personJsonLd } from "./jsonld";
+import { personJsonLd, serializeJsonLd } from "./jsonld";
 import { profile } from "@/content";
 
 describe("personJsonLd", () => {
@@ -15,5 +15,19 @@ describe("personJsonLd", () => {
     expect(sameAs).toContain(profile.github);
     if (!profile.linkedin) expect(sameAs).toHaveLength(1);
     else expect(sameAs).toContain(profile.linkedin);
+  });
+});
+
+describe("serializeJsonLd", () => {
+  it("escapes < so embedded content can never close the script tag, while preserving it through JSON.parse", () => {
+    const value = { a: "</script><b>" };
+    const serialized = serializeJsonLd(value);
+    expect(serialized).not.toContain("<");
+    expect(JSON.parse(serialized).a).toContain("</script>");
+  });
+
+  it("round-trips through JSON.parse", () => {
+    const value = { a: "</script><b>" };
+    expect(JSON.parse(serializeJsonLd(value))).toEqual(value);
   });
 });

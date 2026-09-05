@@ -16,3 +16,8 @@ export function personJsonLd(lang: Locale): Record<string, unknown> {
     address: { "@type": "PostalAddress", addressLocality: profile.location[lang] },
   };
 }
+
+/** Serialize for a <script type="application/ld+json">: `<` is escaped so content can never close the tag. */
+export function serializeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}

@@ -18,16 +18,16 @@ for (const lang of LOCALES) {
   copyFileSync(src, `${src}.png`);
 }
 
-function htmlFiles(dir) {
+function textFiles(dir) {
   return readdirSync(dir).flatMap((name) => {
     const path = join(dir, name);
-    if (statSync(path).isDirectory()) return htmlFiles(path);
-    return name.endsWith(".html") ? [path] : [];
+    if (statSync(path).isDirectory()) return textFiles(path);
+    return name.endsWith(".html") || name.endsWith(".txt") ? [path] : [];
   });
 }
 
 let rewritten = 0;
-for (const file of htmlFiles(out)) {
+for (const file of textFiles(out)) {
   const html = readFileSync(file, "utf8");
   const next = html.replace(/\/opengraph-image(\?|")/g, "/opengraph-image.png$1");
   if (next !== html) {
@@ -35,4 +35,4 @@ for (const file of htmlFiles(out)) {
     rewritten += 1;
   }
 }
-console.log(`postbuild-og: copied ${LOCALES.length} images to .png, rewrote ${rewritten} HTML file(s)`);
+console.log(`postbuild-og: copied ${LOCALES.length} images to .png, rewrote ${rewritten} HTML/RSC file(s)`);

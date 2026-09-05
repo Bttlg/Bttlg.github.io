@@ -1,9 +1,19 @@
 import type { Locale } from "@/lib/i18n";
 import { formatPeriod } from "@/lib/dates";
-import { experience, ui } from "@/content";
+import { experience, ui, type Experience as ExperienceEntry } from "@/content";
 import { Section } from "./Section";
 import { Chip } from "./Chip";
 import { Icon } from "./Icon";
+
+/** Current roles first (latest start first), then finished roles (latest end first). */
+export function sortExperience(list: ExperienceEntry[]): ExperienceEntry[] {
+  return [...list].sort((a, b) => {
+    if (a.period.to === null && b.period.to !== null) return -1;
+    if (a.period.to !== null && b.period.to === null) return 1;
+    if (a.period.to === null && b.period.to === null) return b.period.from.localeCompare(a.period.from);
+    return (b.period.to as string).localeCompare(a.period.to as string);
+  });
+}
 
 export function Experience({ lang }: { lang: Locale }) {
   const t = ui[lang];
@@ -11,7 +21,7 @@ export function Experience({ lang }: { lang: Locale }) {
   return (
     <Section id="experience" title={t.sections.experience}>
       <ol className="relative border-l border-border pl-6">
-        {experience.map((entry) => (
+        {sortExperience(experience).map((entry) => (
           <li key={entry.id} className="relative pb-10 last:pb-0">
             <span
               aria-hidden="true"
