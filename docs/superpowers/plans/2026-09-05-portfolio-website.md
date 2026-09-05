@@ -1,6 +1,6 @@
 # Portfolio Website Implementation Plan
 
-> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт хамт ажиллагч Тэргэлийн git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
+> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт өөр хүний git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -1000,7 +1000,7 @@ export const profile: Profile = {
   facts: [
     { label: { mn: "Байршил", en: "Location" }, value: { mn: "Улаанбаатар", en: "Ulaanbaatar" } },
     // TODO(Баттулга): Одоо голчлон юу хийж байгаагаа шалгах.
-    { label: { mn: "Одоо", en: "Currently" }, value: { mn: "e-geree.mn, MnPost backend", en: "e-geree.mn, MnPost backend" } },
+    { label: { mn: "Одоо", en: "Currently" }, value: { mn: "e-geree.mn", en: "e-geree.mn" } },
     { label: { mn: "Хэл", en: "Languages" }, value: { mn: "Монгол, Англи", en: "Mongolian, English" } },
   ],
 };
@@ -1062,31 +1062,6 @@ export const experience: Experience[] = [
       ],
     },
     stack: ["Java 17/21", "Spring Boot", "MongoDB", "Redis", "WebSocket", "Next.js", "Docker"],
-  },
-  {
-    id: "mnpost",
-    // TODO(Баттулга): «MnPost» нь Монгол Шуудан мөн үү, албан нэр, албан тушаал.
-    company: { mn: "MnPost", en: "MnPost" },
-    url: "https://mnpost.mn",
-    role: { mn: "Backend хөгжүүлэгч", en: "Backend Developer" },
-    period: { from: "2024-09", to: null },
-    summary: {
-      mn: "Шуудан, логистикийн үйлчилгээний систем. Backend-ийн үндсэн хөгжүүлэгч, удирдлагын веб апп.",
-      en: "Postal and logistics service system. Primary backend developer, plus the admin web app.",
-    },
-    highlights: {
-      mn: [
-        "Backend-ийн үндсэн хөгжүүлэгч (1000+ commit)",
-        "RabbitMQ дээр суурилсан мессеж урсгал, 2FA, удирдлагын API",
-        "Next.js 13 удирдлагын frontend",
-      ],
-      en: [
-        "Primary backend contributor (1,000+ commits)",
-        "RabbitMQ-based messaging, 2FA and admin APIs",
-        "Next.js 13 admin frontend",
-      ],
-    },
-    stack: ["Java 17", "Spring Boot", "MongoDB", "RabbitMQ", "Next.js"],
   },
   {
     id: "yesh",
@@ -1207,24 +1182,6 @@ export const projects: Project[] = [
     stack: ["Java", "Spring Boot", "MongoDB", "Redis", "WebSocket", "Next.js"],
     liveUrl: "https://trade.octagon.mn",
     featured: true,
-  },
-  {
-    slug: "mnpost",
-    name: { mn: "MnPost", en: "MnPost" },
-    kind: "work",
-    role: { mn: "Backend хөгжүүлэгч", en: "Backend developer" },
-    period: { from: "2024-09", to: null },
-    summary: {
-      mn: "Шуудан, логистикийн үйлчилгээний backend ба удирдлагын веб.",
-      en: "Backend and admin web app for a postal and logistics service.",
-    },
-    highlights: {
-      mn: ["RabbitMQ мессеж урсгал, 2FA, удирдлагын API", "Next.js 13 удирдлагын frontend"],
-      en: ["RabbitMQ messaging, 2FA and admin APIs", "Next.js 13 admin frontend"],
-    },
-    stack: ["Java 17", "Spring Boot", "MongoDB", "RabbitMQ", "Next.js"],
-    liveUrl: "https://mnpost.mn",
-    featured: false,
   },
   {
     slug: "yesh",

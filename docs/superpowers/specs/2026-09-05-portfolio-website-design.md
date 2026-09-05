@@ -1,6 +1,6 @@
 # Танилцуулга (portfolio) вебсайт — дизайн spec
 
-> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт хамт ажиллагч Тэргэлийн git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
+> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт өөр хүний git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
 
 - **Огноо:** 2026-09-05
 - **Төлөв:** батлагдсан (brainstorming-ийн дараа), хэрэгжүүлэх төлөвлөгөө хараахан гараагүй
@@ -252,11 +252,10 @@ export type Ui = Record<Locale, UiDict>;
 | egeree | e-geree.mn — цахим гэрээний платформ | 2023-03 → одоо | Backend микросервисүүд (auth, notification, PDF generator, цахим гарын үсэг, ХУР/XYP интеграц, банкны төлбөр, SSO, 2FA), Next.js 13→16 frontend; backend-д 2400+ commit | Java 21, Spring Boot, Spring Cloud, MongoDB, Redis, RabbitMQ, AWS S3/SQS/SNS, Azure Blob, Next.js, OpenTelemetry |
 | octagon | Octagon (octagon.mn) — крипто бирж | 2021-10 → 2026-08 (TODO: дууссан эсэх) | Exchange API, банкны интеграц (Хаан, Голомт, ХХБ), trade/id/nft Next.js frontend-үүд | Java 17/21, Spring Boot, MongoDB, Redis, WebSocket, Next.js 13 |
 | yesh | yesh.mn — ЭЕШ бэлтгэлийн платформ | 2021-03 → 2025-10 (TODO) | mobile-api, teacher-api backend; web (Next.js 12); mobile апп | Java 21, Spring Boot, MongoDB, Next.js, React Native |
-| mnpost | MnPost | 2024-09 → одоо | Backend (1000+ commit), manage frontend | Java 17, Spring Boot, MongoDB, RabbitMQ, Next.js 13 |
 | smart-transport | Smart Transport mobile | 2024-04 → 2024-07 | React Native мобайл апп | React Native, Firebase |
 | poweredmn | PoweredMN | 2022-05 → 2023-01 | Next.js вебсайт | Next.js 13 |
 
-**Projects (work, featured):** e-geree.mn (`https://e-geree.mn`), Octagon exchange (`https://trade.octagon.mn`, `https://id.octagon.mn`), yesh.mn (`https://yesh.mn`), MnPost. Live URL-уудыг хэрэгжүүлэх үед `curl`-ээр амьд эсэхийг шалгаж, үхсэн бол `liveUrl` орхино.
+**Projects (work, featured):** e-geree.mn (`https://e-geree.mn`), Octagon exchange (`https://trade.octagon.mn`, `https://id.octagon.mn`), yesh.mn (`https://yesh.mn`). Live URL-уудыг хэрэгжүүлэх үед `curl`-ээр амьд эсэхийг шалгаж, үхсэн бол `liveUrl` орхино.
 
 **Projects (personal):** УБ Автобус (iOS, SwiftUI, MapKit, бодит цагийн ETA; 2026-08; App Store-д тавиагүй, repo private → линкгүй), Music Mixer (FastAPI + Demucs + Next.js + Web Audio; 4 stem салгаж синхрон тоглуулах; TODO repo), Замч (Next.js 16, Монголын аяллын замын мэдээлэл; 2026-05→07; TODO live/repo), Smart HR (React Native; 2026-08), ClickUp-Telegram bot (Python; `https://github.com/Bttlg/ClickUp-Telegram-Bot`), spring-boot-initializer (Java; `https://github.com/Bttlg/spring-boot-initializer`), Data-transfer (Vue; `https://github.com/Bttlg/Data-transfer`).
 
