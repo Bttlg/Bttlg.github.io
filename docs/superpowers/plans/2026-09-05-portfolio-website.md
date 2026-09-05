@@ -6,13 +6,13 @@
 
 **Architecture:** Next.js 16 App Router `output: 'export'`; `src/app/[lang]/` доор `generateStaticParams(['mn','en'])`-тэй хуудсууд, `/` дээр inline script-тэй хэл сонгох redirect хуудас. Бүх текст `src/content/` доторх төрөлжсөн `Localized<T> = Record<Locale, T>` объектуудад; компонентууд `lang` prop авч индекслэнэ. Нэг root layout (`<html lang="mn">`), `[lang]` layout контентыг `<div lang={lang}>`-ээр ороодог. Deploy: GitHub Actions → `actions/deploy-pages`.
 
-**Tech Stack:** Next.js ^16.3, React ^19.2, TypeScript ^5, Tailwind CSS ^4 (`@tailwindcss/postcss`), `next/font/google` (Inter, JetBrains Mono), Vitest ^5 + @testing-library/react ^16 + jsdom, ESLint ^9 + eslint-config-next, `@fontsource/inter` (OG зургийн фонт), Node 20, npm.
+**Tech Stack:** Next.js ^16.3, React ^19.2, TypeScript ^5, Tailwind CSS ^4 (`@tailwindcss/postcss`), `next/font/google` (Inter, JetBrains Mono), Vitest ^5 + @testing-library/react ^16 + jsdom, ESLint ^9 + eslint-config-next, `@fontsource/inter` (OG зургийн фонт), Node 24, npm.
 
 **Spec:** `docs/superpowers/specs/2026-09-05-portfolio-website-design.md`
 
 ## Global Constraints
 
-- Node `20` (`.nvmrc`), package manager npm; TypeScript `^5` (7.x-г ашиглахгүй), ESLint `^9`.
+- Node `24` (`.nvmrc`; 2026-09-06 controller ruling — Vitest 5/jsdom 30 engines шаардлага, Task 1-д `20` гэж бичсэн нь Task 11-д `24` болно), package manager npm; TypeScript `^5` (7.x-г ашиглахгүй), ESLint `^9`.
 - `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { unoptimized: true }`. Static export-д хориотой зүйл (proxy, redirects/rewrites/headers config, server actions, cookies, ISR, `dynamicParams: true`) ашиглахгүй.
 - Locale-ууд: `mn` (default), `en`. URL үргэлж trailing slash-тай: `/mn/`, `/en/cv/`.
 - Бүх хэрэглэгчид харагдах текст `src/content/`-оос ирнэ; компонент дотор хатуу бичсэн монгол/англи текст байхгүй (`GitHub`, `LinkedIn`, `404`, `$ whoami` гэх мэт брэнд/тэмдэг л).

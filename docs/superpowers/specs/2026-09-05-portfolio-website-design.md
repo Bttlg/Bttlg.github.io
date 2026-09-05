@@ -52,7 +52,7 @@
 | Фонт | Inter + JetBrains Mono (`next/font/google`, `latin` + `cyrillic`) | Geist кирилл дэмждэггүй |
 | UI kit / icon сан | Ашиглахгүй; inline SVG icon | Хэрэгцээ бага, bundle жижиг |
 | Тест | Vitest + @testing-library/react + jsdom | Хурдан, Next 16-тай нийцтэй |
-| Package manager | npm (Node 20 LTS) | Машин дээр байгаа нь |
+| Package manager | npm (Node 24 LTS) | Машин дээр байгаа нь; Vitest 5 engines |
 
 ---
 
@@ -60,7 +60,7 @@
 
 | Зүйл | Хувилбар |
 |---|---|
-| Node.js | 20.x LTS (`.nvmrc` = `20`) |
+| Node.js | 24.x LTS (`.nvmrc` = `24`; 2026-09-06 шийдвэр: Vitest 5 / jsdom 30 нь Node ≥22.12 шаарддаг) |
 | Next.js | `^16.2` |
 | React / React DOM | `^19.2` |
 | TypeScript | `^5`, `strict: true` |
