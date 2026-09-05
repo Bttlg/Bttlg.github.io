@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { hasLocale, localePath } from "@/lib/i18n";
-import { ui } from "@/content";
+import { hasLocale } from "@/lib/i18n";
+import { alternatesFor, socialMetadata } from "@/lib/seo";
+import { profile, ui } from "@/content";
 import { CvDocument } from "@/components/cv/CvDocument";
 import { PrintButton } from "@/components/cv/PrintButton";
 
@@ -10,16 +11,12 @@ type Params = Promise<{ lang: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
+  const name = profile.name[lang];
+  const title = `${ui[lang].cv.title} · ${name}`;
   return {
     title: ui[lang].cv.title,
-    alternates: {
-      canonical: localePath(lang, "/cv"),
-      languages: {
-        mn: localePath("mn", "/cv"),
-        en: localePath("en", "/cv"),
-        "x-default": localePath("mn", "/cv"),
-      },
-    },
+    alternates: alternatesFor(lang, "/cv"),
+    ...socialMetadata(lang, "/cv", title, profile.tagline[lang], name),
   };
 }
 

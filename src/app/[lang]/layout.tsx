@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { LOCALES, hasLocale, localePath } from "@/lib/i18n";
+import { LOCALES, hasLocale } from "@/lib/i18n";
+import { alternatesFor, socialMetadata } from "@/lib/seo";
 import { profile } from "@/content";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -26,23 +27,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: { default: title, template: `%s · ${name}` },
     description,
-    alternates: {
-      canonical: localePath(lang),
-      languages: {
-        mn: localePath("mn"),
-        en: localePath("en"),
-        "x-default": localePath("mn"),
-      },
-    },
-    openGraph: {
-      type: "website",
-      locale: lang === "mn" ? "mn_MN" : "en_US",
-      url: localePath(lang),
-      siteName: name,
-      title,
-      description,
-    },
-    twitter: { card: "summary_large_image", title, description },
+    alternates: alternatesFor(lang),
+    ...socialMetadata(lang, "/", title, description, name),
     robots: { index: true, follow: true },
   };
 }
