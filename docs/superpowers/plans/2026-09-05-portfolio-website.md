@@ -1,8 +1,10 @@
 # Portfolio Website Implementation Plan
 
+> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт хамт ажиллагч Тэргэлийн git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Тэргэл Ганболдын хоёр хэлтэй (mn/en), бараан dev-style, статик Next.js 16 танилцуулга сайтыг GitHub Pages (`https://bttlg.github.io/`) дээр байршуулах.
+**Goal:** Баттулга Батжаргалын хоёр хэлтэй (mn/en), бараан dev-style, статик Next.js 16 танилцуулга сайтыг GitHub Pages (`https://bttlg.github.io/`) дээр байршуулах.
 
 **Architecture:** Next.js 16 App Router `output: 'export'`; `src/app/[lang]/` доор `generateStaticParams(['mn','en'])`-тэй хуудсууд, `/` дээр inline script-тэй хэл сонгох redirect хуудас. Бүх текст `src/content/` доторх төрөлжсөн `Localized<T> = Record<Locale, T>` объектуудад; компонентууд `lang` prop авч индекслэнэ. Нэг root layout (`<html lang="mn">`), `[lang]` layout контентыг `<div lang={lang}>`-ээр ороодог. Deploy: GitHub Actions → `actions/deploy-pages`.
 
@@ -16,12 +18,12 @@
 - `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { unoptimized: true }`. Static export-д хориотой зүйл (proxy, redirects/rewrites/headers config, server actions, cookies, ISR, `dynamicParams: true`) ашиглахгүй.
 - Locale-ууд: `mn` (default), `en`. URL үргэлж trailing slash-тай: `/mn/`, `/en/cv/`.
 - Бүх хэрэглэгчид харагдах текст `src/content/`-оос ирнэ; компонент дотор хатуу бичсэн монгол/англи текст байхгүй (`GitHub`, `LinkedIn`, `404`, `$ whoami` гэх мэт брэнд/тэмдэг л).
-- Тодорхойгүй баримт бүрийн дэргэд `// TODO(Тэргэл): ...` comment; сайт дээр placeholder текст гарахгүй. Хоосон массив/хоосон string → холбогдох UI огт render болохгүй.
+- Тодорхойгүй баримт бүрийн дэргэд `// TODO(Баттулга): ...` comment; сайт дээр placeholder текст гарахгүй. Хоосон массив/хоосон string → холбогдох UI огт render болохгүй.
 - Theme token-ууд (Tailwind класс): `bg-canvas`, `bg-surface`, `border-border`, `text-fg`, `text-muted`, `text-accent`, `font-sans`, `font-mono`. Dark-only, `color-scheme: dark`.
 - Гадаад линк бүр `target="_blank" rel="noopener noreferrer"`.
 - Next.js API ашиглахаасаа өмнө `node_modules/next/dist/docs/01-app/` доторх холбогдох баримтыг унших.
 - Commit бүр `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>` мөртэй. Repo: `/Users/hades/Documents/GitHub/personal/portfolio` (`main`). Эх хавтас `/Users/hades/Documents/GitHub` нь өөр git repo — тэндээс хэзээ ч `git add` хийхгүй.
-- Remote нэмэх / push хийх нь нийтлэх үйлдэл: Task 12-т Тэргэлээс тодорхой зөвшөөрөл авсны дараа л хийнэ.
+- Remote нэмэх / push хийх нь нийтлэх үйлдэл: Task 12-т Баттулгаас тодорхой зөвшөөрөл авсны дараа л хийнэ.
 
 ---
 
@@ -206,9 +208,9 @@ import "@testing-library/jest-dom/vitest";
 
 `README.md`:
 ````markdown
-# tergel portfolio
+# bttlg portfolio
 
-Тэргэл Ганболдын танилцуулга сайт — https://bttlg.github.io/
+Баттулга Батжаргалын танилцуулга сайт — https://bttlg.github.io/
 
 Next.js 16 (static export) · Tailwind CSS 4 · Vitest · GitHub Pages.
 
@@ -220,7 +222,7 @@ npm run dev        # http://localhost:3000 → /mn/ руу redirect
 npm run check      # lint + typecheck + test + build + export шалгалт
 ```
 
-Агуулга `src/content/` дотор. `TODO(Тэргэл)` comment-той мөрүүдийг засах.
+Агуулга `src/content/` дотор. `TODO(Баттулга)` comment-той мөрүүдийг засах.
 ````
 
 - [ ] **Step 3: Хамгийн бага app файлууд бичих**
@@ -864,7 +866,7 @@ import type { Ui } from "./types";
 
 export const ui: Ui = {
   mn: {
-    brand: "~/tergel",
+    brand: "~/bttlg",
     langName: "Монгол",
     nav: {
       label: "Үндсэн цэс",
@@ -913,7 +915,7 @@ export const ui: Ui = {
     footer: { builtWith: "Next.js + Tailwind · GitHub Pages" },
   },
   en: {
-    brand: "~/tergel",
+    brand: "~/bttlg",
     langName: "English",
     nav: {
       label: "Main navigation",
@@ -971,17 +973,17 @@ export const ui: Ui = {
 import type { Profile } from "./types";
 
 export const profile: Profile = {
-  // TODO(Тэргэл): Нэрийн бичилтийг шалгах («Тэргэл Ганболд» эсвэл «Г. Тэргэл»).
-  name: { mn: "Тэргэл Ганболд", en: "Tergel Ganbold" },
+  // TODO(Баттулга): Нэрийн бичилтийг шалгах («Баттулга Батжаргал» эсвэл «Б. Баттулга»).
+  name: { mn: "Баттулга Батжаргал", en: "Battulga Batjargal" },
   title: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack Developer" },
   tagline: {
     mn: "Финтек, банкны интеграц, цахим гэрээний системүүдийг Java / Spring Boot backend-ээс Next.js веб, мобайл апп хүртэл бүтнээр нь хийдэг.",
     en: "I build fintech, bank-integration and e-contract systems end to end: from Java / Spring Boot backends to Next.js web and mobile apps.",
   },
   location: { mn: "Улаанбаатар, Монгол", en: "Ulaanbaatar, Mongolia" },
-  email: "ganboldtergel11@gmail.com",
+  email: "btjrglbttlg@gmail.com",
   github: "https://github.com/Bttlg",
-  // TODO(Тэргэл): LinkedIn профайлын бүтэн URL (https://www.linkedin.com/in/...). Хоосон бол линк хаана ч харагдахгүй.
+  // TODO(Баттулга): LinkedIn профайлын бүтэн URL (https://www.linkedin.com/in/...). Хоосон бол линк хаана ч харагдахгүй.
   linkedin: "",
   about: {
     mn: [
@@ -997,7 +999,7 @@ export const profile: Profile = {
   },
   facts: [
     { label: { mn: "Байршил", en: "Location" }, value: { mn: "Улаанбаатар", en: "Ulaanbaatar" } },
-    // TODO(Тэргэл): Одоо голчлон юу хийж байгаагаа шалгах.
+    // TODO(Баттулга): Одоо голчлон юу хийж байгаагаа шалгах.
     { label: { mn: "Одоо", en: "Currently" }, value: { mn: "e-geree.mn, MnPost backend", en: "e-geree.mn, MnPost backend" } },
     { label: { mn: "Хэл", en: "Languages" }, value: { mn: "Монгол, Англи", en: "Mongolian, English" } },
   ],
@@ -1013,7 +1015,7 @@ import type { Experience } from "./types";
 export const experience: Experience[] = [
   {
     id: "egeree",
-    // TODO(Тэргэл): Компанийн албан нэр (e-geree.mn-ийг эзэмшдэг ХХК) ба албан тушаал.
+    // TODO(Баттулга): Компанийн албан нэр (e-geree.mn-ийг эзэмшдэг ХХК) ба албан тушаал.
     company: { mn: "e-geree.mn", en: "e-geree.mn" },
     url: "https://e-geree.mn",
     role: { mn: "Full-stack хөгжүүлэгч (backend гол)", en: "Full-stack Developer (backend-focused)" },
@@ -1038,7 +1040,7 @@ export const experience: Experience[] = [
   },
   {
     id: "octagon",
-    // TODO(Тэргэл): Компанийн албан нэр, албан тушаал, дууссан огноо (эсвэл to: null).
+    // TODO(Баттулга): Компанийн албан нэр, албан тушаал, дууссан огноо (эсвэл to: null).
     company: { mn: "Octagon", en: "Octagon" },
     url: "https://octagon.mn",
     role: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack Developer" },
@@ -1063,7 +1065,7 @@ export const experience: Experience[] = [
   },
   {
     id: "mnpost",
-    // TODO(Тэргэл): «MnPost» нь Монгол Шуудан мөн үү, албан нэр, албан тушаал.
+    // TODO(Баттулга): «MnPost» нь Монгол Шуудан мөн үү, албан нэр, албан тушаал.
     company: { mn: "MnPost", en: "MnPost" },
     url: "https://mnpost.mn",
     role: { mn: "Backend хөгжүүлэгч", en: "Backend Developer" },
@@ -1088,7 +1090,7 @@ export const experience: Experience[] = [
   },
   {
     id: "yesh",
-    // TODO(Тэргэл): Компанийн албан нэр, албан тушаал, дууссан огноо.
+    // TODO(Баттулга): Компанийн албан нэр, албан тушаал, дууссан огноо.
     company: { mn: "yesh.mn", en: "yesh.mn" },
     url: "https://yesh.mn",
     role: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack Developer" },
@@ -1113,7 +1115,7 @@ export const experience: Experience[] = [
   },
   {
     id: "smart-transport",
-    // TODO(Тэргэл): Захиалагч / компанийн нэр.
+    // TODO(Баттулга): Захиалагч / компанийн нэр.
     company: { mn: "Smart Transport", en: "Smart Transport" },
     role: { mn: "Мобайл хөгжүүлэгч", en: "Mobile Developer" },
     period: { from: "2024-04", to: "2024-07" },
@@ -1129,7 +1131,7 @@ export const experience: Experience[] = [
   },
   {
     id: "poweredmn",
-    // TODO(Тэргэл): PoweredMN гэж юу вэ, live URL (powered.mn мөн үү?), албан тушаал.
+    // TODO(Баттулга): PoweredMN гэж юу вэ, live URL (powered.mn мөн үү?), албан тушаал.
     company: { mn: "PoweredMN", en: "PoweredMN" },
     role: { mn: "Frontend хөгжүүлэгч", en: "Frontend Developer" },
     period: { from: "2022-05", to: "2023-01" },
@@ -1266,7 +1268,7 @@ export const projects: Project[] = [
     name: { mn: "Music Mixer", en: "Music Mixer" },
     kind: "personal",
     role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Тэргэл): Хугацаа ба repo URL (git түүх байхгүй).
+    // TODO(Баттулга): Хугацаа ба repo URL (git түүх байхгүй).
     period: { from: "2026-07", to: "2026-07" },
     summary: {
       mn: "Нэг дуу оруулаад хоолой, бөмбөр, басс, хөгжим гэсэн 4 stem-д AI-аар салгаж, тус бүрийн дууг тохируулан синхрон тоглуулдаг веб апп.",
@@ -1284,7 +1286,7 @@ export const projects: Project[] = [
     name: { mn: "Замч", en: "Zamch" },
     kind: "personal",
     role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Тэргэл): Live URL ба repo URL.
+    // TODO(Баттулга): Live URL ба repo URL.
     period: { from: "2026-05", to: "2026-07" },
     summary: {
       mn: "Монголын аяллын замын мэдээлэл: явахаасаа өмнө замын нөхцөл, зогсоол, чиглэлээ мэдэх.",
@@ -1319,7 +1321,7 @@ export const projects: Project[] = [
     name: { mn: "ClickUp → Telegram бот", en: "ClickUp → Telegram bot" },
     kind: "personal",
     role: { mn: "Python бот", en: "Python bot" },
-    // TODO(Тэргэл): Хугацааг шалгах.
+    // TODO(Баттулга): Хугацааг шалгах.
     period: { from: "2026-05", to: "2026-05" },
     summary: {
       mn: "ClickUp-ийн таскийн өөрчлөлтийг Telegram руу мэдэгдэл болгон илгээдэг бот.",
@@ -1338,7 +1340,7 @@ export const projects: Project[] = [
     name: { mn: "spring-boot-initializer", en: "spring-boot-initializer" },
     kind: "personal",
     role: { mn: "Template", en: "Template" },
-    // TODO(Тэргэл): Хугацааг шалгах.
+    // TODO(Баттулга): Хугацааг шалгах.
     period: { from: "2022-01", to: "2022-01" },
     summary: {
       mn: "Шинэ Spring Boot төсөл эхлүүлэх зориулалттай эхлэлийн template.",
@@ -1394,7 +1396,7 @@ export const skills: SkillGroup[] = [
 ```ts
 import type { Education } from "./types";
 
-// TODO(Тэргэл): Боловсролоо нэмэх. Хоосон байхад нүүр ба CV дээр section гарахгүй.
+// TODO(Баттулга): Боловсролоо нэмэх. Хоосон байхад нүүр ба CV дээр section гарахгүй.
 // Жишээ:
 // {
 //   school: { mn: "МУИС, Мэдээллийн технологийн сургууль", en: "National University of Mongolia, School of IT" },
@@ -3197,7 +3199,7 @@ import { LOCALES, hasLocale } from "@/lib/i18n";
 import { SITE_HOST } from "@/lib/site";
 import { profile } from "@/content";
 
-export const alt = "Tergel Ganbold — Full-stack Developer";
+export const alt = "Battulga Batjargal — Full-stack Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -3462,9 +3464,9 @@ jobs:
 
 `README.md`:
 ````markdown
-# tergel portfolio
+# bttlg portfolio
 
-Тэргэл Ганболдын танилцуулга сайт — https://bttlg.github.io/
+Баттулга Батжаргалын танилцуулга сайт — https://bttlg.github.io/
 
 Next.js 16 (static export) · Tailwind CSS 4 · Vitest · GitHub Pages.
 
@@ -3495,7 +3497,7 @@ npm run check        # lint + typecheck + test + build + export шалгалт (
 | `education.ts` | боловсрол (хоосон бол section гарахгүй) |
 | `ui.ts` | nav, section гарчиг, товчны бичвэр |
 
-`// TODO(Тэргэл)` comment-той мөрүүд баталгаажуулах шаардлагатай баримтууд. Монгол/англи хоёулаа заавал байх ёстой — дутуу бол `tsc` ба `npm test` унана.
+`// TODO(Баттулга)` comment-той мөрүүд баталгаажуулах шаардлагатай баримтууд. Монгол/англи хоёулаа заавал байх ёстой — дутуу бол `tsc` ба `npm test` унана.
 
 ## Deploy
 
@@ -3532,7 +3534,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: бүтэн сайт (`npm run dev` эсвэл `out/`-г static server-ээр).
-- Produces: нүдээр батлагдсан MN/EN/CV/404/redirect; Тэргэлийн зөвшөөрлөөр `Bttlg/Bttlg.github.io` руу push, Actions ногоон, `https://bttlg.github.io/` амьд.
+- Produces: нүдээр батлагдсан MN/EN/CV/404/redirect; Баттулгын зөвшөөрлөөр `Bttlg/Bttlg.github.io` руу push, Actions ногоон, `https://bttlg.github.io/` амьд.
 
 - [ ] **Step 1: Static export-ыг локал серверээр үзэх**
 
@@ -3550,9 +3552,9 @@ Browser-оор дараахыг шалгах (Claude Browser эсвэл өөри
 
 Асуудал олдвол засаж, холбогдох тест нэмж (боломжтой бол), `npm run check` ногоон болгож commit хийх.
 
-- [ ] **Step 2: Тэргэлээс remote/push зөвшөөрөл авах**
+- [ ] **Step 2: Баттулгаас remote/push зөвшөөрөл авах**
 
-Тэргэлд дараах алхмуудыг хийсэн эсэхийг асуух (энэ нь тэдний GitHub account дээр хийгдэх ажил):
+Баттулгад дараах алхмуудыг хийсэн эсэхийг асуух (энэ нь тэдний GitHub account дээр хийгдэх ажил):
 1. GitHub дээр `Bttlg/Bttlg.github.io` нэртэй **хоосон public repo** үүсгэсэн (README, .gitignore, license сонгохгүй).
 2. Repo Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 
@@ -3570,10 +3572,10 @@ Expected: push амжилттай; GitHub Actions «Deploy to GitHub Pages» а�
 - [ ] **Step 4: Live сайтыг шалгах**
 
 Run: `curl -sI https://bttlg.github.io/ | head -1 && curl -s https://bttlg.github.io/mn/ | grep -o '<title>[^<]*</title>' && curl -sI https://bttlg.github.io/en/cv/ | head -1 && curl -sI https://bttlg.github.io/sitemap.xml | head -1`
-Expected: `HTTP/2 200` бүгдэд; title-д «Тэргэл Ганболд». Browser-оор `https://bttlg.github.io/` нээж redirect ажиллаж байгааг батлах.
+Expected: `HTTP/2 200` бүгдэд; title-д «Баттулга Батжаргал». Browser-оор `https://bttlg.github.io/` нээж redirect ажиллаж байгааг батлах.
 
 Actions унавал: Actions таб дээрх log-ийг уншиж, локал `npm run check`-тэй харьцуулан засах (ихэвчлэн `next/font/google` сүлжээ эсвэл Node хувилбар).
 
-- [ ] **Step 5: Тэргэлд эцсийн тайлан**
+- [ ] **Step 5: Баттулгад эцсийн тайлан**
 
-Юу амьд болсон, ямар URL, `TODO(Тэргэл)` тэмдэглэгээтэй ямар баримтуудыг (нэрийн бичилт, компанийн нэр, албан тушаал, он сар, LinkedIn, боловсрол, Music Mixer/Замч линк, PoweredMN) засах хэрэгтэйг жагсаах. Засвар бүр `src/content/` дотор хийгдэж, `main`-д push хийхэд автоматаар deploy болно гэдгийг сануулах.
+Юу амьд болсон, ямар URL, `TODO(Баттулга)` тэмдэглэгээтэй ямар баримтуудыг (нэрийн бичилт, компанийн нэр, албан тушаал, он сар, LinkedIn, боловсрол, Music Mixer/Замч линк, PoweredMN) засах хэрэгтэйг жагсаах. Засвар бүр `src/content/` дотор хийгдэж, `main`-д push хийхэд автоматаар deploy болно гэдгийг сануулах.

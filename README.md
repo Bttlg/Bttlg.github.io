@@ -1,6 +1,6 @@
-# tergel portfolio
+# bttlg portfolio
 
-Тэргэл Ганболдын танилцуулга сайт — https://bttlg.github.io/
+Баттулга Батжаргалын танилцуулга сайт — https://bttlg.github.io/
 
 Next.js 16 (static export) · Tailwind CSS 4 · Vitest · GitHub Pages.
 
@@ -31,7 +31,7 @@ npm run check        # lint + typecheck + test + build + export шалгалт (
 | `education.ts` | боловсрол (хоосон бол section гарахгүй) |
 | `ui.ts` | nav, section гарчиг, товчны бичвэр |
 
-`// TODO(Тэргэл)` comment-той мөрүүд баталгаажуулах шаардлагатай баримтууд. Монгол/англи хоёулаа заавал байх ёстой — дутуу бол `tsc` ба `npm test` унана.
+`// TODO(Баттулга)` comment-той мөрүүд баталгаажуулах шаардлагатай баримтууд. Монгол/англи хоёулаа заавал байх ёстой — дутуу бол `tsc` ба `npm test` унана.
 
 ## Deploy
 

@@ -1,8 +1,10 @@
 # Танилцуулга (portfolio) вебсайт — дизайн spec
 
+> **2026-09-06 засвар:** Сайтын эзэмшигч Баттулга Батжаргал (GitHub Bttlg). Анхны ноорогт хамт ажиллагч Тэргэлийн git commit-ууд андуурч тооцогдсон; §6.3 / Task 3 доторх туршлагын тоо баримт хуучирсан, бодит агуулга нь `src/content/` дотор.
+
 - **Огноо:** 2026-09-05
 - **Төлөв:** батлагдсан (brainstorming-ийн дараа), хэрэгжүүлэх төлөвлөгөө хараахан гараагүй
-- **Эзэмшигч:** Тэргэл Ганболд (GitHub `Bttlg`)
+- **Эзэмшигч:** Баттулга Батжаргал (GitHub `Bttlg`)
 - **Repo:** `personal/portfolio` → GitHub `Bttlg/Bttlg.github.io`
 - **Live URL:** `https://bttlg.github.io/`
 
@@ -12,7 +14,7 @@
 
 ### 1.1 Зорилго
 
-Тэргэлийн өөрийгөө танилцуулах, бүх төрлийн үзэгчид (ажил олгогч/HR, freelance үйлчлүүлэгч, хөгжүүлэгчид, гадаадын уншигч) рүү чиглэсэн хувийн вебсайт. Нэг хуудсан дээр *хэн бэ · юу хийж чадах вэ · юу хийсэн бэ · хэрхэн холбогдох вэ* гэдгийг 2 минутын дотор ойлгуулах.
+Баттулгын өөрийгөө танилцуулах, бүх төрлийн үзэгчид (ажил олгогч/HR, freelance үйлчлүүлэгч, хөгжүүлэгчид, гадаадын уншигч) рүү чиглэсэн хувийн вебсайт. Нэг хуудсан дээр *хэн бэ · юу хийж чадах вэ · юу хийсэн бэ · хэрхэн холбогдох вэ* гэдгийг 2 минутын дотор ойлгуулах.
 
 ### 1.2 v1-д орох
 
@@ -24,7 +26,7 @@
 - SEO: metadata, hreflang, OpenGraph зураг, sitemap, robots, JSON-LD.
 - Статик export → GitHub Pages, GitHub Actions-аар автомат deploy.
 - Автомат тест (Vitest) + lint + type-check + export шалгалт.
-- MN/EN агуулгын **ноорог** (repo-уудаас олдсон баримтад тулгуурлана; тодорхойгүй зүйл `TODO(Тэргэл)` comment-той).
+- MN/EN агуулгын **ноорог** (repo-уудаас олдсон баримтад тулгуурлана; тодорхойгүй зүйл `TODO(Баттулга)` comment-той).
 
 ### 1.3 v1-д орохгүй (дараа нэмэх боломжтой)
 
@@ -41,7 +43,7 @@
 
 | Асуудал | Шийдвэр | Шалтгаан |
 |---|---|---|
-| Framework | Next.js 16.2.x App Router, `output: 'export'` | Тэргэлийн бусад төслүүдтэй (zamch, next-generation, e-geree-v2) ижил стек; дараа блог/дэлгэрэнгүй хуудас нэмэхэд амар |
+| Framework | Next.js 16.2.x App Router, `output: 'export'` | Баттулгын бусад төслүүдтэй (zamch, next-generation, e-geree-v2) ижил стек; дараа блог/дэлгэрэнгүй хуудас нэмэхэд амар |
 | Hosting | GitHub Pages, repo `Bttlg.github.io` | Үнэгүй, цэвэр URL (basePath хэрэггүй), GitHub Actions-аар deploy |
 | Хэл | MN default, EN хоёр дахь; `app/[lang]` segment | Хэрэглэгчийн сонголт. Static export-д proxy/redirect ажиллахгүй тул `/` дээр client-side хэл сонголт |
 | Дизайн | Бараан, минимал, dev-style, toggle-гүй | Хэрэглэгчийн сонголт; theme-гүй тул код бага |
@@ -216,7 +218,7 @@ export interface SkillGroup { id: string; label: Localized; items: string[] }
 export interface Education { school: Localized; degree: Localized; period: Period }
 
 export interface UiDict {
-  brand: string;                       // Nav лого текст, хоёр хэлэнд ижил '~/tergel'
+  brand: string;                       // Nav лого текст, хоёр хэлэнд ижил '~/bttlg'
   langName: string;                    // '/' ба 404 дээрх хэлний линкийн нэр: 'Монгол' / 'English'
   nav: Record<'label' | 'about' | 'skills' | 'experience' | 'projects' | 'contact' | 'cv', string>;
   sections: Record<'about' | 'skills' | 'experience' | 'projects' | 'work' | 'personal' | 'contact' | 'education', string>;
@@ -236,12 +238,12 @@ export type Ui = Record<Locale, UiDict>;
 ### 6.2 Агуулгын нооргийн бодлого
 
 - Эх сурвалж: `~/Documents/GitHub` доторх repo-уудын README, `settings.gradle`, `package.json`, git log-ийн огноо ба commit тоо.
-- Мэдэхгүй/баталгаагүй зүйл (албан тушаалын нэр, компанийн албан нэр, яг сар, боловсрол, LinkedIn URL) бүрийн дэргэд `// TODO(Тэргэл): ...` comment. **Сайт дээр placeholder/хуурамч текст хэзээ ч гарахгүй**: хоосон массив → section нуугдана; хоосон URL → линк нуугдана.
-- Хүн бүрийн бус, зөвхөн Тэргэлийн өөрийн ажил орно. `mongolian-spellcheck-skill-master` нь өөр хүний (Tsagaanbayr1) repo тул **орохгүй**.
+- Мэдэхгүй/баталгаагүй зүйл (албан тушаалын нэр, компанийн албан нэр, яг сар, боловсрол, LinkedIn URL) бүрийн дэргэд `// TODO(Баттулга): ...` comment. **Сайт дээр placeholder/хуурамч текст хэзээ ч гарахгүй**: хоосон массив → section нуугдана; хоосон URL → линк нуугдана.
+- Хүн бүрийн бус, зөвхөн Баттулгын өөрийн ажил орно. `mongolian-spellcheck-skill-master` нь өөр хүний (Tsagaanbayr1) repo тул **орохгүй**.
 
 ### 6.3 Ноорогт орох баримт
 
-**Profile:** MN «Тэргэл Ганболд» (TODO: «Г. Тэргэл» гэж бичих үү), EN «Tergel Ganbold». Гарчиг: «Full-stack хөгжүүлэгч» / «Full-stack Developer». Улаанбаатар, Монгол. Email `ganboldtergel11@gmail.com`, GitHub `https://github.com/Bttlg`, LinkedIn `''` (TODO). Туршлагын жил: хамгийн эрт `Experience.period.from`-оос build-ийн огноо хүртэл тооцно (2021-03 → «5+ жил»).
+**Profile:** MN «Баттулга Батжаргал» (TODO: «Б. Баттулга» гэж бичих үү), EN «Battulga Batjargal». Гарчиг: «Full-stack хөгжүүлэгч» / «Full-stack Developer». Улаанбаатар, Монгол. Email `btjrglbttlg@gmail.com`, GitHub `https://github.com/Bttlg`, LinkedIn `''` (TODO). Туршлагын жил: хамгийн эрт `Experience.period.from`-оос build-ийн огноо хүртэл тооцно (2021-03 → «5+ жил»).
 
 **Experience (git огноогоор, компанийн албан нэр/албан тушаал TODO):**
 
@@ -286,7 +288,7 @@ export type Ui = Record<Locale, UiDict>;
 
 ### 7.2 `Nav`
 
-Sticky, blur дэвсгэр. Зүүн: mono лого текст `~/tergel` (`ui[locale].brand`), `/[lang]/` рүү заана. Дунд/баруун: section anchor линкүүд (`#about`, `#skills`, `#experience`, `#projects`, `#contact`), «CV» линк, `LangSwitch`. Mobile дээр anchor-ууд нуугдаж зөвхөн CV + LangSwitch үлдэнэ (hamburger хэрэггүй; нэг хуудас scroll).
+Sticky, blur дэвсгэр. Зүүн: mono лого текст `~/bttlg` (`ui[locale].brand`), `/[lang]/` рүү заана. Дунд/баруун: section anchor линкүүд (`#about`, `#skills`, `#experience`, `#projects`, `#contact`), «CV» линк, `LangSwitch`. Mobile дээр anchor-ууд нуугдаж зөвхөн CV + LangSwitch үлдэнэ (hamburger хэрэггүй; нэг хуудас scroll).
 
 `/[lang]/cv/` дээр Nav-ийн anchor линкүүд `/[lang]/#about` хэлбэртэй байна (`Section` id-тай уялдана).
 
@@ -344,7 +346,7 @@ Root layout дотор render болно (Nav/Footer-гүй). Гарчиг «Х�
 ## 9. SEO ба metadata
 
 - `src/lib/site.ts`: `SITE_URL = 'https://bttlg.github.io'`, `metadataBase`.
-- `[lang]/layout.tsx` `generateMetadata({ params })`: `title.default` = «Тэргэл Ганболд — Full-stack хөгжүүлэгч» / EN, `title.template` = `%s · Тэргэл Ганболд`, `description` (`profile.tagline`), `alternates: { canonical: '/mn/', languages: { mn: '/mn/', en: '/en/', 'x-default': '/mn/' } }`, `openGraph { type: 'website', locale: 'mn_MN' | 'en_US', url, siteName }`, `twitter { card: 'summary_large_image' }`, `robots { index: true }`.
+- `[lang]/layout.tsx` `generateMetadata({ params })`: `title.default` = «Баттулга Батжаргал — Full-stack хөгжүүлэгч» / EN, `title.template` = `%s · Баттулга Батжаргал`, `description` (`profile.tagline`), `alternates: { canonical: '/mn/', languages: { mn: '/mn/', en: '/en/', 'x-default': '/mn/' } }`, `openGraph { type: 'website', locale: 'mn_MN' | 'en_US', url, siteName }`, `twitter { card: 'summary_large_image' }`, `robots { index: true }`.
 - `[lang]/cv/page.tsx` өөрийн `title` («CV»), canonical `/[lang]/cv/`, alternates.
 - `[lang]/opengraph-image.tsx`: `ImageResponse` 1200×630, бараан дэвсгэр, нэр, гарчиг, `bttlg.github.io`. Build үед статик үүсдэг (docs: «statically optimized»). Хэрэв static export-д асуудал гарвал `public/og.png` статик файл болгож `openGraph.images`-д заана — энэ fallback-ыг төлөвлөгөөнд алхам болгон оруулна.
 - `sitemap.ts`: 4 URL (`/mn/`, `/en/`, `/mn/cv/`, `/en/cv/`) `alternates.languages`-тай. `robots.ts`: `allow: '/'`, `sitemap: SITE_URL + '/sitemap.xml'`.
@@ -394,8 +396,8 @@ Static export-д хориотой зүйл (proxy, redirects/rewrites/headers co
 ### 10.5 Repo ба GitHub тохиргоо
 
 - `personal/portfolio` нь одоо тусдаа git repo (`main` салбар). Эх хавтас `/Users/hades/Documents/GitHub` нь өөрөө git repo (remote `Bttlg/Zamch`) бөгөөд `personal/portfolio/`-г untracked гэж харж байна. **Тэндээс `git add` хийхгүй.** (Хүсвэл эх repo-ийн `.gitignore`-д `personal/portfolio/` нэмэх — энэ spec-ийн хамрах хүрээнд биш.)
-- Тэргэл GitHub дээр `Bttlg/Bttlg.github.io` нэртэй **хоосон public repo** үүсгэж, Settings → Pages → Build and deployment → Source: **GitHub Actions** болгоно.
-- Remote нэмэх, анхны push нь нийтлэх үйлдэл тул тухайн үед Тэргэлээс тодорхой зөвшөөрөл авна.
+- Баттулга GitHub дээр `Bttlg/Bttlg.github.io` нэртэй **хоосон public repo** үүсгэж, Settings → Pages → Build and deployment → Source: **GitHub Actions** болгоно.
+- Remote нэмэх, анхны push нь нийтлэх үйлдэл тул тухайн үед Баттулгаас тодорхой зөвшөөрөл авна.
 - `.gitignore`: `node_modules/`, `.next/`, `out/`, `coverage/`, `*.tsbuildinfo`, `.DS_Store`, `.env*`, `next-env.d.ts`.
 
 ---
@@ -450,4 +452,4 @@ Static export-д хориотой зүйл (proxy, redirects/rewrites/headers co
 7. CV хуудас + print CSS + PrintButton.
 8. Metadata, OG image, sitemap, robots, JSON-LD, favicon.
 9. `verify-export.mjs`, GitHub Actions workflow, README.
-10. Бүтэн `npm run check`; browser-оор MN/EN/CV/404/redirect-ийг нүдээр шалгах; Тэргэлээс зөвшөөрөл авч remote нэмж push хийх.
+10. Бүтэн `npm run check`; browser-оор MN/EN/CV/404/redirect-ийг нүдээр шалгах; Баттулгаас зөвшөөрөл авч remote нэмж push хийх.
