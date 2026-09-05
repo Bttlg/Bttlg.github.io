@@ -1,6 +1,6 @@
 import type { Education } from "./types";
 
-// TODO(Тэргэл): Боловсролоо нэмэх. Хоосон байхад нүүр ба CV дээр section гарахгүй.
+// TODO(Баттулга): Боловсролоо нэмэх. Хоосон байхад нүүр ба CV дээр section гарахгүй.
 // Жишээ:
 // {
 //   school: { mn: "МУИС, Мэдээллийн технологийн сургууль", en: "National University of Mongolia, School of IT" },

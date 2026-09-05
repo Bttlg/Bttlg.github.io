@@ -5,7 +5,7 @@ import { LOCALES, hasLocale } from "@/lib/i18n";
 import { SITE_HOST } from "@/lib/site";
 import { profile } from "@/content";
 
-export const alt = "Tergel Ganbold — Full-stack Developer";
+export const alt = `${profile.name.en} — ${profile.title.en}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

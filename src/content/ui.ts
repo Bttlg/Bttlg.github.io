@@ -2,7 +2,7 @@ import type { Ui } from "./types";
 
 export const ui: Ui = {
   mn: {
-    brand: "~/tergel",
+    brand: "~/bttlg",
     langName: "Монгол",
     nav: {
       label: "Үндсэн цэс",
@@ -51,7 +51,7 @@ export const ui: Ui = {
     footer: { builtWith: "Next.js + Tailwind · GitHub Pages" },
   },
   en: {
-    brand: "~/tergel",
+    brand: "~/bttlg",
     langName: "English",
     nav: {
       label: "Main navigation",

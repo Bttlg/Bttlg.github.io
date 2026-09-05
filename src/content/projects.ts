@@ -29,28 +29,28 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "octagon-exchange",
-    name: { mn: "Octagon Exchange", en: "Octagon Exchange" },
+    slug: "octagon",
+    name: { mn: "Octagon веб бүтээгдэхүүнүүд", en: "Octagon web products" },
     kind: "work",
-    role: { mn: "Exchange API, банкны интеграц, frontend", en: "Exchange API, bank integrations, frontend" },
-    period: { from: "2021-10", to: "2026-08" },
+    role: { mn: "Frontend, exchange API", en: "Frontend, exchange API" },
+    period: { from: "2022-04", to: "2026-08" },
     summary: {
-      mn: "Крипто валютын биржийн API, банкны орлого / зарлагын автоматжуулалт, арилжааны болон нэвтрэлтийн веб.",
-      en: "Crypto exchange API, automated bank deposits and withdrawals, trading and identity web apps.",
+      mn: "Крипто биржийн NFT маркетплэйс, нэвтрэлтийн систем, арилжааны веб апп-ууд; дараа нь exchange API-ийн backend модулиуд.",
+      en: "Crypto exchange NFT marketplace, identity and trading web apps; later, exchange API backend modules.",
     },
     highlights: {
       mn: [
-        "Хаан, Голомт, ХХБ-тай банкны API интеграц ба cron сервисүүд",
-        "Захиалга, хэтэвч, 2FA, WebSocket ханшийн урсгал",
-        "trade.octagon.mn, id.octagon.mn Next.js апп-ууд",
+        "nft.octagon.mn, id.octagon.mn, trade.octagon.mn — Next.js, i18n, real-time ханш",
+        "Exchange API: захиалга, хэтэвч, аюулгүй байдлын модулиуд (Java 21, Spring Boot)",
+        "Docker staging / production deploy",
       ],
       en: [
-        "Bank API integrations and cron services for Khan, Golomt and TDB",
-        "Orders, wallets, 2FA and WebSocket price streams",
-        "Next.js apps for trade.octagon.mn and id.octagon.mn",
+        "nft.octagon.mn, id.octagon.mn, trade.octagon.mn — Next.js, i18n, real-time prices",
+        "Exchange API: orders, wallets, security modules (Java 21, Spring Boot)",
+        "Docker staging / production deploys",
       ],
     },
-    stack: ["Java", "Spring Boot", "MongoDB", "Redis", "WebSocket", "Next.js"],
+    stack: ["Next.js", "TypeScript", "Java", "Spring Boot", "MongoDB", "Docker"],
     liveUrl: "https://trade.octagon.mn",
     featured: true,
   },
@@ -58,8 +58,8 @@ export const projects: Project[] = [
     slug: "mnpost",
     name: { mn: "MnPost", en: "MnPost" },
     kind: "work",
-    role: { mn: "Backend хөгжүүлэгч", en: "Backend developer" },
-    period: { from: "2024-09", to: null },
+    role: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack developer" },
+    period: { from: "2025-02", to: null },
     summary: {
       mn: "Шуудан, логистикийн үйлчилгээний backend ба удирдлагын веб.",
       en: "Backend and admin web app for a postal and logistics service.",
@@ -76,17 +76,17 @@ export const projects: Project[] = [
     slug: "yesh",
     name: { mn: "yesh.mn", en: "yesh.mn" },
     kind: "work",
-    role: { mn: "Full-stack", en: "Full-stack" },
-    period: { from: "2021-03", to: "2025-10" },
+    role: { mn: "Frontend", en: "Frontend" },
+    period: { from: "2022-06", to: "2025-05" },
     summary: {
-      mn: "ЭЕШ-д бэлтгэх онлайн сургалтын платформ: тест, даалгавар, багшийн систем, веб ба мобайл апп.",
-      en: "Test-prep platform for the national entrance exam: tests, assignments, teacher tools, web and mobile apps.",
+      mn: "ЭЕШ-д бэлтгэх онлайн сургалтын платформын веб frontend; backend API-д хувь нэмэр.",
+      en: "Web frontend of a test-prep platform for the national entrance exam; contributions to the backend APIs.",
     },
     highlights: {
-      mn: ["mobile-api, teacher-api Spring Boot сервисүүд", "Next.js веб ба React Native апп"],
-      en: ["Spring Boot mobile-api and teacher-api services", "Next.js web and React Native app"],
+      mn: ["Next.js 12 веб, SEO тохиргоо", "mobile-api, teacher-api Spring Boot сервисүүд"],
+      en: ["Next.js 12 web app with SEO setup", "mobile-api and teacher-api Spring Boot services"],
     },
-    stack: ["Java", "Spring Boot", "MongoDB", "Next.js", "React Native"],
+    stack: ["Next.js", "React", "Java", "Spring Boot", "MongoDB"],
     liveUrl: "https://yesh.mn",
     featured: false,
   },
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     name: { mn: "Music Mixer", en: "Music Mixer" },
     kind: "personal",
     role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Тэргэл): Хугацаа ба repo URL (git түүх байхгүй).
+    // TODO(Баттулга): Хугацаа ба repo URL (git түүх байхгүй).
     period: { from: "2026-07", to: "2026-07" },
     summary: {
       mn: "Нэг дуу оруулаад хоолой, бөмбөр, басс, хөгжим гэсэн 4 stem-д AI-аар салгаж, тус бүрийн дууг тохируулан синхрон тоглуулдаг веб апп.",
@@ -132,7 +132,7 @@ export const projects: Project[] = [
     name: { mn: "Замч", en: "Zamch" },
     kind: "personal",
     role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Тэргэл): Live URL ба repo URL.
+    // TODO(Баттулга): Live URL ба repo URL.
     period: { from: "2026-05", to: "2026-07" },
     summary: {
       mn: "Монголын аяллын замын мэдээлэл: явахаасаа өмнө замын нөхцөл, зогсоол, чиглэлээ мэдэх.",
@@ -203,7 +203,7 @@ export const projects: Project[] = [
     name: { mn: "Data-transfer", en: "Data-transfer" },
     kind: "personal",
     role: { mn: "Frontend, ганцаараа", en: "Frontend, solo" },
-    // TODO(Тэргэл): Тайлбарыг шалгах (repo-ийн хамаарлаас P2P файл дамжуулалт гэж дүгнэсэн).
+    // TODO(Баттулга): Тайлбарыг шалгах (repo-ийн хамаарлаас P2P файл дамжуулалт гэж дүгнэсэн).
     period: { from: "2022-09", to: "2022-09" },
     summary: {
       mn: "Браузер хооронд серверт хадгалахгүйгээр P2P (WebRTC) файл дамжуулдаг веб апп; QR кодоор холбогдоно.",
