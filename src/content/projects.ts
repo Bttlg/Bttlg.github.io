@@ -55,24 +55,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "mnpost",
-    name: { mn: "MnPost", en: "MnPost" },
-    kind: "work",
-    role: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack developer" },
-    period: { from: "2025-02", to: null },
-    summary: {
-      mn: "Шуудан, логистикийн үйлчилгээний backend ба удирдлагын веб.",
-      en: "Backend and admin web app for a postal and logistics service.",
-    },
-    highlights: {
-      mn: ["RabbitMQ мессеж урсгал, 2FA, удирдлагын API", "Next.js 13 удирдлагын frontend"],
-      en: ["RabbitMQ messaging, 2FA and admin APIs", "Next.js 13 admin frontend"],
-    },
-    stack: ["Java 17", "Spring Boot", "MongoDB", "RabbitMQ", "Next.js"],
-    liveUrl: "https://mnpost.mn",
-    featured: false,
-  },
-  {
     slug: "yesh",
     name: { mn: "yesh.mn", en: "yesh.mn" },
     kind: "work",

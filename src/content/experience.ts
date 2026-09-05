@@ -52,29 +52,6 @@ export const experience: Experience[] = [
     stack: ["Next.js", "React", "TypeScript", "Java 21", "Spring Boot", "MongoDB", "Docker"],
   },
   {
-    id: "mnpost",
-    // TODO(Баттулга): «MnPost» нь Монгол Шуудан мөн үү, албан нэр, албан тушаал.
-    company: { mn: "MnPost", en: "MnPost" },
-    url: "https://mnpost.mn",
-    role: { mn: "Full-stack хөгжүүлэгч", en: "Full-stack Developer" },
-    period: { from: "2025-02", to: null },
-    summary: {
-      mn: "Шуудан, логистикийн үйлчилгээний систем. Backend сервисүүд ба удирдлагын веб апп-ын хөгжүүлэлт.",
-      en: "Postal and logistics service system. Development of backend services and the admin web app.",
-    },
-    highlights: {
-      mn: [
-        "Spring Boot backend: RabbitMQ мессеж урсгал, 2FA, удирдлагын API (170+ commit)",
-        "Next.js 13 удирдлагын frontend (160+ commit)",
-      ],
-      en: [
-        "Spring Boot backend: RabbitMQ messaging, 2FA and admin APIs (170+ commits)",
-        "Next.js 13 admin frontend (160+ commits)",
-      ],
-    },
-    stack: ["Java 17", "Spring Boot", "MongoDB", "RabbitMQ", "Next.js"],
-  },
-  {
     id: "yesh",
     // TODO(Баттулга): Компанийн албан нэр, албан тушаал, дууссан огноо.
     company: { mn: "yesh.mn", en: "yesh.mn" },
