@@ -3387,7 +3387,9 @@ for (const [file, needle] of contains) {
   if (!ok) problems.push(`out/${file} does not contain ${needle.toString()}`);
 }
 
-if (!readdirSync(out).some((f) => f.startsWith("icon") && f.endsWith(".svg"))) {
+if (!existsSync(out)) {
+  problems.push("missing out/ directory (run `npm run build` first)");
+} else if (!readdirSync(out).some((f) => f.startsWith("icon") && f.endsWith(".svg"))) {
   problems.push("missing out/icon*.svg");
 }
 
