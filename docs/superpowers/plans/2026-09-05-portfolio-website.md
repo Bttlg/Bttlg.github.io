@@ -3268,17 +3268,76 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 ---
 
-### Task 11: Export шалгалт, GitHub Actions deploy, README
+### Task 11: Export шалгалт, OG зургийн postbuild, GitHub Actions deploy, README
 
 **Files:**
-- Create: `scripts/verify-export.mjs`, `.github/workflows/deploy.yml`
-- Modify: `README.md`
+- Create: `scripts/postbuild-og.mjs`, `scripts/verify-export.mjs`, `.github/workflows/deploy.yml`
+- Modify: `package.json` (`build` script), `.nvmrc`, `README.md`
 
 **Interfaces:**
-- Consumes: `out/` (Task 10-ын build).
-- Produces: `npm run verify-export` (exit 1 дутуу файлд), `npm run check` бүтэн pipeline, `main` push бүрт GitHub Pages deploy.
+- Consumes: `out/` (Task 10-ын build): `out/{mn,en}/opengraph-image` (өргөтгөлгүй PNG; `og:image`/`twitter:image` meta нь `https://bttlg.github.io/<lang>/opengraph-image?<hash>`), `out/{mn,en}/index.html` доторх `hrefLang="…"` (Next camelCase-аар бичдэг).
+- Produces: `npm run build` = `next build && node scripts/postbuild-og.mjs` → `out/{mn,en}/opengraph-image.png` + HTML meta нь `.png`-г заана; `npm run verify-export` (дутуу бол exit 1); `npm run check` бүтэн pipeline; `main` push бүрт GitHub Pages deploy; `.nvmrc` = `24`.
 
-- [ ] **Step 1: verify-export бичих**
+2026-09-06 controller ruling-ууд (ledger): (1) GitHub Pages Content-Type-ийг файлын өргөтгөлөөр тогтоодог тул өргөтгөлгүй OG зураг `application/octet-stream` болж social crawler-ууд хүлээж авахгүй — postbuild алхмаар `.png` хуулбар үүсгэж HTML-ийг дахин бичнэ; (2) Next 16 `hrefLang` гэж camelCase-аар render хийдэг тул шалгалт case-insensitive; (3) Vitest 5 / jsdom 30 нь Node ≥22.12 шаарддаг тул `.nvmrc` = `24`.
+
+- [ ] **Step 1: postbuild-og бичиж, `build` script ба `.nvmrc`-г шинэчлэх**
+
+`scripts/postbuild-og.mjs`:
+```js
+// GitHub Pages picks Content-Type from the file extension. Next's generated
+// OpenGraph route is emitted as `out/<lang>/opengraph-image` (no extension),
+// which Pages would serve as application/octet-stream and social crawlers
+// would reject. Copy each image to `opengraph-image.png` and point every HTML
+// reference (og:image, twitter:image) at the .png copy.
+import { copyFileSync, existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+const out = join(process.cwd(), "out");
+const LOCALES = ["mn", "en"];
+
+for (const lang of LOCALES) {
+  const src = join(out, lang, "opengraph-image");
+  if (!existsSync(src)) {
+    console.error(`postbuild-og: missing ${src}`);
+    process.exit(1);
+  }
+  copyFileSync(src, `${src}.png`);
+}
+
+function htmlFiles(dir) {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    if (statSync(path).isDirectory()) return htmlFiles(path);
+    return name.endsWith(".html") ? [path] : [];
+  });
+}
+
+let rewritten = 0;
+for (const file of htmlFiles(out)) {
+  const html = readFileSync(file, "utf8");
+  const next = html.replace(/\/opengraph-image(\?|")/g, "/opengraph-image.png$1");
+  if (next !== html) {
+    writeFileSync(file, next);
+    rewritten += 1;
+  }
+}
+console.log(`postbuild-og: copied ${LOCALES.length} images to .png, rewrote ${rewritten} HTML file(s)`);
+```
+
+`package.json` — зөвхөн `build` script-ийг солих:
+```json
+"build": "next build && node scripts/postbuild-og.mjs",
+```
+
+`.nvmrc`:
+```
+24
+```
+
+Run: `npm run build && ls out/mn/opengraph-image* && grep -o 'og:image" content="[^"]*"' out/mn/index.html`
+Expected: `out/mn/opengraph-image` ба `out/mn/opengraph-image.png` хоёулаа байна; og:image нь `https://bttlg.github.io/mn/opengraph-image.png?<hash>`.
+
+- [ ] **Step 2: verify-export бичих**
 
 `scripts/verify-export.mjs`:
 ```js
@@ -3296,6 +3355,8 @@ const required = [
   "en/index.html",
   "mn/cv/index.html",
   "en/cv/index.html",
+  "mn/opengraph-image.png",
+  "en/opengraph-image.png",
   "sitemap.xml",
   "robots.txt",
   ".nojekyll",
@@ -3304,31 +3365,30 @@ for (const file of required) {
   if (!existsSync(join(out, file))) problems.push(`missing out/${file}`);
 }
 
+// [file, needle] — needle is a string (exact) or a RegExp (e.g. case-insensitive
+// attribute names: Next renders `hrefLang`, browsers read it case-insensitively).
 const contains = [
   ["index.html", 'http-equiv="refresh"'],
   ["index.html", "location.replace"],
   ["mn/index.html", 'lang="mn"'],
   ["en/index.html", 'lang="en"'],
-  ["en/index.html", 'hreflang="mn"'],
+  ["en/index.html", /hreflang="mn"/i],
   ["en/index.html", "application/ld+json"],
+  ["mn/index.html", "/mn/opengraph-image.png"],
+  ["en/index.html", "/en/opengraph-image.png"],
   ["sitemap.xml", "https://bttlg.github.io/en/cv/"],
   ["robots.txt", "Sitemap: https://bttlg.github.io/sitemap.xml"],
 ];
 for (const [file, needle] of contains) {
   const path = join(out, file);
-  if (existsSync(path) && !readFileSync(path, "utf8").includes(needle)) {
-    problems.push(`out/${file} does not contain ${JSON.stringify(needle)}`);
-  }
+  if (!existsSync(path)) continue; // already reported above
+  const html = readFileSync(path, "utf8");
+  const ok = typeof needle === "string" ? html.includes(needle) : needle.test(html);
+  if (!ok) problems.push(`out/${file} does not contain ${needle.toString()}`);
 }
 
 if (!readdirSync(out).some((f) => f.startsWith("icon") && f.endsWith(".svg"))) {
   problems.push("missing out/icon*.svg");
-}
-
-for (const lang of ["mn", "en"]) {
-  const dir = join(out, lang);
-  const hasOg = existsSync(dir) && readdirSync(dir).some((f) => f.startsWith("opengraph-image"));
-  if (!hasOg) problems.push(`missing out/${lang}/opengraph-image*.png`);
 }
 
 if (problems.length > 0) {
@@ -3336,18 +3396,18 @@ if (problems.length > 0) {
   for (const p of problems) console.error(`  - ${p}`);
   process.exit(1);
 }
-console.log(`Static export OK (${required.length} files, ${contains.length} content checks, icon and OG images present).`);
+console.log(`Static export OK (${required.length} files, ${contains.length} content checks, icon present).`);
 ```
 
-- [ ] **Step 2: Шалгалтыг ажиллуулах (унах ба ногоон)**
+- [ ] **Step 3: Шалгалтыг ажиллуулах (унах ба ногоон)**
 
 Run: `rm -rf out && npm run verify-export; echo "exit=$?"`
 Expected: `Static export check failed` ба `exit=1`.
 
 Run: `npm run build && npm run verify-export`
-Expected: `Static export OK ...`, exit 0.
+Expected: `postbuild-og: copied 2 images to .png, rewrote N HTML file(s)` дараа `Static export OK ...`, exit 0.
 
-- [ ] **Step 3: GitHub Actions workflow бичих**
+- [ ] **Step 4: GitHub Actions workflow бичих**
 
 `.github/workflows/deploy.yml`:
 ```yaml
@@ -3396,7 +3456,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-- [ ] **Step 4: README-г бүтэн болгох**
+- [ ] **Step 5: README-г бүтэн болгох**
 
 `README.md`:
 ````markdown
@@ -3408,12 +3468,17 @@ Next.js 16 (static export) · Tailwind CSS 4 · Vitest · GitHub Pages.
 
 ## Хөгжүүлэлт
 
+Node **24** шаардлагатай (`.nvmrc`; Vitest 5 / jsdom 30 нь Node ≥ 22.12 шаарддаг).
+
 ```bash
+nvm use              # .nvmrc-ийн Node 24
 npm install
 npm run dev          # http://localhost:3000 → /mn/ руу redirect
 npm run test:watch   # Vitest
 npm run check        # lint + typecheck + test + build + export шалгалт (CI-тай ижил)
 ```
+
+`npm run build` нь `next build`-ийн дараа `scripts/postbuild-og.mjs`-г ажиллуулж OG зургийг `opengraph-image.png` нэрээр хуулна (GitHub Pages өргөтгөлөөр Content-Type тогтоодог).
 
 ## Агуулга засах
 
@@ -3440,18 +3505,19 @@ npm run check        # lint + typecheck + test + build + export шалгалт (
 - `src/app/[lang]/` — нүүр, `cv/`, OG зураг
 - `src/components/` — UI компонентууд (`cv/` доор CV)
 - `src/lib/` — i18n, огноо, redirect script, SEO туслахууд
+- `scripts/` — postbuild OG хуулбар, export шалгалт
 ````
 
-- [ ] **Step 5: Бүтэн `npm run check`**
+- [ ] **Step 6: Бүтэн `npm run check`**
 
 Run: `npm run check`
-Expected: lint → typecheck → test (бүх файл PASS) → build → `Static export OK`. Exit 0.
+Expected: lint → typecheck → test (бүх файл PASS) → build (postbuild-og мессежтэй) → `Static export OK`. Exit 0.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add scripts .github README.md
-git commit -m "ci: export verification script and GitHub Pages deploy workflow
+git add scripts .github README.md package.json .nvmrc
+git commit -m "ci: OG image postbuild, export verification and GitHub Pages deploy workflow
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
