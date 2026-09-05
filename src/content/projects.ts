@@ -167,7 +167,6 @@ export const projects: Project[] = [
     name: { mn: "ClickUp → Telegram бот", en: "ClickUp → Telegram bot" },
     kind: "personal",
     role: { mn: "Python бот", en: "Python bot" },
-    // TODO(Тэргэл): Хугацааг шалгах.
     period: { from: "2026-05", to: "2026-05" },
     summary: {
       mn: "ClickUp-ийн таскийн өөрчлөлтийг Telegram руу мэдэгдэл болгон илгээдэг бот.",
@@ -186,8 +185,7 @@ export const projects: Project[] = [
     name: { mn: "spring-boot-initializer", en: "spring-boot-initializer" },
     kind: "personal",
     role: { mn: "Template", en: "Template" },
-    // TODO(Тэргэл): Хугацааг шалгах.
-    period: { from: "2022-01", to: "2022-01" },
+    period: { from: "2026-04", to: "2026-04" },
     summary: {
       mn: "Шинэ Spring Boot төсөл эхлүүлэх зориулалттай эхлэлийн template.",
       en: "Starter template for bootstrapping new Spring Boot projects.",
@@ -198,6 +196,25 @@ export const projects: Project[] = [
     },
     stack: ["Java", "Spring Boot", "Gradle"],
     repoUrl: "https://github.com/Bttlg/spring-boot-initializer",
+    featured: false,
+  },
+  {
+    slug: "data-transfer",
+    name: { mn: "Data-transfer", en: "Data-transfer" },
+    kind: "personal",
+    role: { mn: "Frontend, ганцаараа", en: "Frontend, solo" },
+    // TODO(Тэргэл): Тайлбарыг шалгах (repo-ийн хамаарлаас P2P файл дамжуулалт гэж дүгнэсэн).
+    period: { from: "2022-09", to: "2022-09" },
+    summary: {
+      mn: "Браузер хооронд серверт хадгалахгүйгээр P2P (WebRTC) файл дамжуулдаг веб апп; QR кодоор холбогдоно.",
+      en: "Browser-to-browser P2P (WebRTC) file transfer web app with no server-side storage; peers connect via QR code.",
+    },
+    highlights: {
+      mn: ["Vue.js, p2pt, simple-peer-files, StreamSaver"],
+      en: ["Vue.js, p2pt, simple-peer-files, StreamSaver"],
+    },
+    stack: ["Vue.js", "WebRTC", "JavaScript"],
+    repoUrl: "https://github.com/Bttlg/Data-transfer",
     featured: false,
   },
 ];
