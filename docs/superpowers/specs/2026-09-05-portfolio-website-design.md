@@ -216,14 +216,17 @@ export interface SkillGroup { id: string; label: Localized; items: string[] }
 export interface Education { school: Localized; degree: Localized; period: Period }
 
 export interface UiDict {
-  nav: Record<'about' | 'skills' | 'experience' | 'projects' | 'contact' | 'cv', string>;
+  brand: string;                       // Nav лого текст, хоёр хэлэнд ижил '~/tergel'
+  langName: string;                    // '/' ба 404 дээрх хэлний линкийн нэр: 'Монгол' / 'English'
+  nav: Record<'label' | 'about' | 'skills' | 'experience' | 'projects' | 'contact' | 'cv', string>;
   sections: Record<'about' | 'skills' | 'experience' | 'projects' | 'work' | 'personal' | 'contact' | 'education', string>;
-  actions: Record<'viewProjects' | 'viewCv' | 'contactMe' | 'live' | 'source' | 'print' | 'backHome' | 'switchLang', string>;
-  hero: Record<'greeting' | 'prompt', string>;
-  cv: Record<'title' | 'summary' | 'present', string>;
+  actions: Record<'viewProjects' | 'viewCv' | 'contactMe' | 'live' | 'source' | 'print', string>;
+  hero: Record<'prompt', string>;
+  about: Record<'years' | 'yearsValue', string>;       // yearsValue: '{n}+ жил'
+  contact: Record<'body' | 'email', string>;
+  cv: Record<'title' | 'summary' | 'featuredProjects' | 'present', string>;
   notFound: Record<'title' | 'body' | 'home', string>;
   footer: Record<'builtWith', string>;
-  brand: string;                       // Nav лого текст, хоёр хэлэнд ижил '~/tergel'
 }
 export type Ui = Record<Locale, UiDict>;
 ```
