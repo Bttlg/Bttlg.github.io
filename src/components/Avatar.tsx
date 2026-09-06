@@ -5,8 +5,8 @@ import { profile } from "@/content";
 export const AVATAR_SRC = "/avatar.webp";
 
 /**
- * Portrait-ratio photo (9:16 intrinsic). When `decorated`, it floats gently
- * and sits inside a thin "beam" frame: a 2px rim around which an accent light
+ * Portrait-ratio photo (9:16 intrinsic). When `decorated`, it sits inside a
+ * thin "beam" frame: a 2px rim around which an accent light
  * travels (see `.beam-frame` in globals.css). Otherwise it renders plain —
  * the CV uses that.
  */
@@ -44,7 +44,7 @@ export function Avatar({
   if (!decorated) return <div className={className}>{image}</div>;
 
   return (
-    <div className={`animate-float ${className}`}>
+    <div className={className}>
       <div className="beam-frame">{image}</div>
     </div>
   );

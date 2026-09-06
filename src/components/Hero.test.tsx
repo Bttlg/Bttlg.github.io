@@ -21,12 +21,11 @@ describe("Hero", () => {
     );
   });
 
-  it("frames the photo with the beam instead of an aurora backdrop, glow or snow of its own", () => {
+  it("frames the photo with the beam instead of an aurora backdrop or glow of its own", () => {
     const { container } = render(<Hero lang="en" />);
     expect(container.querySelector(".beam-frame")).not.toBeNull();
     expect(container.querySelector('[class*="animate-aurora"]')).toBeNull();
     expect(container.querySelector('[class*="avatar-glow"]')).toBeNull();
     expect(container.querySelector('[class*="blur-"]')).toBeNull();
-    expect(container.querySelector(".snowflake")).toBeNull();
   });
 });

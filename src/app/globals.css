@@ -7,6 +7,22 @@
   --color-fg: #f4f4f5;
   --color-muted: #a1a1aa;
   --color-accent: #34d399;
+  /* Second text tier for long-form copy; `muted` stays for metadata. */
+  --color-fg-soft: #d4d4d8;
+  --leading-display: 1.05;
+  --tracking-display: -0.02em;
+  /* Motion: strong curves as tokens (Tailwind emits ease-out-strong / ease-in-out-strong utilities). */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Hover / colour changes: plain `ease` at 150ms for every bare transition-* utility. */
+  --default-transition-timing-function: ease;
+  --default-transition-duration: 150ms;
+  /* Layered surfaces: bright top edge + hairline ring + drop. Plain rgba so Tailwind's shadow-colour rewrite parses them. */
+  --shadow-pill: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.08), 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-card: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.4), 0 12px 32px -16px rgba(0,0,0,0.7);
+  --shadow-card-hover: inset 0 1px 0 rgba(255,255,255,0.09), 0 0 0 1px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.4), 0 20px 40px -16px rgba(0,0,0,0.8);
+  --shadow-cta: inset 0 1px 0 rgba(255,255,255,0.28), 0 1px 2px rgba(0,0,0,0.35), 0 8px 24px -12px rgba(52,211,153,0.45);
+  --shadow-cta-hover: inset 0 1px 0 rgba(255,255,255,0.32), 0 2px 4px rgba(0,0,0,0.35), 0 12px 28px -12px rgba(52,211,153,0.6);
 }
 
 @theme inline {
@@ -64,22 +80,6 @@ body {
   animation-delay: 0.4s;
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
 /* Thin accent light traveling around the avatar photo. The frame clips an
    oversized rotating conic gradient (its ::before); the image covers
    everything but the 2px padding, so only a thin rim of the beam shows.
@@ -108,37 +108,7 @@ body {
   }
 }
 
-@keyframes snow-fall {
-  0% {
-    transform: translateY(-10vh) translateX(0);
-  }
-  50% {
-    transform: translateY(50vh) translateX(10px);
-  }
-  100% {
-    transform: translateY(110vh) translateX(0);
-  }
-}
-
-/* Sits above the body's dotted-grid background and below all page content. */
-.snow-layer {
-  z-index: -1;
-}
-
-.snowflake {
-  position: absolute;
-  top: -10vh;
-  border-radius: 50%;
-  background: rgba(244, 244, 245, 0.8);
-  width: var(--size);
-  height: var(--size);
-  opacity: var(--opacity);
-  animation: snow-fall var(--dur) linear infinite var(--delay);
-}
-
-/* Cursor-following accent glow; same stacking layer as the snow, painted
-   after it in the DOM so it sits on top of the snow but still behind
-   content, so it never tints text. */
+/* Cursor-following accent glow. Painted behind all content (negative z-index) so it never tints text. */
 .spotlight {
   z-index: -1;
   background: radial-gradient(
@@ -234,7 +204,6 @@ html.no-js .reveal > .timeline-dot {
     background-attachment: scroll;
   }
   .fade-up,
-  .animate-float,
   .animate-pulse-ring,
   .cursor-blink {
     animation: none;
@@ -258,7 +227,6 @@ html.no-js .reveal > .timeline-dot {
   }
   /* Spotlight.tsx also stops following the pointer when this flips; the
      rule here is the guarantee. */
-  .snow-layer,
   .spotlight {
     display: none;
   }
@@ -287,9 +255,6 @@ html.no-js .reveal > .timeline-dot {
   }
   .beam-frame::before {
     display: none;
-  }
-  .animate-float {
-    animation: none;
   }
   .reveal,
   .reveal > .timeline-dot {

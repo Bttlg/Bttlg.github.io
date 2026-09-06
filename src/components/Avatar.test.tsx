@@ -25,10 +25,9 @@ describe("Avatar", () => {
     expect(img).toHaveAttribute("height", "1137");
   });
 
-  it("floats and wraps the photo in the beam frame by default", () => {
+  it("wraps the photo in the beam frame by default", () => {
     const { container } = render(<Avatar lang="en" />);
-    const wrapper = container.firstElementChild as HTMLElement;
-    expect(wrapper).toHaveClass("animate-float");
+    expect(container.firstElementChild?.className).not.toMatch(/animate-/);
     const frame = container.querySelector(".beam-frame");
     expect(frame).not.toBeNull();
     expect(frame).toContainElement(screen.getByRole("img", { name: profile.name.en }));
@@ -60,10 +59,9 @@ describe("Avatar", () => {
     expect(img).not.toHaveClass("rounded-[calc(1rem-2px)]");
   });
 
-  it("renders plain (no beam frame, no float) when decorated is false", () => {
+  it("renders plain (no beam frame) when decorated is false", () => {
     const { container } = render(<Avatar lang="en" decorated={false} />);
     const wrapper = container.firstElementChild as HTMLElement;
-    expect(wrapper).not.toHaveClass("animate-float");
     expect(wrapper.className).not.toMatch(NO_BACKDROP);
     expect(container.querySelector(".beam-frame")).toBeNull();
     const img = screen.getByRole("img", { name: profile.name.en });
