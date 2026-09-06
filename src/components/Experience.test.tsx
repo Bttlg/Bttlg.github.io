@@ -51,17 +51,16 @@ describe("Experience", () => {
 
       const dot = reveal!.querySelector(".timeline-dot");
       expect(dot).not.toBeNull();
-      // The marker's scale-in (`.reveal.is-visible > .timeline-dot` in
+      // The marker's materialize (`.reveal.is-visible > .timeline-dot` in
       // globals.css) keys off the entry's own Reveal with a child combinator,
-      // so the marker must stay a direct child of that Reveal — not merely a
-      // descendant of the Section's outer one, which is visible long before
-      // the entries below the fold are.
+      // so the marker must stay a direct child of that Reveal.
       expect(dot!.parentElement).toBe(reveal);
       expect(dot).toHaveAttribute("aria-hidden", "true");
       if (sorted[index].period.to === null) {
-        expect(dot).toHaveClass("animate-pulse-ring");
+        expect(dot).toHaveClass("bg-accent");
       } else {
-        expect(dot).not.toHaveClass("animate-pulse-ring");
+        expect(dot).toHaveClass("bg-canvas");
+        expect(dot).not.toHaveClass("bg-accent");
       }
     });
   });

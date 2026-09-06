@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/** Off-screen position: the 600px glow is fully outside the viewport. */
+/** Off-screen position: the 600px-radius glow is fully outside the viewport. */
 const PARKED = -1000;
 
 /**
@@ -13,6 +13,10 @@ const PARKED = -1000;
  * media queries and tears itself down if either flips while the page is
  * open (globals.css hides `.spotlight` under the same queries as a backstop),
  * and parks the glow off-screen again whenever the pointer leaves the window.
+ *
+ * The glow is a pre-painted child moved with a transform written straight
+ * to the element (never a CSS variable on the layer, which would recalc
+ * styles), so following the pointer is compositor-only.
  */
 export function Spotlight() {
   const ref = useRef<HTMLDivElement>(null);
@@ -39,8 +43,7 @@ export function Spotlight() {
       frame = null;
       const node = ref.current;
       if (!node) return;
-      node.style.setProperty("--sx", `${x}px`);
-      node.style.setProperty("--sy", `${y}px`);
+      node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     };
 
     const schedule = () => {
@@ -87,11 +90,8 @@ export function Spotlight() {
   if (hidden) return null;
 
   return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className="spotlight pointer-events-none fixed inset-0 print:hidden"
-      style={{ "--sx": `${PARKED}px`, "--sy": `${PARKED}px` } as CSSProperties}
-    />
+    <div aria-hidden="true" className="spotlight pointer-events-none fixed inset-0 print:hidden">
+      <div ref={ref} className="spotlight-glow" style={{ transform: `translate3d(${PARKED}px, ${PARKED}px, 0)` }} />
+    </div>
   );
 }

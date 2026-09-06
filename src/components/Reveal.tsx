@@ -54,7 +54,9 @@ export function Reveal({
           }
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      // threshold 0: every element starts when its top edge crosses the same
+      // line, independent of its own height.
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" },
     );
     observer.observe(node);
 

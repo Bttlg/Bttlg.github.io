@@ -28,8 +28,12 @@ export function Experience({ lang }: { lang: Locale }) {
             <Reveal delay={staggerDelay(index)}>
               <span
                 aria-hidden="true"
-                className={`timeline-dot absolute top-1.5 -left-[29px] h-3 w-3 rounded-full border-2 border-accent bg-canvas ${
-                  entry.period.to === null ? "animate-pulse-ring" : ""
+                // Rail centre is 24.5px left of the entry (1px rail + 24px
+                // padding); 12px dot -> -30.5px. top-0.5 puts the dot's centre
+                // on the first line's (16px) centre. Current roles are filled
+                // with a static soft ring instead of a looping pulse.
+                className={`timeline-dot absolute top-0.5 -left-[30.5px] h-3 w-3 rounded-full border-2 border-accent ${
+                  entry.period.to === null ? "bg-accent ring-4 ring-accent/20" : "bg-canvas"
                 }`}
               />
               <p className="font-mono text-xs text-muted">{formatPeriod(entry.period, lang, t.cv.present)}</p>

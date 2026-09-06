@@ -29,11 +29,13 @@ describe("Reveal", () => {
   it("is not visible initially and becomes visible when intersecting", () => {
     mockMatchMedia(false);
     let capturedCallback: IntersectionObserverCallback = () => {};
+    let capturedOptions: IntersectionObserverInit | undefined;
     const unobserve = vi.fn();
     const observe = vi.fn();
     class FakeIO {
-      constructor(cb: IntersectionObserverCallback) {
+      constructor(cb: IntersectionObserverCallback, options?: IntersectionObserverInit) {
         capturedCallback = cb;
+        capturedOptions = options;
       }
       observe = observe;
       unobserve = unobserve;
@@ -52,6 +54,9 @@ describe("Reveal", () => {
     expect(el).not.toBeNull();
     expect(el).not.toHaveClass("is-visible");
     expect(observe).toHaveBeenCalled();
+    // Height-independent trigger: every element starts as soon as its top
+    // edge crosses the same line, 10% up from the bottom of the viewport.
+    expect(capturedOptions).toEqual({ threshold: 0, rootMargin: "0px 0px -10% 0px" });
 
     act(() => {
       capturedCallback(

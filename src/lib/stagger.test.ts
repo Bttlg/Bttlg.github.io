@@ -20,8 +20,8 @@ describe("staggerDelay", () => {
     expect(staggerDelay(-2)).toBe(0);
   });
 
-  it("uses a step of about 80ms capped at about 400ms", () => {
-    expect(STAGGER_STEP_MS).toBe(80);
-    expect(STAGGER_MAX_MS).toBe(400);
+  it("uses a step of 50ms capped at 250ms", () => {
+    expect(STAGGER_STEP_MS).toBe(50);
+    expect(STAGGER_MAX_MS).toBe(250);
   });
 });

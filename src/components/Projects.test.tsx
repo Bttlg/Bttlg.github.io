@@ -37,7 +37,13 @@ describe("Projects", () => {
     render(<Projects lang="en" />);
     for (const name of [ui.en.sections.work, ui.en.sections.personal]) {
       const group = screen.getByRole("region", { name });
+      // The group heading gets its own (unstaggered) Reveal so it doesn't
+      // wait on, or contain, the cards' staggered reveals.
+      const headingReveal = within(group).getByRole("heading", { name }).closest(".reveal") as HTMLElement;
+      expect(headingReveal).not.toBeNull();
+      expect(headingReveal.getAttribute("style")).toBeNull();
       const cards = within(group).getAllByRole("article");
+      for (const card of cards) expect(headingReveal).not.toContainElement(card);
       cards.forEach((card, index) => {
         const reveal = card.parentElement as HTMLElement;
         expect(reveal).toHaveClass("reveal");

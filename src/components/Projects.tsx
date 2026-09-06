@@ -14,9 +14,11 @@ function Group({ id, title, items, lang }: { id: string; title: string; items: P
   if (items.length === 0) return null;
   return (
     <section aria-labelledby={`${id}-title`} className="mt-10 first:mt-0">
-      <h3 id={`${id}-title`} className="font-mono text-sm text-muted">
-        {title}
-      </h3>
+      <Reveal>
+        <h3 id={`${id}-title`} className="font-mono text-sm text-muted">
+          {title}
+        </h3>
+      </Reveal>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {items.map((project, index) => (
           <Reveal key={project.slug} delay={staggerDelay(index)} className="h-full">

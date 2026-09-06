@@ -103,22 +103,23 @@ describe("Spotlight", () => {
     expect(layer).toHaveClass("inset-0");
     expect(layer).toHaveClass("pointer-events-none");
     expect(layer).toHaveClass("print:hidden");
-    expect(layer.style.getPropertyValue("--sx")).toBe("-1000px");
-    expect(layer.style.getPropertyValue("--sy")).toBe("-1000px");
+    const glow = layer.firstElementChild as HTMLElement;
+    expect(glow).toHaveClass("spotlight-glow");
+    expect(glow.style.transform).toBe("translate3d(-1000px, -1000px, 0)");
   });
 
-  it("updates --sx/--sy on pointermove for fine-pointer, motion-friendly devices", () => {
+  it("moves the glow with a transform on pointermove for fine-pointer, motion-friendly devices", () => {
     mockMatchMedia({ reducedMotion: false, finePointer: true });
     const frames = fakeFrames();
 
     const { container } = render(<Spotlight />);
     const layer = container.firstElementChild as HTMLElement;
+    const glow = layer.firstElementChild as HTMLElement;
 
     moveTo(100, 200);
     frames.flush();
 
-    expect(layer.style.getPropertyValue("--sx")).toBe("100px");
-    expect(layer.style.getPropertyValue("--sy")).toBe("200px");
+    expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
   });
 
   it("coalesces a burst of pointer moves into a single animation frame with the latest position", () => {
@@ -127,14 +128,14 @@ describe("Spotlight", () => {
 
     const { container } = render(<Spotlight />);
     const layer = container.firstElementChild as HTMLElement;
+    const glow = layer.firstElementChild as HTMLElement;
 
     for (let i = 1; i <= 4; i += 1) moveTo(i * 10, i * 20);
     expect(frames.pending()).toBe(1);
-    expect(layer.style.getPropertyValue("--sx")).toBe("-1000px");
+    expect(glow.style.transform).toBe("translate3d(-1000px, -1000px, 0)");
 
     frames.flush();
-    expect(layer.style.getPropertyValue("--sx")).toBe("40px");
-    expect(layer.style.getPropertyValue("--sy")).toBe("80px");
+    expect(glow.style.transform).toBe("translate3d(40px, 80px, 0)");
   });
 
   it("parks the glow off-screen again when the pointer leaves the window", () => {
@@ -143,18 +144,18 @@ describe("Spotlight", () => {
 
     const { container } = render(<Spotlight />);
     const layer = container.firstElementChild as HTMLElement;
+    const glow = layer.firstElementChild as HTMLElement;
 
     moveTo(100, 200);
     frames.flush();
-    expect(layer.style.getPropertyValue("--sx")).toBe("100px");
+    expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
 
     act(() => {
       document.documentElement.dispatchEvent(new PointerEvent("pointerleave"));
     });
     expect(frames.pending()).toBe(1);
     frames.flush();
-    expect(layer.style.getPropertyValue("--sx")).toBe("-1000px");
-    expect(layer.style.getPropertyValue("--sy")).toBe("-1000px");
+    expect(glow.style.transform).toBe("translate3d(-1000px, -1000px, 0)");
   });
 
   it("renders nothing after mount when reduced motion is preferred", () => {
