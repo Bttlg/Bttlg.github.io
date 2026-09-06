@@ -40,6 +40,15 @@ describe("LangSwitch", () => {
     expect(link).not.toHaveClass("hover:text-accent");
   });
 
+  it("rests the inactive locale on fg-soft (AA over the nav material's white worst case), the active one on fg", () => {
+    usePathname.mockReturnValue("/en/cv/");
+    render(<LangSwitch lang="en" />);
+    const inactive = screen.getByRole("link", { name: "MN" });
+    expect(inactive).toHaveClass("text-fg-soft");
+    expect(inactive).not.toHaveClass("text-muted");
+    expect(screen.getByText("EN")).toHaveClass("text-fg");
+  });
+
   it("remembers the chosen locale", () => {
     usePathname.mockReturnValue("/mn/");
     render(<LangSwitch lang="mn" />);

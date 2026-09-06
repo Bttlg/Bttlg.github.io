@@ -5,7 +5,6 @@ import { Section } from "./Section";
 import { Chip } from "./Chip";
 import { Icon } from "./Icon";
 import { Reveal } from "./Reveal";
-import { staggerDelay } from "@/lib/stagger";
 
 /** Current roles first (latest start first), then finished roles (latest end first). */
 export function sortExperience(list: ExperienceEntry[]): ExperienceEntry[] {
@@ -23,9 +22,11 @@ export function Experience({ lang }: { lang: Locale }) {
   return (
     <Section id="experience" title={t.sections.experience}>
       <ol className="relative border-l border-border pl-6">
-        {sortExperience(experience).map((entry, index) => (
+        {sortExperience(experience).map((entry) => (
           <li key={entry.id} className="relative pb-10 last:pb-0">
-            <Reveal delay={staggerDelay(index)}>
+            {/* No stagger: each entry is taller than a stagger step and crosses
+                the trigger line by itself, so a delay would read as lag. */}
+            <Reveal>
               <span
                 aria-hidden="true"
                 // Rail centre is 24.5px left of the entry (1px rail + 24px

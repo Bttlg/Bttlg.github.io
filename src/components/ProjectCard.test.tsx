@@ -72,18 +72,31 @@ describe("ProjectCard", () => {
     for (const link of [live, source]) expect(link).toHaveClass("transition-colors");
   });
 
-  it("hovers with an exact transition list (lift + shadow), never a catch-all transition", () => {
+  it("hovers on compositor properties only: a translate lift, and the deeper shadow crossfaded on a pseudo-element", () => {
     render(<ProjectCard project={base} lang="en" />);
     const card = screen.getByRole("article");
     const classes = card.className.split(/\s+/);
-    // Exactly one transition utility, naming the two properties the hover
-    // changes (Tailwind writes -translate-y-* as `translate`, not `transform`).
-    expect(classes.filter((c) => c.startsWith("transition-"))).toEqual(["transition-[translate,box-shadow]"]);
-    expect(classes.filter((c) => c.startsWith("duration-"))).toEqual(["duration-200"]);
-    expect(card).toHaveClass("shadow-card");
-    expect(card).toHaveClass("hover:shadow-card-hover");
+    // Exact transition lists, never a catch-all: the card transitions only
+    // its lift (Tailwind writes -translate-y-* as `translate`, not
+    // `transform`); the ::after transitions only its opacity.
+    expect(classes.filter((c) => /(^|:)transition-/.test(c)).sort()).toEqual(
+      ["after:transition-opacity", "transition-[translate]"].sort(),
+    );
+    expect(classes.filter((c) => /(^|:)duration-/.test(c)).sort()).toEqual(["after:duration-200", "duration-200"].sort());
     expect(card).toHaveClass("hover:-translate-y-0.5");
     expect(card).toHaveClass("motion-reduce:hover:translate-y-0");
+    // box-shadow is a paint property: the resting shadow stays static and the
+    // hover shadow lives on a static ::after whose opacity fades in.
+    expect(card).toHaveClass("shadow-card");
+    expect(card).not.toHaveClass("hover:shadow-card-hover");
+    expect(card).toHaveClass("after:shadow-card-hover");
+    expect(card).toHaveClass("after:opacity-0");
+    expect(card).toHaveClass("hover:after:opacity-100");
+    // The layer sits behind the card's content, inside the card's own stacking context.
+    expect(card).toHaveClass("isolate");
+    expect(card).toHaveClass("after:-z-10");
+    expect(card).toHaveClass("after:pointer-events-none");
+    expect(card).toHaveClass("after:rounded-xl");
   });
 
   it("renders the logo image when set, and none when it is absent", () => {

@@ -23,7 +23,8 @@ export function LangSwitch({ lang }: { lang: Locale }) {
               href={localePath(locale, sub)}
               hrefLang={locale}
               lang={locale}
-              className="text-muted transition-colors hover:text-fg"
+              // fg-soft (not muted) keeps AA contrast where the nav's translucent material sits over a white backdrop.
+              className="text-fg-soft transition-colors hover:text-fg"
               onClick={() => {
                 try {
                   localStorage.setItem("locale", locale);

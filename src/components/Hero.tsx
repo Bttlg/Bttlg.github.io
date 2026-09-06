@@ -49,7 +49,8 @@ export function Hero({ lang }: { lang: Locale }) {
             <SocialLinks lang={lang} />
           </div>
         </div>
-        <div className="fade-up order-first justify-self-center md:order-none md:justify-self-end">
+        {/* `materialize` adds the blur to the entrance; only the portrait gets it (text would re-rasterize). */}
+        <div className="fade-up materialize order-first justify-self-center md:order-none md:justify-self-end">
           <Avatar lang={lang} priority className="w-[200px] sm:w-[240px] md:w-[260px]" />
         </div>
       </div>

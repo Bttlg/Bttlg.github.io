@@ -19,6 +19,40 @@ function mockMatchMedia(matches: boolean) {
   });
 }
 
+/** Installs an IntersectionObserver stub and hands back its captured callback, options and spies. */
+function stubIntersectionObserver() {
+  let callback: IntersectionObserverCallback = () => {};
+  let options: IntersectionObserverInit | undefined;
+  const observe = vi.fn();
+  const unobserve = vi.fn();
+  const disconnect = vi.fn();
+  class FakeIO {
+    constructor(cb: IntersectionObserverCallback, init?: IntersectionObserverInit) {
+      callback = cb;
+      options = init;
+    }
+    observe = observe;
+    unobserve = unobserve;
+    disconnect = disconnect;
+  }
+  // @ts-expect-error test stub
+  window.IntersectionObserver = FakeIO;
+  return {
+    observe,
+    unobserve,
+    disconnect,
+    options: () => options,
+    intersect: () =>
+      act(() => {
+        callback(
+          [{ isIntersecting: true } as IntersectionObserverEntry],
+          // @ts-expect-error stub observer instance
+          {},
+        );
+      }),
+  };
+}
+
 describe("Reveal", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -27,22 +61,7 @@ describe("Reveal", () => {
   });
 
   it("is not visible initially and becomes visible when intersecting", () => {
-    mockMatchMedia(false);
-    let capturedCallback: IntersectionObserverCallback = () => {};
-    let capturedOptions: IntersectionObserverInit | undefined;
-    const unobserve = vi.fn();
-    const observe = vi.fn();
-    class FakeIO {
-      constructor(cb: IntersectionObserverCallback, options?: IntersectionObserverInit) {
-        capturedCallback = cb;
-        capturedOptions = options;
-      }
-      observe = observe;
-      unobserve = unobserve;
-      disconnect = vi.fn();
-    }
-    // @ts-expect-error test stub
-    window.IntersectionObserver = FakeIO;
+    const io = stubIntersectionObserver();
 
     render(
       <Reveal>
@@ -53,36 +72,24 @@ describe("Reveal", () => {
     const el = screen.getByText("content").closest(".reveal");
     expect(el).not.toBeNull();
     expect(el).not.toHaveClass("is-visible");
-    expect(observe).toHaveBeenCalled();
+    expect(io.observe).toHaveBeenCalled();
     // Height-independent trigger: every element starts as soon as its top
     // edge crosses the same line, 10% up from the bottom of the viewport.
-    expect(capturedOptions).toEqual({ threshold: 0, rootMargin: "0px 0px -10% 0px" });
+    expect(io.options()).toEqual({ threshold: 0, rootMargin: "0px 0px -10% 0px" });
 
-    act(() => {
-      capturedCallback(
-        [{ isIntersecting: true } as IntersectionObserverEntry],
-        // @ts-expect-error stub observer instance
-        {},
-      );
-    });
+    io.intersect();
 
     expect(el).toHaveClass("is-visible");
-    expect(unobserve).toHaveBeenCalled();
+    // The scroll-driven reveal keeps its transition; only focus is instant.
+    expect(el).not.toHaveClass("is-instant");
+    expect(io.unobserve).toHaveBeenCalled();
   });
 
-  it("becomes visible when keyboard focus enters it before it intersects", () => {
-    mockMatchMedia(false);
-    const disconnect = vi.fn();
-    class FakeIO {
-      observe = vi.fn();
-      unobserve = vi.fn();
-      disconnect = disconnect;
-    }
-    // @ts-expect-error test stub
-    window.IntersectionObserver = FakeIO;
+  it("reveals instantly (no transition, no stagger delay) when keyboard focus enters it before it intersects", () => {
+    const io = stubIntersectionObserver();
 
     render(
-      <Reveal>
+      <Reveal delay={120}>
         <button type="button">focus me</button>
       </Reveal>,
     );
@@ -95,19 +102,18 @@ describe("Reveal", () => {
     fireEvent.focusIn(button);
 
     expect(el).toHaveClass("is-visible");
-    expect(disconnect).toHaveBeenCalled();
+    // `.reveal.is-instant` in globals.css sets `transition: none`, which also
+    // defeats the inline stagger delay: a keyboard action never animates.
+    expect(el).toHaveClass("is-instant");
+    expect(io.disconnect).toHaveBeenCalled();
+
+    // A late intersection can't downgrade the instant reveal back to an animated one.
+    io.intersect();
+    expect(el).toHaveClass("is-instant");
   });
 
   it("stops observing and listening for focus on unmount", () => {
-    mockMatchMedia(false);
-    const disconnect = vi.fn();
-    class FakeIO {
-      observe = vi.fn();
-      unobserve = vi.fn();
-      disconnect = disconnect;
-    }
-    // @ts-expect-error test stub
-    window.IntersectionObserver = FakeIO;
+    const io = stubIntersectionObserver();
 
     const { unmount } = render(
       <Reveal>
@@ -119,12 +125,11 @@ describe("Reveal", () => {
 
     unmount();
 
-    expect(disconnect).toHaveBeenCalled();
+    expect(io.disconnect).toHaveBeenCalled();
     expect(remove).toHaveBeenCalledWith("focusin", expect.any(Function));
   });
 
   it("is visible immediately when IntersectionObserver is undefined", () => {
-    mockMatchMedia(false);
     // @ts-expect-error simulate missing API
     delete window.IntersectionObserver;
 
@@ -138,19 +143,28 @@ describe("Reveal", () => {
     expect(el).toHaveClass("is-visible");
   });
 
-  it("is visible immediately when reduced motion is preferred", () => {
+  it("still reveals through the observer under reduced motion (CSS keeps an opacity-only fade)", () => {
+    // Gentler, not zero: the reduced-motion variant lives in globals.css
+    // (`transform: none; transition: opacity ...`), so the component must
+    // not short-circuit to visible-on-mount and skip the fade.
     mockMatchMedia(true);
+    const io = stubIntersectionObserver();
+
     render(
       <Reveal>
         <p>reduced</p>
       </Reveal>,
     );
     const el = screen.getByText("reduced").closest(".reveal");
+    expect(el).not.toHaveClass("is-visible");
+    expect(io.observe).toHaveBeenCalled();
+
+    io.intersect();
     expect(el).toHaveClass("is-visible");
+    expect(el).not.toHaveClass("is-instant");
   });
 
   it("applies the delay as transition-delay and exposes it as --reveal-delay for descendants", () => {
-    mockMatchMedia(true);
     render(
       <Reveal delay={120}>
         <p>delayed</p>
@@ -162,7 +176,6 @@ describe("Reveal", () => {
   });
 
   it("sets no inline delay by default or for a zero delay", () => {
-    mockMatchMedia(true);
     render(
       <>
         <Reveal>

@@ -92,7 +92,7 @@ describe("Spotlight", () => {
     vi.unstubAllGlobals();
   });
 
-  it("renders a fixed, aria-hidden, click-through layer parked off-screen before the pointer moves", () => {
+  it("renders a fixed, aria-hidden, click-through layer, hidden and parked off-screen before the pointer moves", () => {
     mockMatchMedia({ reducedMotion: false, finePointer: true });
     fakeFrames();
     const { container } = render(<Spotlight />);
@@ -106,6 +106,7 @@ describe("Spotlight", () => {
     const glow = layer.firstElementChild as HTMLElement;
     expect(glow).toHaveClass("spotlight-glow");
     expect(glow.style.transform).toBe("translate3d(-1000px, -1000px, 0)");
+    expect(glow.style.opacity).toBe("0");
   });
 
   it("moves the glow with a transform on pointermove for fine-pointer, motion-friendly devices", () => {
@@ -120,6 +121,40 @@ describe("Spotlight", () => {
     frames.flush();
 
     expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
+    expect(glow.style.opacity).toBe("1");
+  });
+
+  it("lands at the pointer without a transition on arrival, then transitions between moves", () => {
+    mockMatchMedia({ reducedMotion: false, finePointer: true });
+    const frames = fakeFrames();
+
+    const { container } = render(<Spotlight />);
+    const layer = container.firstElementChild as HTMLElement;
+    const glow = layer.firstElementChild as HTMLElement;
+    // Record every write to the inline `transition` so the one-frame snap is observable.
+    const writes: string[] = [];
+    Object.defineProperty(glow.style, "transition", {
+      configurable: true,
+      get: () => writes.at(-1) ?? "",
+      set: (value: string) => {
+        writes.push(value);
+      },
+    });
+
+    // First move: the glow would otherwise sweep in from its off-screen
+    // parking spot. It snaps into place (transition off, then restored) and
+    // only the opacity fades in.
+    moveTo(100, 200);
+    frames.flush();
+    expect(writes).toEqual(["none", ""]);
+    expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
+    expect(glow.style.opacity).toBe("1");
+
+    // Subsequent moves keep the CSS transition (the hint of momentum).
+    moveTo(150, 250);
+    frames.flush();
+    expect(writes).toEqual(["none", ""]);
+    expect(glow.style.transform).toBe("translate3d(150px, 250px, 0)");
   });
 
   it("coalesces a burst of pointer moves into a single animation frame with the latest position", () => {
@@ -138,7 +173,7 @@ describe("Spotlight", () => {
     expect(glow.style.transform).toBe("translate3d(40px, 80px, 0)");
   });
 
-  it("parks the glow off-screen again when the pointer leaves the window", () => {
+  it("fades the glow out in place when the pointer leaves the window, and fades it back in at the pointer on re-entry", () => {
     mockMatchMedia({ reducedMotion: false, finePointer: true });
     const frames = fakeFrames();
 
@@ -149,13 +184,32 @@ describe("Spotlight", () => {
     moveTo(100, 200);
     frames.flush();
     expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
+    expect(glow.style.opacity).toBe("1");
 
     act(() => {
       document.documentElement.dispatchEvent(new PointerEvent("pointerleave"));
     });
     expect(frames.pending()).toBe(1);
     frames.flush();
-    expect(glow.style.transform).toBe("translate3d(-1000px, -1000px, 0)");
+    // Parked by opacity, not by distance: no 1200px sweep across the viewport.
+    expect(glow.style.opacity).toBe("0");
+    expect(glow.style.transform).toBe("translate3d(100px, 200px, 0)");
+
+    // Re-entry at the far side of the window: the glow appears there instead
+    // of sliding over from where the pointer left.
+    const writes: string[] = [];
+    Object.defineProperty(glow.style, "transition", {
+      configurable: true,
+      get: () => writes.at(-1) ?? "",
+      set: (value: string) => {
+        writes.push(value);
+      },
+    });
+    moveTo(900, 50);
+    frames.flush();
+    expect(writes).toEqual(["none", ""]);
+    expect(glow.style.transform).toBe("translate3d(900px, 50px, 0)");
+    expect(glow.style.opacity).toBe("1");
   });
 
   it("renders nothing after mount when reduced motion is preferred", () => {

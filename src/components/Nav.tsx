@@ -19,7 +19,10 @@ export function Nav({ lang }: { lang: Locale }) {
           {t.brand}
         </Link>
         <div className="flex items-center gap-4">
-          <ul className="hidden items-center gap-4 font-mono text-sm text-muted md:flex">
+          {/* Resting colour is fg-soft, not muted: over the translucent material
+              the backdrop can be white (the CV sheet, logo tiles), where muted
+              drops below AA. Vibrancy over glass wants higher-contrast text. */}
+          <ul className="hidden items-center gap-4 font-mono text-sm text-fg-soft md:flex">
             {SECTION_IDS.map((id) => (
               <li key={id}>
                 <Link

@@ -3,9 +3,15 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 /**
- * Fades and slides its children in once they scroll into view. Skips the
- * animation (shows content immediately) when the user prefers reduced
- * motion, or when `IntersectionObserver` isn't available.
+ * Fades and slides its children in once they scroll into view. The entrance
+ * is CSS (`.reveal` in globals.css); this only toggles `is-visible`.
+ *
+ * Reduced motion is handled in CSS as well (the rise goes, a shorter opacity
+ * fade stays), so the observer runs regardless of the preference. Keyboard
+ * focus landing inside a not-yet-revealed element reveals it instantly
+ * (`is-instant`: no transition, no stagger delay), since keyboard-initiated
+ * actions must never animate. Without `IntersectionObserver` the content
+ * shows immediately.
  */
 export function Reveal({
   children,
@@ -22,23 +28,16 @@ export function Reveal({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [state, setState] = useState<"hidden" | "visible" | "instant">("hidden");
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Both branches below are one-time, mount-driven decisions gated on
-    // browser-only APIs (matchMedia / IntersectionObserver aren't available
-    // during SSR) — they can't be computed at render time without
-    // diverging from the server-rendered markup, so they have to happen
-    // here rather than in a lazy `useState` initializer.
-    if (prefersReducedMotion) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisible(true);
-      return;
-    }
-
     if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
+      // Mount-driven decision gated on a browser-only API (not available
+      // during SSR) — it can't be computed at render time without diverging
+      // from the server-rendered markup, so it has to happen here rather
+      // than in a lazy `useState` initializer.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setState("visible");
       return;
     }
 
@@ -49,7 +48,7 @@ export function Reveal({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setVisible(true);
+            setState((current) => (current === "hidden" ? "visible" : current));
             observer.unobserve(entry.target);
           }
         }
@@ -63,9 +62,11 @@ export function Reveal({
     // Keyboard focus can land inside a not-yet-revealed element: a Tab that
     // scrolls a link into view by its nearest edge can leave less of the
     // element inside the root than the threshold/rootMargin ask for, and
-    // the focused control would stay invisible. Reveal on focus as well.
+    // the focused control would stay invisible. Reveal on focus as well —
+    // instantly, so the control and its focus ring are never hidden behind
+    // the transition or a stagger delay.
     const onFocus = () => {
-      setVisible(true);
+      setState("instant");
       observer.disconnect();
     };
     node.addEventListener("focusin", onFocus, { once: true });
@@ -79,7 +80,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal ${state !== "hidden" ? "is-visible" : ""} ${state === "instant" ? "is-instant" : ""} ${className}`}
       style={
         delay && delay > 0
           ? ({ transitionDelay: `${delay}ms`, "--reveal-delay": `${delay}ms` } as CSSProperties)

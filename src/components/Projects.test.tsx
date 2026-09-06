@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import { Projects, sortFeaturedFirst } from "./Projects";
+import { GRID_COLUMNS, Projects, sortFeaturedFirst } from "./Projects";
 import { projects, ui, type Project } from "@/content";
 import { staggerDelay } from "@/lib/stagger";
 
@@ -43,7 +43,7 @@ describe("Projects", () => {
     expect(heading.textContent).toBe(ui.en.sections.work);
   });
 
-  it("wraps each card in its own Reveal, staggered by position within its group", () => {
+  it("wraps each card in its own Reveal, staggered by column so only cards that enter together cascade", () => {
     render(<Projects lang="en" />);
     for (const name of [ui.en.sections.work, ui.en.sections.personal]) {
       const group = screen.getByRole("region", { name });
@@ -58,7 +58,9 @@ describe("Projects", () => {
         const reveal = card.parentElement as HTMLElement;
         expect(reveal).toHaveClass("reveal");
         expect(reveal).toHaveClass("h-full");
-        const delay = staggerDelay(index);
+        // A card in a later row scrolls into view on its own; an index-based
+        // delay there reads as lag, so the stagger restarts on every row.
+        const delay = staggerDelay(index % GRID_COLUMNS);
         expect(reveal.style.transitionDelay).toBe(delay > 0 ? `${delay}ms` : "");
       });
     }

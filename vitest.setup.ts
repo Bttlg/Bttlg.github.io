@@ -19,11 +19,11 @@ afterEach(cleanup);
 // tests matches production behavior.
 process.env.__NEXT_TRAILING_SLASH = "true";
 
-// jsdom doesn't implement `window.matchMedia`. Several components (Reveal,
-// Typewriter) call it on mount to check `prefers-reduced-motion`; default to
+// jsdom doesn't implement `window.matchMedia`. Several components (Typewriter,
+// Spotlight) call it on mount to check `prefers-reduced-motion`; default to
 // "motion allowed" here so tests that don't care about that don't have to
-// stub it themselves. Tests that do care (Reveal.test.tsx, Typewriter.test.tsx)
-// override this per-test with `Object.defineProperty`.
+// stub it themselves. Tests that do care (Typewriter.test.tsx, Spotlight.test.tsx,
+// Reveal.test.tsx) override this per-test with `Object.defineProperty`.
 if (typeof window !== "undefined" && !window.matchMedia) {
   Object.defineProperty(window, "matchMedia", {
     writable: true,

@@ -59,6 +59,16 @@ describe("Hero", () => {
     expect(contact).toHaveClass("transition-colors");
   });
 
+  it("materializes (blur) only the portrait's entrance; text fades up without a filter", () => {
+    const { container } = render(<Hero lang="en" />);
+    const portrait = container.querySelector(".beam-frame")!.closest(".fade-up") as HTMLElement;
+    expect(portrait).toHaveClass("materialize");
+    // Animating `filter` on text re-rasterizes the glyphs when it lands.
+    const textEntrances = Array.from(container.querySelectorAll(".fade-up")).filter((el) => el !== portrait);
+    expect(textEntrances.length).toBeGreaterThan(0);
+    for (const el of textEntrances) expect(el).not.toHaveClass("materialize");
+  });
+
   it("frames the photo with the beam instead of an aurora backdrop or glow of its own", () => {
     const { container } = render(<Hero lang="en" />);
     expect(container.querySelector(".beam-frame")).not.toBeNull();

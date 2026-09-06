@@ -65,6 +65,7 @@ body {
       transform 150ms var(--ease-out-strong),
       box-shadow 200ms ease,
       filter 200ms ease,
+      opacity 150ms ease,
       color 150ms ease,
       background-color 150ms ease,
       border-color 150ms ease;
@@ -74,9 +75,25 @@ body {
   }
 }
 
-/* Hero entrance: "materialize" (fade + short rise + a touch of blur) on the
-   strong ease-out curve, 50ms stagger across the d1-d5 slots. */
+/* Hero entrance: fade + short rise on the strong ease-out curve, 50ms
+   stagger across the d1-d5 slots. Text gets no blur: while `filter`
+   animates the text sits on its own layer with grayscale antialiasing, and
+   when `filter: none` lands the layer drops and the glyphs re-rasterize (a
+   visible crispness pop on non-Retina displays). */
 @keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The full "materialize" (with a touch of blur) is reserved for non-text
+   entrances: the portrait. */
+@keyframes fade-up-blur {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -100,6 +117,10 @@ body {
 
 .fade-up {
   animation: fade-up 400ms var(--ease-out-strong) both;
+}
+
+.fade-up.materialize {
+  animation-name: fade-up-blur;
 }
 
 .fade-up.d1 {
@@ -188,8 +209,12 @@ body {
   border-radius: 50%;
   background: radial-gradient(circle closest-side, color-mix(in oklab, var(--color-accent) 6%, transparent), transparent 60%);
   will-change: transform;
-  /* Retargeted every frame the pointer moves: a hint of momentum instead of a glow glued to the cursor. */
-  transition: transform 160ms var(--ease-out-strong);
+  /* Retargeted every frame the pointer moves: a hint of momentum instead of
+     a glow glued to the cursor. Parking (pointer left the window) is a fade
+     in place, never a sweep off-screen; Spotlight.tsx drives the opacity. */
+  transition:
+    transform 160ms var(--ease-out-strong),
+    opacity 200ms ease;
 }
 
 /* No cursor to follow on touch / no-hover devices. Spotlight.tsx makes the
@@ -226,12 +251,14 @@ html:not(.no-js) [data-typewriter]:not([data-ready]) {
   visibility: hidden;
 }
 
+/* Scroll reveal: 350ms so the last card of a staggered group (250ms cap)
+   is settled within 600ms, in step with the hero's 400ms materialize. */
 .reveal {
   opacity: 0;
   transform: translateY(12px);
   transition:
-    opacity 450ms var(--ease-out-strong),
-    transform 450ms var(--ease-out-strong);
+    opacity 350ms var(--ease-out-strong),
+    transform 350ms var(--ease-out-strong);
 }
 
 .reveal.is-visible {
@@ -247,7 +274,7 @@ html:not(.no-js) [data-typewriter]:not([data-ready]) {
    entry, not for whatever ancestor Reveal happens to be visible. */
 .reveal > .timeline-dot {
   opacity: 0;
-  transform: scale(0.6);
+  transform: scale(0.85);
   transition:
     opacity 250ms var(--ease-out-strong) calc(var(--reveal-delay, 0ms) + 100ms),
     transform 250ms var(--ease-out-strong) calc(var(--reveal-delay, 0ms) + 100ms);
@@ -256,6 +283,15 @@ html:not(.no-js) [data-typewriter]:not([data-ready]) {
 .reveal.is-visible > .timeline-dot {
   opacity: 1;
   transform: none;
+}
+
+/* Keyboard focus landed inside an unrevealed element (Reveal.tsx): the
+   reveal is instant, so the focused control and its ring are never hidden
+   behind a transition or a stagger delay. Keyboard-initiated actions do not
+   animate. Outranks the reduced-motion fade below by specificity. */
+.reveal.is-instant,
+.reveal.is-instant > .timeline-dot {
+  transition: none;
 }
 
 html.no-js .reveal,
@@ -270,7 +306,8 @@ html.no-js .reveal > .timeline-dot {
     scroll-behavior: auto;
   }
   /* Gentler, not zero: the hero still fades in, without movement or blur. */
-  .fade-up {
+  .fade-up,
+  .fade-up.materialize {
     animation: fade-in 300ms ease both;
   }
   .cursor-blink {
@@ -289,15 +326,15 @@ html.no-js .reveal > .timeline-dot {
     animation: none;
     background: rgb(255 255 255 / 0.15);
   }
+  /* Scroll reveals keep their opacity fade (still driven by `.is-visible`
+     from the observer); only the rise and the marker's scale go. */
   .reveal {
-    opacity: 1;
     transform: none;
-    transition: none;
+    transition: opacity 300ms ease;
   }
   .reveal > .timeline-dot {
-    opacity: 1;
     transform: none;
-    transition: none;
+    transition: opacity 250ms ease calc(var(--reveal-delay, 0ms) + 100ms);
   }
   /* Spotlight.tsx also stops following the pointer when this flips; the
      rule here is the guarantee. */

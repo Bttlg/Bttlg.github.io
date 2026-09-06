@@ -32,6 +32,18 @@ describe("Nav", () => {
     expect(screen.getByRole("link", { name: ui.en.brand })).toHaveClass("transition-colors");
   });
 
+  it("rests the section links on fg-soft, not muted, so they keep AA contrast over the translucent material", () => {
+    render(<Nav lang="en" />);
+    // Worst case is the /cv page: the white CV sheet scrolls under the 72%
+    // canvas material, where `muted` measures ~3.25:1 and `fg-soft` ~5.6:1.
+    const list = screen.getByRole("link", { name: ui.en.nav.projects }).closest("ul") as HTMLElement;
+    expect(list).toHaveClass("text-fg-soft");
+    expect(list).not.toHaveClass("text-muted");
+    const link = screen.getByRole("link", { name: ui.en.nav.projects });
+    expect(link).toHaveClass("hover:text-fg");
+    expect(link.className).not.toMatch(/(^|\s)text-muted(\s|$)/);
+  });
+
   it("renders the header as a translucent material: no hard bottom border, no bespoke blur utilities", () => {
     render(<Nav lang="en" />);
     const header = screen.getByRole("banner");

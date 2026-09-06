@@ -12,7 +12,11 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
   const highlights = project.highlights[lang].slice(0, MAX_HIGHLIGHTS);
 
   return (
-    <article className="relative flex h-full flex-col rounded-xl bg-surface/80 p-6 shadow-card transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-card-hover motion-reduce:hover:translate-y-0">
+    // The lift is a compositor transition; the deeper hover shadow is a
+    // static ::after crossfaded by opacity (box-shadow is a paint property,
+    // animating it on six cards is not). `isolate` keeps the -z ::after
+    // inside the card's own stacking context, behind its content.
+    <article className="relative isolate flex h-full flex-col rounded-xl bg-surface/80 p-6 shadow-card transition-[translate] duration-200 after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-xl after:opacity-0 after:shadow-card-hover after:transition-opacity after:duration-200 hover:-translate-y-0.5 hover:after:opacity-100 motion-reduce:hover:translate-y-0">
       {project.logo && (
         <span className="mb-4 inline-flex h-9 w-fit items-center rounded-md bg-white/90 px-2.5 ring-1 ring-inset ring-black/10">
           <Image src={project.logo.src} alt="" width={project.logo.width} height={project.logo.height} className="h-5 w-auto" />

@@ -3,7 +3,6 @@ import { render, screen } from "@testing-library/react";
 import { Experience, sortExperience } from "./Experience";
 import { experience } from "@/content";
 import type { Experience as ExperienceEntry } from "@/content";
-import { staggerDelay } from "@/lib/stagger";
 
 function mk(id: string, from: string, to: string | null): ExperienceEntry {
   return {
@@ -63,7 +62,7 @@ describe("Experience", () => {
     });
   });
 
-  it("wraps each timeline entry in a staggered Reveal that carries its own marker", () => {
+  it("wraps each timeline entry in its own unstaggered Reveal that carries its own marker", () => {
     const { container } = render(<Experience lang="en" />);
     const sorted = sortExperience(experience);
     const entries = Array.from(container.querySelectorAll<HTMLLIElement>("#experience ol > li"));
@@ -72,8 +71,9 @@ describe("Experience", () => {
     entries.forEach((entry, index) => {
       const reveal = entry.querySelector<HTMLElement>(":scope > .reveal");
       expect(reveal).not.toBeNull();
-      const delay = staggerDelay(index);
-      expect(reveal!.style.transitionDelay).toBe(delay > 0 ? `${delay}ms` : "");
+      // Entries are taller than a stagger step and cross the trigger line one
+      // at a time, so a per-index delay would only make later ones feel late.
+      expect(reveal!.getAttribute("style")).toBeNull();
 
       const dot = reveal!.querySelector(".timeline-dot");
       expect(dot).not.toBeNull();

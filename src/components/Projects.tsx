@@ -5,6 +5,9 @@ import { ProjectCard } from "./ProjectCard";
 import { Reveal } from "./Reveal";
 import { staggerDelay } from "@/lib/stagger";
 
+/** Columns of the card grid at `sm` and up (`sm:grid-cols-2`); a stagger only spans what enters together. */
+export const GRID_COLUMNS = 2;
+
 /** Stable sort: featured projects first, original order otherwise. */
 export function sortFeaturedFirst(list: Project[]): Project[] {
   return [...list].sort((a, b) => Number(b.featured) - Number(a.featured));
@@ -21,7 +24,7 @@ function Group({ id, title, items, lang }: { id: string; title: string; items: P
       </Reveal>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {items.map((project, index) => (
-          <Reveal key={project.slug} delay={staggerDelay(index)} className="h-full">
+          <Reveal key={project.slug} delay={staggerDelay(index % GRID_COLUMNS)} className="h-full">
             <ProjectCard project={project} lang={lang} />
           </Reveal>
         ))}
