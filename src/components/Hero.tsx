@@ -55,7 +55,7 @@ export function Hero({ lang }: { lang: Locale }) {
           </div>
         </div>
         <div className="fade-up d2 order-first justify-self-center md:order-none md:justify-self-end">
-          <Avatar lang={lang} size={208} />
+          <Avatar lang={lang} priority className="w-[200px] sm:w-[240px] md:w-[260px]" />
         </div>
       </div>
     </section>

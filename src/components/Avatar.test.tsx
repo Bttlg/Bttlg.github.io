@@ -19,15 +19,35 @@ describe("Avatar", () => {
     render(<Avatar lang="en" />);
     const img = screen.getByRole("img", { name: profile.name.en });
     expect(img).toHaveAttribute("src", expect.stringContaining("/avatar.webp"));
+    expect(img).toHaveAttribute("width", "640");
+    expect(img).toHaveAttribute("height", "1137");
   });
 
-  it("renders a rotating ring by default", () => {
+  it("uses rounded-2xl on the image by default", () => {
+    render(<Avatar lang="en" />);
+    const img = screen.getByRole("img", { name: profile.name.en });
+    expect(img).toHaveClass("rounded-2xl");
+  });
+
+  it("applies an imgClassName override instead of the default", () => {
+    render(<Avatar lang="en" imgClassName="rounded-full" />);
+    const img = screen.getByRole("img", { name: profile.name.en });
+    expect(img).toHaveClass("rounded-full");
+    expect(img).not.toHaveClass("rounded-2xl");
+  });
+
+  it("floats and glows by default", () => {
     const { container } = render(<Avatar lang="en" />);
-    expect(container.querySelector(".avatar-ring")).not.toBeNull();
+    const wrapper = container.firstElementChild;
+    expect(wrapper).toHaveClass("avatar-glow");
+    expect(wrapper).toHaveClass("animate-float");
   });
 
-  it("renders no ring element when ring is false", () => {
-    const { container } = render(<Avatar lang="en" ring={false} />);
+  it("renders no float/glow decoration and no ring element when decorated is false", () => {
+    const { container } = render(<Avatar lang="en" decorated={false} />);
+    const wrapper = container.firstElementChild;
+    expect(wrapper).not.toHaveClass("animate-float");
+    expect(wrapper).not.toHaveClass("avatar-glow");
     expect(container.querySelector(".avatar-ring")).toBeNull();
   });
 });

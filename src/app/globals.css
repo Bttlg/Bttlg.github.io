@@ -79,19 +79,6 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 14s linear infinite;
-}
-
 @keyframes aurora {
   0% {
     transform: translate(0, 0) scale(1);
@@ -164,28 +151,8 @@ body {
   animation: blink 1s steps(1) infinite;
 }
 
-/*
- * Positioned absolutely (not via the Tailwind `absolute` utility) because
- * Tailwind v4 utilities live in `@layer utilities`, and this unlayered rule
- * would always win the cascade over a layered one regardless of source
- * order — so declaring position here directly keeps the ring's stacking
- * correct no matter what classes are added on the element in markup.
- */
-.avatar-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background: conic-gradient(
-    from 0deg,
-    var(--color-accent),
-    transparent 40%,
-    var(--color-accent) 70%,
-    transparent 100%
-  );
-}
-
 .avatar-glow {
-  box-shadow: 0 0 60px -10px color-mix(in oklab, var(--color-accent) 55%, transparent);
+  box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--color-accent) 45%, transparent);
 }
 
 .reveal {
@@ -213,7 +180,6 @@ html.no-js .reveal-child {
   }
   .fade-up,
   .animate-float,
-  .animate-spin-slow,
   .animate-aurora,
   .animate-aurora-2,
   .snowflake,
@@ -225,6 +191,11 @@ html.no-js .reveal-child {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .snowflake,
+  .animate-aurora,
+  .animate-aurora-2 {
+    display: none;
   }
 }
 

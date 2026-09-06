@@ -86,7 +86,7 @@ export function CvDocument({ lang, data = defaultCvData }: { lang: Locale; data?
             )}
           </p>
         </div>
-        <Avatar lang={lang} size={88} ring={false} className="shrink-0 rounded-full border border-zinc-200" />
+        <Avatar lang={lang} decorated={false} imgClassName="rounded-lg" className="w-[76px] shrink-0" />
       </header>
 
       <CvSection title={t.cv.summary}>

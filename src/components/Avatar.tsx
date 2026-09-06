@@ -4,39 +4,30 @@ import { profile } from "@/content";
 
 export const AVATAR_SRC = "/avatar.webp";
 
-/** Round portrait with a slowly rotating accent ring. `size` in px. */
+/** Portrait-ratio photo (9:16 intrinsic), optionally glowing and floating. */
 export function Avatar({
   lang,
-  size = 208,
-  ring = true,
   className = "",
+  imgClassName = "rounded-2xl",
+  decorated = true,
+  priority = false,
 }: {
   lang: Locale;
-  size?: number;
-  ring?: boolean;
   className?: string;
+  imgClassName?: string;
+  decorated?: boolean;
+  priority?: boolean;
 }) {
   return (
-    <div
-      className={`relative inline-block ${ring ? "avatar-glow animate-float" : ""} ${className}`}
-      style={{ width: size, height: size }}
-    >
-      {/*
-       * Full-circle rotating ring, absolutely positioned underneath the
-       * photo. The photo (below) is inset by its own padding so a thin
-       * band of this gradient stays visible all the way around — the ring
-       * itself never needs to shrink, so its rotation always reads as a
-       * perfect circle.
-       */}
-      {ring && <span aria-hidden="true" className="avatar-ring animate-spin-slow" />}
+    <div className={`relative ${decorated ? "avatar-glow animate-float" : ""} ${className}`}>
       <Image
         src={AVATAR_SRC}
         alt={profile.name[lang]}
-        width={size}
-        height={size}
-        priority={ring}
-        className="relative rounded-full object-cover"
-        style={{ width: size, height: size, padding: ring ? 4 : 0, boxSizing: "border-box" }}
+        width={640}
+        height={1137}
+        priority={priority}
+        sizes="(min-width: 768px) 260px, 220px"
+        className={`h-auto w-full object-cover ring-1 ring-white/10 ${imgClassName}`}
       />
     </div>
   );
