@@ -67,8 +67,11 @@ describe("ProjectCard", () => {
     expect(img).not.toBeNull();
     expect(img).toHaveAttribute("src", expect.stringContaining("/e-geree.svg"));
     expect(img).toHaveAttribute("alt", "");
+    expect(img!.closest("span")).toHaveClass("absolute");
+    expect(screen.getByRole("heading", { name: "Demo" })).toHaveClass("pr-24");
 
     rerender(<ProjectCard project={base} lang="en" />);
     expect(container.querySelector("img")).toBeNull();
+    expect(screen.getByRole("heading", { name: "Demo" })).not.toHaveClass("pr-24");
   });
 });
