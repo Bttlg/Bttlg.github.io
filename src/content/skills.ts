@@ -14,12 +14,7 @@ export const skills: SkillGroup[] = [
   {
     id: "mobile",
     label: { mn: "Мобайл", en: "Mobile" },
-    items: ["React Native", "Swift / SwiftUI", "MapKit", "Firebase"],
-  },
-  {
-    id: "infra",
-    label: { mn: "Cloud / Infra", en: "Cloud / Infra" },
-    items: ["AWS (S3, SQS, SNS)", "Azure Blob", "OpenTelemetry"],
+    items: ["React Native", "MapKit", "Firebase"],
   },
   {
     id: "tools",
