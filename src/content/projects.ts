@@ -107,23 +107,4 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Bttlg/ClickUp-Telegram-Bot",
     featured: false,
   },
-  {
-    slug: "data-transfer",
-    name: { mn: "Data-transfer", en: "Data-transfer" },
-    kind: "personal",
-    role: { mn: "Frontend, ганцаараа", en: "Frontend, solo" },
-    // TODO(Баттулга): Тайлбарыг шалгах (repo-ийн хамаарлаас P2P файл дамжуулалт гэж дүгнэсэн).
-    period: { from: "2022-09", to: "2022-09" },
-    summary: {
-      mn: "Браузер хооронд серверт хадгалахгүйгээр P2P (WebRTC) файл дамжуулдаг веб апп; QR кодоор холбогдоно.",
-      en: "Browser-to-browser P2P (WebRTC) file transfer web app with no server-side storage; peers connect via QR code.",
-    },
-    highlights: {
-      mn: ["Vue.js, p2pt, simple-peer-files, StreamSaver"],
-      en: ["Vue.js, p2pt, simple-peer-files, StreamSaver"],
-    },
-    stack: ["Vue.js", "WebRTC", "JavaScript"],
-    repoUrl: "https://github.com/Bttlg/Data-transfer",
-    featured: false,
-  },
 ];

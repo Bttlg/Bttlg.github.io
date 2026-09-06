@@ -257,7 +257,7 @@ export type Ui = Record<Locale, UiDict>;
 
 **Projects (work, featured):** e-geree.mn (`https://e-geree.mn`), Octagon exchange (`https://trade.octagon.mn`, `https://id.octagon.mn`), yesh.mn (`https://yesh.mn`). Live URL-уудыг хэрэгжүүлэх үед `curl`-ээр амьд эсэхийг шалгаж, үхсэн бол `liveUrl` орхино.
 
-**Projects (personal):** УБ Автобус (iOS, SwiftUI, MapKit, бодит цагийн ETA; 2026-08; App Store-д тавиагүй, repo private → линкгүй), ClickUp-Telegram bot (Python; `https://github.com/Bttlg/ClickUp-Telegram-Bot`), Data-transfer (Vue; `https://github.com/Bttlg/Data-transfer`).
+**Projects (personal):** УБ Автобус (iOS, SwiftUI, MapKit, бодит цагийн ETA; 2026-08; App Store-д тавиагүй, repo private → линкгүй), ClickUp-Telegram bot (Python; `https://github.com/Bttlg/ClickUp-Telegram-Bot`).
 
 **Skills (repo-уудаас батлагдсан):**
 - Backend: Java, Spring Boot, Spring Cloud, Spring Security/JWT, MongoDB, Redis, RabbitMQ, gRPC, WebSocket, REST/OpenAPI (springdoc), MapStruct, Feign, Resilience4j
