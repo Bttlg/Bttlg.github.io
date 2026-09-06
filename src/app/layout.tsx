@@ -22,8 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="mn" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-canvas font-sans text-fg antialiased">{children}</body>
+    <html lang="mn" className={`no-js ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-canvas font-sans text-fg antialiased">
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.remove('no-js')" }} />
+        {children}
+      </body>
     </html>
   );
 }

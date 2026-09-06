@@ -18,3 +18,25 @@ afterEach(cleanup);
 // hrefs, diverging from the static-exported site. Set it here so `<Link>` in
 // tests matches production behavior.
 process.env.__NEXT_TRAILING_SLASH = "true";
+
+// jsdom doesn't implement `window.matchMedia`. Several components (Reveal,
+// Typewriter) call it on mount to check `prefers-reduced-motion`; default to
+// "motion allowed" here so tests that don't care about that don't have to
+// stub it themselves. Tests that do care (Reveal.test.tsx, Typewriter.test.tsx)
+// override this per-test with `Object.defineProperty`.
+if (typeof window !== "undefined" && !window.matchMedia) {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+}
