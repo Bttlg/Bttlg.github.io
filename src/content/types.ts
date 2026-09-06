@@ -34,6 +34,7 @@ export interface Experience {
 export interface Project {
   slug: string;
   name: Localized;
+  logo?: { src: string; width: number; height: number };
   kind: "work" | "personal";
   role: Localized;
   period: Period;

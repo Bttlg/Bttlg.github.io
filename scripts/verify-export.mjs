@@ -17,6 +17,9 @@ const required = [
   "sitemap.xml",
   "robots.txt",
   ".nojekyll",
+  "e-geree.svg",
+  "yesh.svg",
+  "octagon.png",
 ];
 for (const file of required) {
   if (!existsSync(join(out, file))) problems.push(`missing out/${file}`);

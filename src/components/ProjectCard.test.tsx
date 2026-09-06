@@ -1,5 +1,16 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import type { ImgHTMLAttributes } from "react";
+
+// `next/image` resolves through Next's image loader (which yields
+// `/_next/image?...` URLs) unless it runs through the real Next.js build
+// pipeline, which Vitest doesn't. Production uses `images.unoptimized:
+// true` (see next.config.ts), so a plain `<img>` matches actual output.
+vi.mock("next/image", () => ({
+  // eslint-disable-next-line @next/next/no-img-element -- test stub for a build-time-only optimized component
+  default: (props: ImgHTMLAttributes<HTMLImageElement>) => <img {...props} alt={props.alt ?? ""} />,
+}));
+
 import { ProjectCard } from "./ProjectCard";
 import { ui, type Project } from "@/content";
 
@@ -46,5 +57,18 @@ describe("ProjectCard", () => {
       "href",
       "https://github.com/x/demo",
     );
+  });
+
+  it("renders the logo image when set, and none when it is absent", () => {
+    const { container, rerender } = render(
+      <ProjectCard project={{ ...base, logo: { src: "/e-geree.svg", width: 372, height: 100 } }} lang="en" />,
+    );
+    const img = container.querySelector("img");
+    expect(img).not.toBeNull();
+    expect(img).toHaveAttribute("src", expect.stringContaining("/e-geree.svg"));
+    expect(img).toHaveAttribute("alt", "");
+
+    rerender(<ProjectCard project={base} lang="en" />);
+    expect(container.querySelector("img")).toBeNull();
   });
 });

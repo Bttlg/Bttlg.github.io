@@ -5,6 +5,7 @@ export const projects: Project[] = [
   {
     slug: "e-geree",
     name: { mn: "e-geree.mn", en: "e-geree.mn" },
+    logo: { src: "/e-geree.svg", width: 372, height: 100 },
     kind: "work",
     role: { mn: "Backend архитектур, full-stack", en: "Backend architecture, full-stack" },
     period: { from: "2023-03", to: null },
@@ -31,6 +32,7 @@ export const projects: Project[] = [
   {
     slug: "octagon",
     name: { mn: "Octagon веб бүтээгдэхүүнүүд", en: "Octagon web products" },
+    logo: { src: "/octagon.png", width: 512, height: 161 },
     kind: "work",
     role: { mn: "Frontend, exchange API", en: "Frontend, exchange API" },
     period: { from: "2022-04", to: "2026-08" },
@@ -55,6 +57,7 @@ export const projects: Project[] = [
   {
     slug: "yesh",
     name: { mn: "yesh.mn", en: "yesh.mn" },
+    logo: { src: "/yesh.svg", width: 74, height: 30 },
     kind: "work",
     role: { mn: "Frontend", en: "Frontend" },
     period: { from: "2022-06", to: "2025-05" },

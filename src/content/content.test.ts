@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { profile, experience, projects, skills, education, ui, experienceStart } from "./index";
 
 type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
@@ -87,6 +89,16 @@ describe("content: identifiers and URLs", () => {
   });
   it("email looks like an email", () => {
     expect(profile.email).toMatch(/^[^@\s]+@[^@\s]+\.[^@\s]+$/);
+  });
+  it("project logos point at files that exist in public/", () => {
+    projects.forEach((p) => {
+      if (!p.logo) return;
+      expect(p.logo.src, `projects.${p.slug}.logo.src`).toMatch(/^\//);
+      expect(
+        existsSync(join(process.cwd(), "public", p.logo.src)),
+        `projects.${p.slug}.logo.src (${p.logo.src}) does not exist in public/`,
+      ).toBe(true);
+    });
   });
 });
 

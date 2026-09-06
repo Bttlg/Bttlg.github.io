@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Locale } from "@/lib/i18n";
 import { formatPeriod } from "@/lib/dates";
 import { ui, type Project } from "@/content";
@@ -12,6 +13,11 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
 
   return (
     <article className="flex h-full flex-col rounded-lg border border-border bg-surface/60 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_12px_40px_-16px_rgba(52,211,153,0.35)]">
+      {project.logo && (
+        <span className="mb-3 inline-flex h-9 items-center rounded-md bg-white px-2.5 shadow-sm ring-1 ring-black/5">
+          <Image src={project.logo.src} alt="" width={project.logo.width} height={project.logo.height} className="h-5 w-auto" />
+        </span>
+      )}
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold text-fg">{project.name[lang]}</h3>
         <span className="shrink-0 font-mono text-xs text-muted">{formatPeriod(project.period, lang, t.cv.present)}</span>
