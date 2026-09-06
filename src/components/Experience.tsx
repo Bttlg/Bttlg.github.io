@@ -25,7 +25,9 @@ export function Experience({ lang }: { lang: Locale }) {
           <li key={entry.id} className="relative pb-10 last:pb-0">
             <span
               aria-hidden="true"
-              className="absolute top-1.5 -left-[29px] h-3 w-3 rounded-full border-2 border-accent bg-canvas"
+              className={`absolute top-1.5 -left-[29px] h-3 w-3 rounded-full border-2 border-accent bg-canvas ${
+                entry.period.to === null ? "animate-pulse-ring" : ""
+              }`}
             />
             <p className="font-mono text-xs text-muted">{formatPeriod(entry.period, lang, t.cv.present)}</p>
             <h3 className="mt-1 text-lg font-semibold text-fg">

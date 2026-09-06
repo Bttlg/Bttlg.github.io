@@ -11,7 +11,7 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
   const highlights = project.highlights[lang].slice(0, MAX_HIGHLIGHTS);
 
   return (
-    <article className="flex h-full flex-col rounded-lg border border-border bg-surface/60 p-5 transition-colors hover:border-accent/60">
+    <article className="flex h-full flex-col rounded-lg border border-border bg-surface/60 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_12px_40px_-16px_rgba(52,211,153,0.35)]">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-lg font-semibold text-fg">{project.name[lang]}</h3>
         <span className="shrink-0 font-mono text-xs text-muted">{formatPeriod(project.period, lang, t.cv.present)}</span>

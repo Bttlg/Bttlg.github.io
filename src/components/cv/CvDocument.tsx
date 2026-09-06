@@ -15,6 +15,7 @@ import {
   type Education,
 } from "@/content";
 import { sortFeaturedFirst } from "@/components/Projects";
+import { Avatar } from "@/components/Avatar";
 
 export interface CvData {
   profile: Profile;
@@ -56,23 +57,36 @@ export function CvDocument({ lang, data = defaultCvData }: { lang: Locale; data?
       lang={lang}
       className="mx-auto max-w-[210mm] rounded-lg bg-white p-8 text-zinc-900 shadow-xl sm:p-12 print:max-w-none print:rounded-none print:p-0 print:shadow-none"
     >
-      <header className="border-b border-zinc-200 pb-6">
-        <h1 className="text-3xl font-bold tracking-tight">{p.name[lang]}</h1>
-        <p className="mt-1 text-lg text-zinc-600">{p.title[lang]}</p>
-        <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-600">
-          <span>{p.location[lang]}</span>
-          <a href={`mailto:${p.email}`} className="underline-offset-2 hover:underline">
-            {p.email}
-          </a>
-          <a href={p.github} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
-            {stripScheme(p.github)}
-          </a>
-          {p.linkedin && (
-            <a href={p.linkedin} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
-              {stripScheme(p.linkedin)}
+      <header className="flex items-start justify-between gap-6 border-b border-zinc-200 pb-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{p.name[lang]}</h1>
+          <p className="mt-1 text-lg text-zinc-600">{p.title[lang]}</p>
+          <p className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-600">
+            <span>{p.location[lang]}</span>
+            <a href={`mailto:${p.email}`} className="underline-offset-2 hover:underline">
+              {p.email}
             </a>
-          )}
-        </p>
+            <a
+              href={p.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline-offset-2 hover:underline"
+            >
+              {stripScheme(p.github)}
+            </a>
+            {p.linkedin && (
+              <a
+                href={p.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-offset-2 hover:underline"
+              >
+                {stripScheme(p.linkedin)}
+              </a>
+            )}
+          </p>
+        </div>
+        <Avatar lang={lang} size={88} ring={false} className="shrink-0 rounded-full border border-zinc-200" />
       </header>
 
       <CvSection title={t.cv.summary}>

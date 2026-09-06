@@ -22,7 +22,10 @@ export function Nav({ lang }: { lang: Locale }) {
           <ul className="hidden items-center gap-4 font-mono text-sm text-muted md:flex">
             {SECTION_IDS.map((id) => (
               <li key={id}>
-                <Link href={`${home}#${id}`} className="hover:text-fg">
+                <Link
+                  href={`${home}#${id}`}
+                  className="relative hover:text-fg after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
+                >
                   {t.nav[id]}
                 </Link>
               </li>
