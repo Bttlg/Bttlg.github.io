@@ -3,6 +3,7 @@ import { localePath, type Locale } from "@/lib/i18n";
 import { profile, ui } from "@/content";
 import { SocialLinks } from "./SocialLinks";
 import { Avatar } from "./Avatar";
+import { Icon } from "./Icon";
 import { Typewriter } from "./Typewriter";
 
 export function Hero({ lang }: { lang: Locale }) {
@@ -18,26 +19,30 @@ export function Hero({ lang }: { lang: Locale }) {
           <p className="fade-up font-mono text-sm text-accent">
             <Typewriter text={t.hero.prompt} />
           </p>
-          <h1 id="hero-title" className="fade-up d1 mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
+          <h1 id="hero-title" className="fade-up d1 mt-4 text-4xl leading-display font-bold tracking-display text-balance text-fg sm:text-5xl">
             {profile.name[lang]}
           </h1>
           <p className="fade-up d2 mt-3 font-mono text-lg text-muted">{profile.title[lang]}</p>
-          <p className="fade-up d3 mt-6 max-w-2xl text-lg leading-relaxed text-muted">{profile.tagline[lang]}</p>
+          <p className="fade-up d3 mt-6 max-w-2xl text-lg leading-relaxed text-fg-soft text-pretty">{profile.tagline[lang]}</p>
           <div className="fade-up d4 mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#projects"
-              className="rounded-md bg-accent px-4 py-2 font-medium text-canvas transition-shadow hover:opacity-90 hover:shadow-[0_0_28px_-6px_var(--color-accent)]"
+              className="pressable inline-flex h-10 items-center rounded-md bg-accent px-4 text-sm font-semibold text-canvas shadow-cta hover:brightness-110 hover:shadow-cta-hover"
             >
               {t.actions.viewProjects}
             </a>
             <Link
               href={localePath(lang, "/cv")}
-              className="rounded-md border border-border px-4 py-2 font-medium text-fg transition-colors hover:border-accent"
+              className="pressable inline-flex h-10 items-center rounded-md bg-surface/60 px-4 text-sm font-semibold text-fg shadow-pill hover:bg-surface hover:shadow-card"
             >
               {t.actions.viewCv}
             </Link>
-            <a href="#contact" className="px-2 py-2 font-medium text-muted hover:text-fg">
-              {t.actions.contactMe} →
+            <a
+              href="#contact"
+              className="inline-flex h-10 items-center gap-1.5 px-2 text-sm font-medium text-muted transition-colors hover:text-fg"
+            >
+              {t.actions.contactMe}
+              <Icon name="arrow" className="h-4 w-4" />
             </a>
           </div>
           <div className="fade-up d5 mt-8">

@@ -28,7 +28,7 @@ export function SocialLinks({ lang, showLabels = false }: { lang: Locale; showLa
           <a
             href={item.href}
             aria-label={showLabels ? undefined : item.label}
-            className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent"
+            className="-m-2 inline-flex items-center gap-2 rounded-md p-2 font-mono text-sm text-muted transition-colors hover:text-fg"
             {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
             <Icon name={item.icon} className="h-5 w-5" />

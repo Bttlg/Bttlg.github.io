@@ -20,6 +20,19 @@ describe("SocialLinks", () => {
     expect(screen.queryByRole("link", { name: "LinkedIn" })).toBeNull();
   });
 
+  it("pads each link to a 36px hit target without moving it, and eases the colour hover", () => {
+    render(<SocialLinks lang="en" />);
+    for (const link of screen.getAllByRole("link")) {
+      // Padding grows the target; the negative margin cancels it in the flow.
+      expect(link).toHaveClass("p-2");
+      expect(link).toHaveClass("-m-2");
+      expect(link).toHaveClass("rounded-md");
+      expect(link).toHaveClass("transition-colors");
+      expect(link).toHaveClass("hover:text-fg");
+      expect(link).not.toHaveClass("hover:text-accent");
+    }
+  });
+
   it("uses aria-labels when labels are hidden", () => {
     render(<SocialLinks lang="mn" />);
     expect(screen.getByRole("link", { name: "GitHub" })).toBeInTheDocument();
