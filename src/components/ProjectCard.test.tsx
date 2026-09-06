@@ -67,11 +67,12 @@ describe("ProjectCard", () => {
     expect(img).not.toBeNull();
     expect(img).toHaveAttribute("src", expect.stringContaining("/e-geree.svg"));
     expect(img).toHaveAttribute("alt", "");
-    expect(img!.closest("span")).toHaveClass("absolute");
-    expect(screen.getByRole("heading", { name: "Demo" })).toHaveClass("pr-24");
+    // The tile sits in normal flow, directly before the name in the same row.
+    const tile = img!.closest("span")!;
+    expect(tile).not.toHaveClass("absolute");
+    expect(tile.nextElementSibling).toBe(screen.getByRole("heading", { name: "Demo" }));
 
     rerender(<ProjectCard project={base} lang="en" />);
     expect(container.querySelector("img")).toBeNull();
-    expect(screen.getByRole("heading", { name: "Demo" })).not.toHaveClass("pr-24");
   });
 });
