@@ -24,7 +24,7 @@ export function Nav({ lang }: { lang: Locale }) {
               <li key={id}>
                 <Link
                   href={`${home}#${id}`}
-                  className="relative hover:text-fg after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative hover:text-fg after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full focus-visible:after:w-full"
                 >
                   {t.nav[id]}
                 </Link>

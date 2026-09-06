@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * Fades and slides its children in once they scroll into view. Skips the
@@ -10,14 +10,11 @@ import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
 export function Reveal({
   children,
   className = "",
-  as = "div",
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "section";
 }) {
-  const Tag = as;
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -58,13 +55,8 @@ export function Reveal({
   }, []);
 
   return (
-    // `Tag` is polymorphic ("div" | "section"); both resolve to a plain
-    // HTMLElement at runtime for everything this component does with the
-    // ref (assign `.current`, pass to `IntersectionObserver.observe`), so
-    // this cast just works around JSX's per-tag ref type not distributing
-    // over that union.
-    <Tag ref={ref as Ref<HTMLDivElement>} className={`reveal ${visible ? "is-visible" : ""} ${className}`}>
+    <div ref={ref} className={`reveal ${visible ? "is-visible" : ""} ${className}`}>
       {children}
-    </Tag>
+    </div>
   );
 }

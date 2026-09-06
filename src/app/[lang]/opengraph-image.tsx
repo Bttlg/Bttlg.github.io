@@ -7,9 +7,12 @@ import { SITE_HOST } from "@/lib/site";
 import { profile } from "@/content";
 
 // Satori (the OG-image renderer) doesn't support WebP, so the avatar is
-// only embedded here when a JPEG copy exists alongside it. Neither file is
-// required — the layout degrades to text-only when there's no photo yet.
-const AVATAR_JPG_PATH = join(process.cwd(), "public/avatar.jpg");
+// only embedded here when a JPEG copy exists. That copy lives outside
+// `public/` (in `assets/`) so it never gets published as a standalone file
+// in the static export — it's only ever inlined as a data URL below.
+// Neither file is required — the layout degrades to text-only when there's
+// no photo yet.
+const AVATAR_JPG_PATH = join(process.cwd(), "assets/avatar-og.jpg");
 
 async function avatarDataUrl(): Promise<string | null> {
   if (!existsSync(AVATAR_JPG_PATH)) return null;
@@ -65,9 +68,9 @@ export default async function Image({ params }: { params: Promise<{ lang: string
           // Satori (this route's offline renderer) needs a plain <img>; next/image doesn't apply here.
           <img
             src={avatar}
-            width={280}
-            height={280}
-            style={{ borderRadius: 140, objectFit: "cover", border: "8px solid #34d399" }}
+            width={270}
+            height={480}
+            style={{ borderRadius: 28, objectFit: "cover", border: "5px solid #34d399" }}
             alt=""
           />
         )}

@@ -20,6 +20,7 @@ const required = [
   "e-geree.svg",
   "yesh.svg",
   "octagon.png",
+  "avatar.webp",
 ];
 for (const file of required) {
   if (!existsSync(join(out, file))) problems.push(`missing out/${file}`);
@@ -52,8 +53,15 @@ for (const [file, needle] of contains) {
 
 if (!existsSync(out)) {
   problems.push("missing out/ directory (run `npm run build` first)");
-} else if (!readdirSync(out).some((f) => f.startsWith("icon") && f.endsWith(".svg"))) {
-  problems.push("missing out/icon*.svg");
+} else {
+  if (!readdirSync(out).some((f) => f.startsWith("icon") && f.endsWith(".svg"))) {
+    problems.push("missing out/icon*.svg");
+  }
+  // The OG-image source JPEG (assets/avatar-og.jpg) must never end up
+  // published as a standalone static-export file.
+  if (existsSync(join(out, "avatar.jpg"))) {
+    problems.push("out/avatar.jpg must not be published (OG source photo leaked into the static export)");
+  }
 }
 
 if (problems.length > 0) {

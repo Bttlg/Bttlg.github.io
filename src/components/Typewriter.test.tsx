@@ -33,16 +33,23 @@ describe("Typewriter", () => {
   it("types the text one character at a time when motion is allowed", () => {
     vi.useFakeTimers();
     mockMatchMedia(false);
-    render(<Typewriter text="hi" speedMs={70} />);
+    const text = "hello";
+    render(<Typewriter text={text} speedMs={70} />);
 
     const typed = () => screen.getByTestId("typewriter-text");
     // Right after mount, nothing has been typed yet.
     expect(typed().textContent).toBe("");
 
     act(() => {
-      vi.advanceTimersByTime(70 * 2 + 10);
+      vi.advanceTimersByTime(70 * 3 + 10);
     });
-    expect(typed().textContent).toBe("hi");
+    // Partway through, only the first few characters have appeared.
+    expect(typed().textContent).toBe(text.slice(0, 3));
+
+    act(() => {
+      vi.advanceTimersByTime(70 * (text.length - 3) + 10);
+    });
+    expect(typed().textContent).toBe(text);
 
     vi.useRealTimers();
   });
