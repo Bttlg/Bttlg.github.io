@@ -67,10 +67,10 @@ describe("ProjectCard", () => {
     expect(img).not.toBeNull();
     expect(img).toHaveAttribute("src", expect.stringContaining("/e-geree.svg"));
     expect(img).toHaveAttribute("alt", "");
-    // The tile sits in normal flow, directly before the name in the same row.
+    // The tile is its own row above the name/period row, in normal flow.
     const tile = img!.closest("span")!;
     expect(tile).not.toHaveClass("absolute");
-    expect(tile.nextElementSibling).toBe(screen.getByRole("heading", { name: "Demo" }));
+    expect(tile.nextElementSibling).toContainElement(screen.getByRole("heading", { name: "Demo" }));
 
     rerender(<ProjectCard project={base} lang="en" />);
     expect(container.querySelector("img")).toBeNull();
