@@ -4,7 +4,6 @@ import { profile, ui } from "@/content";
 import { SocialLinks } from "./SocialLinks";
 import { Avatar } from "./Avatar";
 import { Typewriter } from "./Typewriter";
-import { Snow } from "./Snow";
 
 export function Hero({ lang }: { lang: Locale }) {
   const t = ui[lang];
@@ -14,7 +13,6 @@ export function Hero({ lang }: { lang: Locale }) {
       aria-labelledby="hero-title"
       className="relative -mx-4 px-4 pt-20 pb-12 sm:-mx-6 sm:px-6 sm:pt-28"
     >
-      <Snow />
       <div className="relative grid gap-10 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="fade-up font-mono text-sm text-accent">

@@ -23,6 +23,7 @@ body {
   background-color: var(--color-canvas);
   background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
   background-size: 24px 24px;
+  background-attachment: fixed;
 }
 
 /* Keyboard focus is always visible, in accent. */
@@ -119,6 +120,11 @@ body {
   }
 }
 
+/* Sits above the body's dotted-grid background and below all page content. */
+.snow-layer {
+  z-index: -1;
+}
+
 .snowflake {
   position: absolute;
   top: -10vh;
@@ -128,6 +134,23 @@ body {
   height: var(--size);
   opacity: var(--opacity);
   animation: snow-fall var(--dur) linear infinite var(--delay);
+}
+
+/* Cursor-following accent glow; same stacking layer as the snow, painted
+   after it in the DOM so it sits on top of the snow but still behind
+   content, so it never tints text. */
+.spotlight {
+  z-index: -1;
+  background: radial-gradient(
+    600px circle at var(--sx) var(--sy),
+    color-mix(in oklab, var(--color-accent) 8%, transparent),
+    transparent 60%
+  );
+}
+
+/* Scroll progress bar: transformed on every scroll frame. */
+.scroll-progress {
+  will-change: transform;
 }
 
 @keyframes pulse-ring {
@@ -171,8 +194,19 @@ body {
   transform: none;
 }
 
+/* Timeline marker pops in just after its (possibly staggered) entry. */
+.reveal .timeline-dot {
+  transform: scale(0);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--reveal-delay, 0ms) + 0.15s);
+}
+
+.reveal.is-visible .timeline-dot {
+  transform: scale(1);
+}
+
 html.no-js .reveal,
-html.no-js .reveal-child {
+html.no-js .reveal-child,
+html.no-js .reveal .timeline-dot {
   opacity: 1;
   transform: none;
 }
@@ -183,7 +217,6 @@ html.no-js .reveal-child {
   }
   .fade-up,
   .animate-float,
-  .snowflake,
   .animate-pulse-ring,
   .cursor-blink {
     animation: none;
@@ -201,7 +234,11 @@ html.no-js .reveal-child {
     transform: none;
     transition: none;
   }
-  .snowflake {
+  .reveal .timeline-dot {
+    transform: none;
+    transition: none;
+  }
+  .snow-layer {
     display: none;
   }
 }
@@ -221,8 +258,5 @@ html.no-js .reveal-child {
   a {
     color: inherit;
     text-decoration: none;
-  }
-  .snowflake {
-    display: none !important;
   }
 }

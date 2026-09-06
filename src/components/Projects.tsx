@@ -2,6 +2,8 @@ import type { Locale } from "@/lib/i18n";
 import { projects, ui, type Project } from "@/content";
 import { Section } from "./Section";
 import { ProjectCard } from "./ProjectCard";
+import { Reveal } from "./Reveal";
+import { staggerDelay } from "@/lib/stagger";
 
 /** Stable sort: featured projects first, original order otherwise. */
 export function sortFeaturedFirst(list: Project[]): Project[] {
@@ -16,8 +18,10 @@ function Group({ id, title, items, lang }: { id: string; title: string; items: P
         {title}
       </h3>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {items.map((project) => (
-          <ProjectCard key={project.slug} project={project} lang={lang} />
+        {items.map((project, index) => (
+          <Reveal key={project.slug} delay={staggerDelay(index)} className="h-full">
+            <ProjectCard project={project} lang={lang} />
+          </Reveal>
         ))}
       </div>
     </section>

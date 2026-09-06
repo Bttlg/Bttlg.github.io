@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Experience, sortExperience } from "./Experience";
 import { experience } from "@/content";
 import type { Experience as ExperienceEntry } from "@/content";
+import { staggerDelay } from "@/lib/stagger";
 
 function mk(id: string, from: string, to: string | null): ExperienceEntry {
   return {
@@ -34,5 +35,28 @@ describe("Experience", () => {
     const sorted = sortExperience(experience);
     const items = screen.getAllByRole("listitem");
     expect(items[0]).toHaveTextContent(sorted[0].company.en);
+  });
+
+  it("wraps each timeline entry in a staggered Reveal that carries its own marker", () => {
+    const { container } = render(<Experience lang="en" />);
+    const sorted = sortExperience(experience);
+    const entries = Array.from(container.querySelectorAll<HTMLLIElement>("#experience ol > li"));
+    expect(entries).toHaveLength(sorted.length);
+
+    entries.forEach((entry, index) => {
+      const reveal = entry.querySelector<HTMLElement>(":scope > .reveal");
+      expect(reveal).not.toBeNull();
+      const delay = staggerDelay(index);
+      expect(reveal!.style.transitionDelay).toBe(delay > 0 ? `${delay}ms` : "");
+
+      const dot = reveal!.querySelector(".timeline-dot");
+      expect(dot).not.toBeNull();
+      expect(dot).toHaveAttribute("aria-hidden", "true");
+      if (sorted[index].period.to === null) {
+        expect(dot).toHaveClass("animate-pulse-ring");
+      } else {
+        expect(dot).not.toHaveClass("animate-pulse-ring");
+      }
+    });
   });
 });

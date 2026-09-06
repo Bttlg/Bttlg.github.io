@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 /**
  * Fades and slides its children in once they scroll into view. Skips the
@@ -10,9 +10,16 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export function Reveal({
   children,
   className = "",
+  delay,
 }: {
   children: ReactNode;
   className?: string;
+  /**
+   * Extra transition delay in milliseconds (staggered lists), applied only
+   * when > 0. Also exposed as `--reveal-delay` so descendants (the timeline
+   * marker) can time their own transitions after the entry's.
+   */
+  delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -55,7 +62,15 @@ export function Reveal({
   }, []);
 
   return (
-    <div ref={ref} className={`reveal ${visible ? "is-visible" : ""} ${className}`}>
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      style={
+        delay && delay > 0
+          ? ({ transitionDelay: `${delay}ms`, "--reveal-delay": `${delay}ms` } as CSSProperties)
+          : undefined
+      }
+    >
       {children}
     </div>
   );

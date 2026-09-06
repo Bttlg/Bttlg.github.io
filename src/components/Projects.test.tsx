@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { Projects, sortFeaturedFirst } from "./Projects";
 import { projects, ui, type Project } from "@/content";
+import { staggerDelay } from "@/lib/stagger";
 
 describe("sortFeaturedFirst", () => {
   it("puts featured first and keeps original order otherwise", () => {
@@ -30,5 +31,20 @@ describe("Projects", () => {
     expect(within(personal).getAllByRole("article")).toHaveLength(
       projects.filter((p) => p.kind === "personal").length,
     );
+  });
+
+  it("wraps each card in its own Reveal, staggered by position within its group", () => {
+    render(<Projects lang="en" />);
+    for (const name of [ui.en.sections.work, ui.en.sections.personal]) {
+      const group = screen.getByRole("region", { name });
+      const cards = within(group).getAllByRole("article");
+      cards.forEach((card, index) => {
+        const reveal = card.parentElement as HTMLElement;
+        expect(reveal).toHaveClass("reveal");
+        expect(reveal).toHaveClass("h-full");
+        const delay = staggerDelay(index);
+        expect(reveal.style.transitionDelay).toBe(delay > 0 ? `${delay}ms` : "");
+      });
+    }
   });
 });

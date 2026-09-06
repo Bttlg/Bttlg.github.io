@@ -6,6 +6,9 @@ import { alternatesFor, socialMetadata } from "@/lib/seo";
 import { profile } from "@/content";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { Snow } from "@/components/Snow";
+import { Spotlight } from "@/components/Spotlight";
 
 type Params = Promise<{ lang: string }>;
 
@@ -39,6 +42,9 @@ export default async function LangLayout({ children, params }: { children: React
 
   return (
     <div lang={lang} className="flex min-h-screen flex-col">
+      <ScrollProgress />
+      <Snow />
+      <Spotlight />
       <Nav lang={lang} />
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 break-words sm:px-6">{children}</main>
       <Footer lang={lang} />

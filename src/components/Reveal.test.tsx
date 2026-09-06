@@ -90,4 +90,34 @@ describe("Reveal", () => {
     const el = screen.getByText("reduced").closest(".reveal");
     expect(el).toHaveClass("is-visible");
   });
+
+  it("applies the delay as transition-delay and exposes it as --reveal-delay for descendants", () => {
+    mockMatchMedia(true);
+    render(
+      <Reveal delay={120}>
+        <p>delayed</p>
+      </Reveal>,
+    );
+    const el = screen.getByText("delayed").closest(".reveal") as HTMLElement;
+    expect(el.style.transitionDelay).toBe("120ms");
+    expect(el.style.getPropertyValue("--reveal-delay")).toBe("120ms");
+  });
+
+  it("sets no inline delay by default or for a zero delay", () => {
+    mockMatchMedia(true);
+    render(
+      <>
+        <Reveal>
+          <p>no delay</p>
+        </Reveal>
+        <Reveal delay={0}>
+          <p>zero delay</p>
+        </Reveal>
+      </>,
+    );
+    for (const text of ["no delay", "zero delay"]) {
+      const el = screen.getByText(text).closest(".reveal") as HTMLElement;
+      expect(el.getAttribute("style")).toBeNull();
+    }
+  });
 });
