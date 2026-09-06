@@ -40,3 +40,12 @@ describe("CvDocument", () => {
     expect(names).toEqual(expected);
   });
 });
+
+describe("CvDocument photo", () => {
+  it("renders the photo plain: no beam frame and no float", () => {
+    const { container } = render(<CvDocument lang="en" />);
+    expect(container.querySelector("img")).not.toBeNull();
+    expect(container.querySelector(".beam-frame")).toBeNull();
+    expect(container.querySelector(".animate-float")).toBeNull();
+  });
+});

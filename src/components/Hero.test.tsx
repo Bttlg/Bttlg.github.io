@@ -20,4 +20,12 @@ describe("Hero", () => {
       expect.stringContaining("/avatar.webp"),
     );
   });
+
+  it("frames the photo with the beam instead of an aurora backdrop or glow", () => {
+    const { container } = render(<Hero lang="en" />);
+    expect(container.querySelector(".beam-frame")).not.toBeNull();
+    expect(container.querySelector('[class*="animate-aurora"]')).toBeNull();
+    expect(container.querySelector('[class*="avatar-glow"]')).toBeNull();
+    expect(container.querySelector('[class*="blur-"]')).toBeNull();
+  });
 });

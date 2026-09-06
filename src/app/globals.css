@@ -79,25 +79,32 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-@keyframes aurora {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(40px, -30px) scale(1.15);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
+/* Thin accent light traveling around the avatar photo. The frame clips an
+   oversized rotating conic gradient (its ::before); the image covers
+   everything but the 2px padding, so only a thin rim of the beam shows.
+   The pseudo-element is 3x the frame so the rotating box always covers the
+   frame's corners, whatever the photo's aspect ratio. */
+.beam-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 2px;
 }
 
-.animate-aurora {
-  animation: aurora 18s ease-in-out infinite;
+.beam-frame::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  z-index: -1;
+  background: conic-gradient(from 0deg, transparent 0 72%, var(--color-accent) 88%, transparent 100%);
+  animation: beam-spin 4s linear infinite;
 }
 
-.animate-aurora-2 {
-  animation: aurora 22s ease-in-out infinite;
-  animation-delay: -9s;
+@keyframes beam-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes snow-fall {
@@ -151,10 +158,6 @@ body {
   animation: blink 1s steps(1) infinite;
 }
 
-.avatar-glow {
-  box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--color-accent) 45%, transparent);
-}
-
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -180,21 +183,25 @@ html.no-js .reveal-child {
   }
   .fade-up,
   .animate-float,
-  .animate-aurora,
-  .animate-aurora-2,
   .snowflake,
   .animate-pulse-ring,
   .cursor-blink {
     animation: none;
+  }
+  /* No traveling light: a static, hairline rim instead. */
+  .beam-frame {
+    padding: 1px;
+  }
+  .beam-frame::before {
+    animation: none;
+    background: rgb(255 255 255 / 0.15);
   }
   .reveal {
     opacity: 1;
     transform: none;
     transition: none;
   }
-  .snowflake,
-  .animate-aurora,
-  .animate-aurora-2 {
+  .snowflake {
     display: none;
   }
 }
@@ -215,9 +222,7 @@ html.no-js .reveal-child {
     color: inherit;
     text-decoration: none;
   }
-  .snowflake,
-  .animate-aurora,
-  .animate-aurora-2 {
+  .snowflake {
     display: none !important;
   }
 }

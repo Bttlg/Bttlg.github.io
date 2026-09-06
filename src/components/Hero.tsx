@@ -12,17 +12,9 @@ export function Hero({ lang }: { lang: Locale }) {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative -mx-4 overflow-hidden px-4 pt-20 pb-12 sm:-mx-6 sm:px-6 sm:pt-28"
+      className="relative -mx-4 px-4 pt-20 pb-12 sm:-mx-6 sm:px-6 sm:pt-28"
     >
       <Snow />
-      <div
-        aria-hidden="true"
-        className="animate-aurora pointer-events-none absolute -top-32 -left-24 h-80 w-80 rounded-full bg-accent/15 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="animate-aurora-2 pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-accent/10 blur-3xl"
-      />
       <div className="relative grid gap-10 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="fade-up font-mono text-sm text-accent">
