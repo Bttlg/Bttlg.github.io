@@ -31,4 +31,24 @@ describe("Nav", () => {
     expect(classes.filter((c) => /(^|:)duration-/.test(c))).toEqual(["after:duration-200"]);
     expect(screen.getByRole("link", { name: ui.en.brand })).toHaveClass("transition-colors");
   });
+
+  it("renders the header as a translucent material: no hard bottom border, no bespoke blur utilities", () => {
+    render(<Nav lang="en" />);
+    const header = screen.getByRole("banner");
+    expect(header).toHaveClass("nav-material");
+    expect(header.className).not.toMatch(/border-b|bg-canvas|backdrop-blur/);
+  });
+
+  it("builds the CV pill on the shared pressable surface, with no transition utility of its own", () => {
+    render(<Nav lang="en" />);
+    const cv = screen.getByRole("link", { name: ui.en.nav.cv });
+    const classes = cv.className.split(/\s+/);
+    // `.pressable` owns the transition list; `inline-flex` lets its press scale apply to the <a>.
+    expect(classes.slice(0, 2)).toEqual(["pressable", "inline-flex"]);
+    expect(cv).toHaveClass("shadow-pill");
+    expect(classes.filter((c) => /(^|:)transition-/.test(c))).toEqual([]);
+    expect(classes.filter((c) => /(^|:)border(-|$)/.test(c))).toEqual([]);
+    // The bar keeps one accent (the progress line): the pill hovers by surface, not by colour.
+    expect(cv).not.toHaveClass("hover:text-accent");
+  });
 });

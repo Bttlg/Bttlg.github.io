@@ -25,6 +25,21 @@ describe("LangSwitch", () => {
     expect(screen.getByRole("link", { name: "MN" })).toHaveAttribute("href", "/mn/");
   });
 
+  it("separates the locales with a hairline, not a glyph, and eases the link's colour hover", () => {
+    usePathname.mockReturnValue("/en/");
+    const { container } = render(<LangSwitch lang="en" />);
+    const group = screen.getByRole("group", { name: "Language" });
+    expect(group.textContent).toBe("MNEN");
+    const divider = container.querySelector('[aria-hidden="true"]');
+    expect(divider).not.toBeNull();
+    expect(divider).toHaveClass("w-px");
+    expect(divider).toBeEmptyDOMElement();
+    const link = screen.getByRole("link", { name: "MN" });
+    expect(link).toHaveClass("transition-colors");
+    expect(link).toHaveClass("hover:text-fg");
+    expect(link).not.toHaveClass("hover:text-accent");
+  });
+
   it("remembers the chosen locale", () => {
     usePathname.mockReturnValue("/mn/");
     render(<LangSwitch lang="mn" />);

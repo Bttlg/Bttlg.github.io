@@ -37,16 +37,19 @@ html {
 
 body {
   background-color: var(--color-canvas);
-  background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
   background-size: 24px 24px;
-  background-attachment: fixed;
 }
 
-/* Keyboard focus is always visible, in accent. */
-:where(a, button, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: 0.25rem;
+/* Keyboard focus is always visible, in accent. Layered under utilities so a
+   control's own rounded-* keeps its corners; the radius here is only the
+   fallback for bare links. */
+@layer base {
+  :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
 }
 
 /* Any button-like control: exact transition list (never `all`); colour/shadow
@@ -140,6 +143,32 @@ body {
 @keyframes beam-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Translucent chrome: content scrolls under it; bright top edge instead of a
+   hard bottom border, plus a scroll-edge fade below (canvas-on-canvas over
+   the empty hero top, so invisible until content passes under). No Tailwind
+   variant exists for prefers-reduced-transparency, hence raw CSS. */
+.nav-material {
+  background: color-mix(in oklab, var(--color-canvas) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
+.nav-material::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 24px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--color-canvas) 55%, transparent), transparent);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nav-material {
+    background: var(--color-canvas);
+    backdrop-filter: none;
   }
 }
 
@@ -239,10 +268,6 @@ html.no-js .reveal > .timeline-dot {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  /* No scroll-linked parallax: the dotted grid scrolls with the page. */
-  body {
-    background-attachment: scroll;
   }
   /* Gentler, not zero: the hero still fades in, without movement or blur. */
   .fade-up {

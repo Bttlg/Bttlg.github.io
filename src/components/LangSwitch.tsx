@@ -13,11 +13,7 @@ export function LangSwitch({ lang }: { lang: Locale }) {
     <div className="flex items-center font-mono text-sm" role="group" aria-label="Language">
       {LOCALES.map((locale, index) => (
         <span key={locale} className="flex items-center">
-          {index > 0 && (
-            <span className="px-1.5 text-border" aria-hidden="true">
-              |
-            </span>
-          )}
+          {index > 0 && <span className="mx-1.5 h-3 w-px bg-white/15" aria-hidden="true" />}
           {locale === lang ? (
             <span className="text-fg" aria-current="true">
               {locale.toUpperCase()}
@@ -27,7 +23,7 @@ export function LangSwitch({ lang }: { lang: Locale }) {
               href={localePath(locale, sub)}
               hrefLang={locale}
               lang={locale}
-              className="text-muted hover:text-accent"
+              className="text-muted transition-colors hover:text-fg"
               onClick={() => {
                 try {
                   localStorage.setItem("locale", locale);

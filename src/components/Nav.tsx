@@ -10,7 +10,7 @@ export function Nav({ lang }: { lang: Locale }) {
   const home = localePath(lang);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-canvas/80 backdrop-blur print:hidden">
+    <header className="nav-material sticky top-0 z-40 print:hidden">
       <nav
         aria-label={t.nav.label}
         className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
@@ -33,7 +33,7 @@ export function Nav({ lang }: { lang: Locale }) {
           </ul>
           <Link
             href={localePath(lang, "/cv")}
-            className="rounded-md border border-border px-2.5 py-1 font-mono text-sm text-fg hover:border-accent hover:text-accent"
+            className="pressable inline-flex h-8 items-center rounded-md bg-surface/60 px-2.5 font-mono text-sm text-fg shadow-pill hover:bg-surface hover:shadow-card"
           >
             {t.nav.cv}
           </Link>
