@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /** Fraction of the page scrolled, in [0, 1]; 0 when the page isn't scrollable. */
 function computeProgress(): number {
@@ -14,10 +14,12 @@ function computeProgress(): number {
  * page is scrolled. `scrollY`/`scrollHeight`/`innerHeight` aren't available
  * during SSR, so the bar starts at `scaleX(0)` and measures once mounted
  * (a restored scroll position or hash link lands mid-page), then again on
- * `scroll`/`resize`, coalesced to one measurement per animation frame.
+ * `scroll`/`resize`, coalesced to one measurement per animation frame. The
+ * transform is written straight to the DOM from that frame (as Spotlight
+ * does) rather than through state, so scrolling never re-renders anything.
  */
 export function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
 
   useEffect(() => {
@@ -25,7 +27,8 @@ export function ScrollProgress() {
       if (frame.current !== null) return;
       frame.current = requestAnimationFrame(() => {
         frame.current = null;
-        setProgress(computeProgress());
+        const node = ref.current;
+        if (node) node.style.transform = `scaleX(${computeProgress()})`;
       });
     };
 
@@ -45,9 +48,10 @@ export function ScrollProgress() {
 
   return (
     <div
+      ref={ref}
       aria-hidden="true"
-      className="scroll-progress fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-accent print:hidden"
-      style={{ transform: `scaleX(${progress})` }}
+      className="scroll-progress pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-accent print:hidden"
+      style={{ transform: "scaleX(0)" }}
     />
   );
 }

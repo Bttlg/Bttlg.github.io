@@ -47,7 +47,7 @@ describe("ScrollProgress", () => {
     vi.unstubAllGlobals();
   });
 
-  it("renders a fixed, aria-hidden bar at scaleX(0) before the first frame", () => {
+  it("renders a fixed, aria-hidden, click-through bar at scaleX(0) before the first frame", () => {
     const frames = fakeFrames();
     setLayout({ scrollHeight: 2000, innerHeight: 1000, scrollY: 500 });
     const { container } = render(<ScrollProgress />);
@@ -55,6 +55,7 @@ describe("ScrollProgress", () => {
     expect(bar).toHaveAttribute("aria-hidden", "true");
     expect(bar).toHaveClass("scroll-progress");
     expect(bar).toHaveClass("fixed");
+    expect(bar).toHaveClass("pointer-events-none");
     expect(bar).toHaveClass("print:hidden");
     expect(bar.style.transform).toBe("scaleX(0)");
     expect(frames.pending()).toBe(1);

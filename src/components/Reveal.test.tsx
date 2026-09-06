@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Reveal } from "./Reveal";
 
 function mockMatchMedia(matches: boolean) {
@@ -63,6 +63,59 @@ describe("Reveal", () => {
 
     expect(el).toHaveClass("is-visible");
     expect(unobserve).toHaveBeenCalled();
+  });
+
+  it("becomes visible when keyboard focus enters it before it intersects", () => {
+    mockMatchMedia(false);
+    const disconnect = vi.fn();
+    class FakeIO {
+      observe = vi.fn();
+      unobserve = vi.fn();
+      disconnect = disconnect;
+    }
+    // @ts-expect-error test stub
+    window.IntersectionObserver = FakeIO;
+
+    render(
+      <Reveal>
+        <button type="button">focus me</button>
+      </Reveal>,
+    );
+
+    const button = screen.getByRole("button", { name: "focus me" });
+    const el = button.closest(".reveal");
+    expect(el).not.toHaveClass("is-visible");
+
+    // focusin bubbles from the focused descendant up to the Reveal element.
+    fireEvent.focusIn(button);
+
+    expect(el).toHaveClass("is-visible");
+    expect(disconnect).toHaveBeenCalled();
+  });
+
+  it("stops observing and listening for focus on unmount", () => {
+    mockMatchMedia(false);
+    const disconnect = vi.fn();
+    class FakeIO {
+      observe = vi.fn();
+      unobserve = vi.fn();
+      disconnect = disconnect;
+    }
+    // @ts-expect-error test stub
+    window.IntersectionObserver = FakeIO;
+
+    const { unmount } = render(
+      <Reveal>
+        <p>unmounted</p>
+      </Reveal>,
+    );
+    const el = screen.getByText("unmounted").closest(".reveal") as HTMLElement;
+    const remove = vi.spyOn(el, "removeEventListener");
+
+    unmount();
+
+    expect(disconnect).toHaveBeenCalled();
+    expect(remove).toHaveBeenCalledWith("focusin", expect.any(Function));
   });
 
   it("is visible immediately when IntersectionObserver is undefined", () => {

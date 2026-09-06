@@ -58,7 +58,20 @@ export function Reveal({
     );
     observer.observe(node);
 
-    return () => observer.disconnect();
+    // Keyboard focus can land inside a not-yet-revealed element: a Tab that
+    // scrolls a link into view by its nearest edge can leave less of the
+    // element inside the root than the threshold/rootMargin ask for, and
+    // the focused control would stay invisible. Reveal on focus as well.
+    const onFocus = () => {
+      setVisible(true);
+      observer.disconnect();
+    };
+    node.addEventListener("focusin", onFocus, { once: true });
+
+    return () => {
+      observer.disconnect();
+      node.removeEventListener("focusin", onFocus);
+    };
   }, []);
 
   return (
