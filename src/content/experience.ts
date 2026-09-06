@@ -41,15 +41,13 @@ export const experience: Experience[] = [
       mn: [
         "nft.octagon.mn NFT маркетплэйс, id.octagon.mn нэвтрэлт, trade.octagon.mn арилжааны Next.js апп-ууд",
         "Exchange API (Java 21, Spring Boot, MongoDB) дээр 100+ commit: захиалга, хэтэвч, аюулгүй байдлын модулиуд",
-        "Docker дээр суурилсан staging / production deploy урсгал",
       ],
       en: [
         "Next.js apps: nft.octagon.mn NFT marketplace, id.octagon.mn identity, trade.octagon.mn trading",
         "100+ commits to the exchange API (Java 21, Spring Boot, MongoDB): orders, wallets, security modules",
-        "Docker-based staging / production deployment flow",
       ],
     },
-    stack: ["Next.js", "React", "TypeScript", "Java 21", "Spring Boot", "MongoDB", "Docker"],
+    stack: ["Next.js", "React", "TypeScript", "Java 21", "Spring Boot", "MongoDB"],
   },
   {
     id: "yesh",

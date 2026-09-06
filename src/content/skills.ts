@@ -19,11 +19,11 @@ export const skills: SkillGroup[] = [
   {
     id: "infra",
     label: { mn: "Cloud / Infra", en: "Cloud / Infra" },
-    items: ["AWS (S3, SQS, SNS)", "Azure Blob", "Docker", "GitHub Actions", "OpenTelemetry", "Prometheus"],
+    items: ["AWS (S3, SQS, SNS)", "Azure Blob", "OpenTelemetry"],
   },
   {
     id: "tools",
     label: { mn: "Бусад", en: "Other" },
-    items: ["Git", "Gradle", "Python / FastAPI", "Web Audio API"],
+    items: ["Git", "Gradle", "Python"],
   },
 ];

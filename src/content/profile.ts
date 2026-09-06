@@ -15,12 +15,12 @@ export const profile: Profile = {
     mn: [
       "2022 оноос хойш Монголын финтек, цахим үйлчилгээний салбарт full-stack хөгжүүлэгчээр ажиллаж байна. Крипто биржийн веб бүтээгдэхүүнүүд болон цахим гэрээний платформын backend, frontend-ийг хөгжүүлсэн.",
       "Гол хүч нь Java / Spring Boot микросервис, MongoDB, Redis, RabbitMQ дээр суурилсан backend. Түүн дээрээ Next.js / React frontend болон React Native, SwiftUI мобайл апп хөгжүүлдэг.",
-      "Чөлөөт цагаараа өөрт хэрэгтэй жижиг бүтээгдэхүүн хийх дуртай: Улаанбаатарын автобусны бодит цагийн iOS апп, дууг stem-үүдэд салгаж миксддэг веб апп гэх мэт.",
+      "Чөлөөт цагаараа өөрт хэрэгтэй жижиг бүтээгдэхүүн хийх дуртай: Улаанбаатарын автобусны бодит цагийн iOS апп гэх мэт.",
     ],
     en: [
       "Since 2022 I have worked as a full-stack developer in Mongolia's fintech and digital-services sector, building the backends and frontends of a crypto exchange's web products and an e-contract platform.",
       "My core is Java / Spring Boot microservices on MongoDB, Redis and RabbitMQ. On top of that I build Next.js / React frontends and React Native or SwiftUI mobile apps.",
-      "In my spare time I like building small products I need myself: a real-time iOS app for Ulaanbaatar buses, a web app that splits songs into stems and mixes them, and more.",
+      "In my spare time I like building small products I need myself, such as a real-time iOS app for Ulaanbaatar buses.",
     ],
   },
   facts: [

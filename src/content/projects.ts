@@ -42,16 +42,14 @@ export const projects: Project[] = [
       mn: [
         "nft.octagon.mn, id.octagon.mn, trade.octagon.mn — Next.js, i18n, real-time ханш",
         "Exchange API: захиалга, хэтэвч, аюулгүй байдлын модулиуд (Java 21, Spring Boot)",
-        "Docker staging / production deploy",
       ],
       en: [
         "nft.octagon.mn, id.octagon.mn, trade.octagon.mn — Next.js, i18n, real-time prices",
         "Exchange API: orders, wallets, security modules (Java 21, Spring Boot)",
-        "Docker staging / production deploys",
       ],
     },
-    stack: ["Next.js", "TypeScript", "Java", "Spring Boot", "MongoDB", "Docker"],
-    liveUrl: "https://trade.octagon.mn",
+    stack: ["Next.js", "TypeScript", "Java", "Spring Boot", "MongoDB"],
+    liveUrl: "https://octagon.mn/",
     featured: true,
   },
   {
@@ -92,59 +90,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "music-mixer",
-    name: { mn: "Music Mixer", en: "Music Mixer" },
-    kind: "personal",
-    role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Баттулга): Хугацаа ба repo URL (git түүх байхгүй).
-    period: { from: "2026-07", to: "2026-07" },
-    summary: {
-      mn: "Нэг дуу оруулаад хоолой, бөмбөр, басс, хөгжим гэсэн 4 stem-д AI-аар салгаж, тус бүрийн дууг тохируулан синхрон тоглуулдаг веб апп.",
-      en: "Upload a song, split it into vocals, drums, bass and other stems with AI, then mix and play them back in sync.",
-    },
-    highlights: {
-      mn: ["Demucs (htdemucs) source separation, FastAPI async job", "Next.js + Web Audio API 4-stem синхрон миксер"],
-      en: ["Demucs (htdemucs) source separation behind an async FastAPI job", "Next.js + Web Audio API four-stem synced mixer"],
-    },
-    stack: ["Python", "FastAPI", "Demucs", "Next.js", "Web Audio API"],
-    featured: true,
-  },
-  {
-    slug: "zamch",
-    name: { mn: "Замч", en: "Zamch" },
-    kind: "personal",
-    role: { mn: "Full-stack, ганцаараа", en: "Full-stack, solo" },
-    // TODO(Баттулга): Live URL ба repo URL.
-    period: { from: "2026-05", to: "2026-07" },
-    summary: {
-      mn: "Монголын аяллын замын мэдээлэл: явахаасаа өмнө замын нөхцөл, зогсоол, чиглэлээ мэдэх.",
-      en: "Road-trip information for Mongolia: know the road conditions, stops and route before you leave.",
-    },
-    highlights: {
-      mn: ["Next.js 16, Tailwind 4, Supabase", "Leaflet газрын зураг, замын дагуух буудлын тооцоолол"],
-      en: ["Next.js 16, Tailwind 4, Supabase", "Leaflet maps with corridor-based stop lookup"],
-    },
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Leaflet"],
-    featured: false,
-  },
-  {
-    slug: "smart-hr",
-    name: { mn: "Smart HR", en: "Smart HR" },
-    kind: "personal",
-    role: { mn: "Мобайл апп", en: "Mobile app" },
-    period: { from: "2026-08", to: "2026-08" },
-    summary: {
-      mn: "React Native дээр хийсэн хүний нөөцийн мобайл апп.",
-      en: "Human-resources mobile app built with React Native.",
-    },
-    highlights: {
-      mn: ["React Native 0.8x, TypeScript, react-navigation"],
-      en: ["React Native 0.8x, TypeScript, react-navigation"],
-    },
-    stack: ["React Native", "TypeScript"],
-    featured: false,
-  },
-  {
     slug: "clickup-telegram-bot",
     name: { mn: "ClickUp → Telegram бот", en: "ClickUp → Telegram bot" },
     kind: "personal",
@@ -160,24 +105,6 @@ export const projects: Project[] = [
     },
     stack: ["Python"],
     repoUrl: "https://github.com/Bttlg/ClickUp-Telegram-Bot",
-    featured: false,
-  },
-  {
-    slug: "spring-boot-initializer",
-    name: { mn: "spring-boot-initializer", en: "spring-boot-initializer" },
-    kind: "personal",
-    role: { mn: "Template", en: "Template" },
-    period: { from: "2026-04", to: "2026-04" },
-    summary: {
-      mn: "Шинэ Spring Boot төсөл эхлүүлэх зориулалттай эхлэлийн template.",
-      en: "Starter template for bootstrapping new Spring Boot projects.",
-    },
-    highlights: {
-      mn: ["Gradle, Spring Boot суурь бүтэц"],
-      en: ["Gradle and Spring Boot base structure"],
-    },
-    stack: ["Java", "Spring Boot", "Gradle"],
-    repoUrl: "https://github.com/Bttlg/spring-boot-initializer",
     featured: false,
   },
   {
