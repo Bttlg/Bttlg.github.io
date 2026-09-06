@@ -43,7 +43,7 @@
 
 | Асуудал | Шийдвэр | Шалтгаан |
 |---|---|---|
-| Framework | Next.js 16.2.x App Router, `output: 'export'` | Баттулгын бусад төслүүдтэй (zamch, next-generation, e-geree-v2) ижил стек; дараа блог/дэлгэрэнгүй хуудас нэмэхэд амар |
+| Framework | Next.js 16.2.x App Router, `output: 'export'` | Баттулгын бусад төслүүдтэй (next-generation, e-geree-v2) ижил стек; дараа блог/дэлгэрэнгүй хуудас нэмэхэд амар |
 | Hosting | GitHub Pages, repo `Bttlg.github.io` | Үнэгүй, цэвэр URL (basePath хэрэггүй), GitHub Actions-аар deploy |
 | Хэл | MN default, EN хоёр дахь; `app/[lang]` segment | Хэрэглэгчийн сонголт. Static export-д proxy/redirect ажиллахгүй тул `/` дээр client-side хэл сонголт |
 | Дизайн | Бараан, минимал, dev-style, toggle-гүй | Хэрэглэгчийн сонголт; theme-гүй тул код бага |
@@ -257,14 +257,14 @@ export type Ui = Record<Locale, UiDict>;
 
 **Projects (work, featured):** e-geree.mn (`https://e-geree.mn`), Octagon exchange (`https://trade.octagon.mn`, `https://id.octagon.mn`), yesh.mn (`https://yesh.mn`). Live URL-уудыг хэрэгжүүлэх үед `curl`-ээр амьд эсэхийг шалгаж, үхсэн бол `liveUrl` орхино.
 
-**Projects (personal):** УБ Автобус (iOS, SwiftUI, MapKit, бодит цагийн ETA; 2026-08; App Store-д тавиагүй, repo private → линкгүй), Music Mixer (FastAPI + Demucs + Next.js + Web Audio; 4 stem салгаж синхрон тоглуулах; TODO repo), Замч (Next.js 16, Монголын аяллын замын мэдээлэл; 2026-05→07; TODO live/repo), Smart HR (React Native; 2026-08), ClickUp-Telegram bot (Python; `https://github.com/Bttlg/ClickUp-Telegram-Bot`), spring-boot-initializer (Java; `https://github.com/Bttlg/spring-boot-initializer`), Data-transfer (Vue; `https://github.com/Bttlg/Data-transfer`).
+**Projects (personal):** УБ Автобус (iOS, SwiftUI, MapKit, бодит цагийн ETA; 2026-08; App Store-д тавиагүй, repo private → линкгүй), ClickUp-Telegram bot (Python; `https://github.com/Bttlg/ClickUp-Telegram-Bot`), Data-transfer (Vue; `https://github.com/Bttlg/Data-transfer`).
 
 **Skills (repo-уудаас батлагдсан):**
 - Backend: Java, Spring Boot, Spring Cloud, Spring Security/JWT, MongoDB, Redis, RabbitMQ, gRPC, WebSocket, REST/OpenAPI (springdoc), MapStruct, Feign, Resilience4j
 - Frontend: TypeScript, React, Next.js, Tailwind CSS, React Query, react-hook-form, socket.io, Chart.js/Recharts, next-intl
 - Mobile: React Native (react-navigation, Firebase), Swift/SwiftUI, MapKit
 - Cloud/Infra: AWS (S3, SQS, SNS), Azure Blob, Docker, GitHub Actions, OpenTelemetry, Prometheus
-- Tools/Other: Git, Gradle, Python (FastAPI), Web Audio API
+- Tools/Other: Git, Gradle, Python
 
 **Education:** `[]` (TODO comment-той жишээ). Хоосон тул нүүр ба CV дээр section гарахгүй.
 
