@@ -15,7 +15,7 @@ export function Nav({ lang }: { lang: Locale }) {
         aria-label={t.nav.label}
         className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
       >
-        <Link href={home} className="font-mono text-sm font-semibold text-fg hover:text-accent">
+        <Link href={home} className="font-mono text-sm font-semibold text-fg transition-colors hover:text-accent">
           {t.brand}
         </Link>
         <div className="flex items-center gap-4">
@@ -24,7 +24,7 @@ export function Nav({ lang }: { lang: Locale }) {
               <li key={id}>
                 <Link
                   href={`${home}#${id}`}
-                  className="relative hover:text-fg after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full focus-visible:after:w-full"
+                  className="relative transition-colors hover:text-fg after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 after:ease-out-strong motion-reduce:after:transition-none hover:after:scale-x-100 focus-visible:after:scale-x-100"
                 >
                   {t.nav[id]}
                 </Link>

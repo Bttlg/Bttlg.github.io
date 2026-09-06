@@ -4,10 +4,13 @@ import Page, { metadata } from "./page";
 import { REDIRECT_SCRIPT } from "@/lib/redirect-script";
 
 describe("/ redirect page", () => {
-  it("links to both locales", () => {
+  it("links to both locales, easing their colour hover", () => {
     render(<Page />);
-    expect(screen.getByRole("link", { name: "Монгол" })).toHaveAttribute("href", "/mn/");
-    expect(screen.getByRole("link", { name: "English" })).toHaveAttribute("href", "/en/");
+    const mn = screen.getByRole("link", { name: "Монгол" });
+    const en = screen.getByRole("link", { name: "English" });
+    expect(mn).toHaveAttribute("href", "/mn/");
+    expect(en).toHaveAttribute("href", "/en/");
+    for (const link of [mn, en]) expect(link).toHaveClass("transition-colors");
   });
   it("ships the redirect script inline", () => {
     const { container } = render(<Page />);

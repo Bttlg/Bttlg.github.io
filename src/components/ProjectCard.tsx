@@ -12,7 +12,7 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
   const highlights = project.highlights[lang].slice(0, MAX_HIGHLIGHTS);
 
   return (
-    <article className="relative flex h-full flex-col rounded-lg border border-border bg-surface/60 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-[0_12px_40px_-16px_rgba(52,211,153,0.35)]">
+    <article className="relative flex h-full flex-col rounded-xl bg-surface/80 p-6 shadow-card transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-card-hover motion-reduce:hover:translate-y-0">
       {project.logo && (
         <span className="mb-3 inline-flex h-9 w-fit items-center rounded-md bg-white px-2.5 shadow-sm ring-1 ring-black/5">
           <Image src={project.logo.src} alt="" width={project.logo.width} height={project.logo.height} className="h-5 w-auto" />
@@ -43,7 +43,7 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-fg hover:text-accent"
+              className="inline-flex items-center gap-1 text-fg transition-colors hover:text-accent"
             >
               {t.actions.live}
               <Icon name="external" className="h-3.5 w-3.5" />
@@ -54,7 +54,7 @@ export function ProjectCard({ project, lang }: { project: Project; lang: Locale 
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-fg hover:text-accent"
+              className="inline-flex items-center gap-1 text-fg transition-colors hover:text-accent"
             >
               {t.actions.source}
               <Icon name="external" className="h-3.5 w-3.5" />

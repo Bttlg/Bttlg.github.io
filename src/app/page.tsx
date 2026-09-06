@@ -31,7 +31,7 @@ export default function RootRedirectPage() {
             href={localePath(locale)}
             lang={locale}
             hrefLang={locale}
-            className="text-fg underline-offset-4 hover:text-accent hover:underline"
+            className="text-fg underline-offset-4 transition-colors hover:text-accent hover:underline"
           >
             {ui[locale].langName}
           </Link>

@@ -49,6 +49,28 @@ body {
   border-radius: 0.25rem;
 }
 
+/* Any button-like control: exact transition list (never `all`); colour/shadow
+   hovers ease at 150-200ms, press scales down (100-160ms ease-out). Tailwind
+   `hover:` is already gated on (hover: hover); :active fires on touch too,
+   which is what press feedback wants. Elements carrying this class must NOT
+   also carry transition-* utilities (they would override the shorthand's
+   property list). */
+@layer components {
+  .pressable {
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 150ms var(--ease-out-strong),
+      box-shadow 200ms ease,
+      filter 200ms ease,
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+}
+
 /* Hero entrance: "materialize" (fade + short rise + a touch of blur) on the
    strong ease-out curve, 50ms stagger across the d1-d5 slots. */
 @keyframes fade-up {
@@ -170,6 +192,11 @@ body {
   animation: blink 1s steps(1) infinite;
 }
 
+/* SSR ships the full prompt; hide it until the effect owns it (no-js keeps it). */
+html:not(.no-js) [data-typewriter]:not([data-ready]) {
+  visibility: hidden;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(12px);
@@ -223,6 +250,11 @@ html.no-js .reveal > .timeline-dot {
   }
   .cursor-blink {
     animation: none;
+  }
+  /* Press feedback stays, the movement goes. */
+  .pressable:active {
+    transform: none;
+    opacity: 0.85;
   }
   /* No traveling light: a static, hairline rim instead. */
   .beam-frame {

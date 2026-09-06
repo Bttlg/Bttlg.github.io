@@ -37,6 +37,13 @@ describe("Experience", () => {
     expect(items[0]).toHaveTextContent(sorted[0].company.en);
   });
 
+  it("eases the company link's colour hover", () => {
+    const { container } = render(<Experience lang="en" />);
+    const links = container.querySelectorAll("h3 > a[href]");
+    expect(links.length).toBeGreaterThan(0);
+    for (const link of links) expect(link).toHaveClass("transition-colors");
+  });
+
   it("wraps each timeline entry in a staggered Reveal that carries its own marker", () => {
     const { container } = render(<Experience lang="en" />);
     const sorted = sortExperience(experience);

@@ -43,7 +43,7 @@ export function Experience({ lang }: { lang: Locale }) {
                     href={entry.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 hover:text-accent"
+                    className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
                   >
                     {entry.company[lang]}
                     <Icon name="external" className="h-3.5 w-3.5 text-muted" />

@@ -53,10 +53,24 @@ describe("ProjectCard", () => {
     expect(live).toHaveAttribute("href", "https://demo.example");
     expect(live).toHaveAttribute("target", "_blank");
     expect(live).toHaveAttribute("rel", "noopener noreferrer");
-    expect(screen.getByRole("link", { name: ui.mn.actions.source })).toHaveAttribute(
-      "href",
-      "https://github.com/x/demo",
-    );
+    const source = screen.getByRole("link", { name: ui.mn.actions.source });
+    expect(source).toHaveAttribute("href", "https://github.com/x/demo");
+    // Colour hovers ease instead of snapping.
+    for (const link of [live, source]) expect(link).toHaveClass("transition-colors");
+  });
+
+  it("hovers with an exact transition list (lift + shadow), never a catch-all transition", () => {
+    render(<ProjectCard project={base} lang="en" />);
+    const card = screen.getByRole("article");
+    const classes = card.className.split(/\s+/);
+    // Exactly one transition utility, naming the two properties the hover
+    // changes (Tailwind writes -translate-y-* as `translate`, not `transform`).
+    expect(classes.filter((c) => c.startsWith("transition-"))).toEqual(["transition-[translate,box-shadow]"]);
+    expect(classes.filter((c) => c.startsWith("duration-"))).toEqual(["duration-200"]);
+    expect(card).toHaveClass("shadow-card");
+    expect(card).toHaveClass("hover:shadow-card-hover");
+    expect(card).toHaveClass("hover:-translate-y-0.5");
+    expect(card).toHaveClass("motion-reduce:hover:translate-y-0");
   });
 
   it("renders the logo image when set, and none when it is absent", () => {

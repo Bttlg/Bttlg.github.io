@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { act, render, screen } from "@testing-library/react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { Typewriter } from "./Typewriter";
 
 function mockMatchMedia(matches: boolean) {
@@ -71,5 +72,27 @@ describe("Typewriter", () => {
     mockMatchMedia(true);
     render(<Typewriter text="hello world" />);
     expect(screen.getByLabelText("hello world")).toBeInTheDocument();
+  });
+
+  it("ships the full prompt from SSR without data-ready, and marks itself ready once the effect owns it", () => {
+    // Static export: the server markup carries the whole text (no-JS and
+    // reduced-motion readers get it), tagged so CSS can hide it until the
+    // effect decides whether to retype it — no flash of the full prompt.
+    const markup = renderToStaticMarkup(<Typewriter text="$ whoami" />);
+    expect(markup).toContain("data-typewriter");
+    expect(markup).not.toContain("data-ready");
+    expect(markup).toContain("$ whoami");
+
+    mockMatchMedia(false);
+    render(<Typewriter text="$ whoami" />);
+    expect(screen.getByLabelText("$ whoami")).toHaveAttribute("data-ready");
+  });
+
+  it("is ready immediately under reduced motion, with the full text", () => {
+    mockMatchMedia(true);
+    render(<Typewriter text="$ whoami" />);
+    const el = screen.getByLabelText("$ whoami");
+    expect(el).toHaveAttribute("data-ready");
+    expect(el).toHaveTextContent("$ whoami");
   });
 });
