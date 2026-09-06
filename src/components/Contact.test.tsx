@@ -12,6 +12,16 @@ describe("Contact", () => {
     expect(screen.getByRole("link", { name: profile.email })).toHaveAttribute("href", `mailto:${profile.email}`);
   });
 
+  it("underlines the email link at rest and recolours text and underline together on hover", () => {
+    render(<Contact lang="en" />);
+    const link = screen.getByRole("link", { name: profile.email });
+    expect(link).toHaveClass("underline");
+    expect(link).toHaveClass("decoration-white/15");
+    expect(link).not.toHaveClass("hover:underline");
+    expect(link).toHaveClass("transition-colors");
+    expect(screen.getByText(ui.en.contact.body)).toHaveClass("text-fg-soft");
+  });
+
   it("reveals the body in its own Reveal, one stagger step after the heading's", () => {
     render(<Contact lang="en" />);
     const headingReveal = screen.getByRole("heading", { name: ui.en.sections.contact }).closest(".reveal");

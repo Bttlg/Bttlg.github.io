@@ -17,8 +17,11 @@ export function Section({ id, title, label = id, children, className = "" }: Sec
           staggered children aren't nested inside (and mushed by) an outer
           reveal, and a tall body can't delay the heading. */}
       <Reveal>
-        <p className="font-mono text-sm text-accent">{`// ${label}`}</p>
-        <h2 id={`${id}-title`} className="mt-2 text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+        <p className="font-mono text-sm tracking-[0.01em] text-accent/90">{`// ${label}`}</p>
+        <h2
+          id={`${id}-title`}
+          className="mt-2 text-2xl leading-tight font-semibold tracking-display text-balance text-fg sm:text-3xl"
+        >
           {title}
         </h2>
       </Reveal>

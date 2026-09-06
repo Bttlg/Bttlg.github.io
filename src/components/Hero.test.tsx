@@ -38,7 +38,7 @@ describe("Hero", () => {
     for (const cta of [primary, secondary]) {
       const classes = cta.className.split(/\s+/);
       expect(classes.slice(0, 3)).toEqual(["pressable", "inline-flex", "h-10"]);
-      // `.pressable` owns the transition list; a transition-* utility would override it.
+      // `.pressable` owns the transition list; a Tailwind transition utility of its own would override it.
       expect(classes.filter((c) => /(^|:)transition-/.test(c))).toEqual([]);
       expect(classes.filter((c) => /(^|:)border(-|$)/.test(c))).toEqual([]);
     }

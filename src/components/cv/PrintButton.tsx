@@ -7,7 +7,7 @@ export function PrintButton({ label }: { label: string }) {
     <button
       type="button"
       onClick={() => window.print()}
-      className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 font-mono text-sm text-fg hover:border-accent hover:text-accent print:hidden"
+      className="pressable inline-flex h-9 items-center gap-2 rounded-md bg-surface/60 px-3 font-mono text-sm text-fg shadow-pill hover:bg-surface hover:shadow-card print:hidden"
     >
       <Icon name="print" />
       {label}

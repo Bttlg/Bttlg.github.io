@@ -14,6 +14,19 @@ describe("Section", () => {
     expect(screen.getByText("// demo")).toBeInTheDocument();
   });
 
+  it("sets the heading in the display tracking with a balanced wrap, the eyebrow a step behind it", () => {
+    render(
+      <Section id="demo" title="Demo title">
+        <p>body</p>
+      </Section>,
+    );
+    const heading = screen.getByRole("heading", { name: "Demo title" });
+    expect(heading).toHaveClass("tracking-display");
+    expect(heading).toHaveClass("text-balance");
+    expect(heading).not.toHaveClass("tracking-tight");
+    expect(screen.getByText("// demo")).toHaveClass("text-accent/90");
+  });
+
   it("reveals only the eyebrow and heading; the body sits outside that Reveal", () => {
     render(
       <Section id="demo" title="Demo title" label="lbl">

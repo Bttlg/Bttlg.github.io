@@ -24,6 +24,7 @@ describe("Skills", () => {
       // Valid <dl> markup: the group row directly contains its <dt>/<dd>.
       expect(row.querySelector(":scope > dt")).toHaveTextContent(skills[index].label.en);
       expect(row.querySelector(":scope > dd")).not.toBeNull();
+      expect(row.querySelector(":scope > dd")).toHaveClass("gap-2");
       const delay = staggerDelay(index);
       expect(row.style.transitionDelay).toBe(delay > 0 ? `${delay}ms` : "");
     });

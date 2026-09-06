@@ -33,6 +33,16 @@ describe("Projects", () => {
     );
   });
 
+  it("labels each group in the CV's small-caps voice, leaving the `// label` motif to top-level eyebrows", () => {
+    render(<Projects lang="en" />);
+    const group = screen.getByRole("region", { name: ui.en.sections.work });
+    const heading = within(group).getByRole("heading", { name: ui.en.sections.work });
+    expect(heading).toHaveClass("uppercase");
+    expect(heading).toHaveClass("tracking-wider");
+    expect(heading).not.toHaveClass("font-mono");
+    expect(heading.textContent).toBe(ui.en.sections.work);
+  });
+
   it("wraps each card in its own Reveal, staggered by position within its group", () => {
     render(<Projects lang="en" />);
     for (const name of [ui.en.sections.work, ui.en.sections.personal]) {

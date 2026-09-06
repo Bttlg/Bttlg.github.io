@@ -37,6 +37,19 @@ describe("ProjectCard", () => {
     expect(screen.getByText("Next.js")).toBeInTheDocument();
   });
 
+  it("reads in three tiers (title fg, summary fg-soft, meta muted) with chips on the 8px gap", () => {
+    render(<ProjectCard project={base} lang="en" />);
+    const title = screen.getByRole("heading", { name: "Demo" });
+    expect(title).toHaveClass("text-fg");
+    expect(title).toHaveClass("leading-snug");
+    expect(screen.getByText("Summary")).toHaveClass("text-fg-soft");
+    expect(screen.getByText("Jan 2025 – Present")).toHaveClass("text-muted");
+    expect(screen.getByRole("list")).toHaveClass("text-muted");
+    const chipRow = screen.getByText("Next.js").parentElement!;
+    expect(chipRow).toHaveClass("gap-2");
+    expect(chipRow).not.toHaveClass("gap-1.5");
+  });
+
   it("renders no links when urls are missing", () => {
     render(<ProjectCard project={base} lang="en" />);
     expect(screen.queryAllByRole("link")).toHaveLength(0);
@@ -85,6 +98,10 @@ describe("ProjectCard", () => {
     const tile = img!.closest("span")!;
     expect(tile).not.toHaveClass("absolute");
     expect(tile.nextElementSibling).toContainElement(screen.getByRole("heading", { name: "Demo" }));
+    // Soft white tile with an inset ring; an outer black ring/shadow was invisible on the dark card.
+    expect(tile).toHaveClass("bg-white/90");
+    expect(tile).toHaveClass("ring-inset");
+    expect(tile).not.toHaveClass("shadow-sm");
 
     rerender(<ProjectCard project={base} lang="en" />);
     expect(container.querySelector("img")).toBeNull();

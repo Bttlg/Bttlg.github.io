@@ -37,7 +37,7 @@ export function Experience({ lang }: { lang: Locale }) {
                 }`}
               />
               <p className="font-mono text-xs text-muted">{formatPeriod(entry.period, lang, t.cv.present)}</p>
-              <h3 className="mt-1 text-lg font-semibold text-fg">
+              <h3 className="mt-1 text-lg leading-snug font-semibold tracking-[-0.01em] text-fg">
                 {entry.url ? (
                   <a
                     href={entry.url}
@@ -53,15 +53,15 @@ export function Experience({ lang }: { lang: Locale }) {
                 )}
               </h3>
               <p className="font-mono text-sm text-accent">{entry.role[lang]}</p>
-              <p className="mt-2 text-muted">{entry.summary[lang]}</p>
+              <p className="mt-2 leading-relaxed text-fg-soft">{entry.summary[lang]}</p>
               {entry.highlights[lang].length > 0 && (
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted">
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted marker:text-muted/50">
                   {entry.highlights[lang].map((highlight) => (
                     <li key={highlight}>{highlight}</li>
                   ))}
                 </ul>
               )}
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {entry.stack.map((item) => (
                   <Chip key={item}>{item}</Chip>
                 ))}

@@ -14,7 +14,7 @@ export function Skills({ lang }: { lang: Locale }) {
         {skills.map((group, index) => (
           <Reveal key={group.id} delay={staggerDelay(index)} className="grid gap-2 sm:grid-cols-[140px_1fr]">
             <dt className="font-mono text-sm text-fg">{group.label[lang]}</dt>
-            <dd className="flex flex-wrap gap-1.5">
+            <dd className="flex flex-wrap gap-2">
               {group.items.map((item) => (
                 <Chip key={item}>{item}</Chip>
               ))}

@@ -44,6 +44,25 @@ describe("Experience", () => {
     for (const link of links) expect(link).toHaveClass("transition-colors");
   });
 
+  it("sets each entry's summary in the prose tier and its stack chips on the 8px gap", () => {
+    const { container } = render(<Experience lang="en" />);
+    const sorted = sortExperience(experience);
+    const entries = Array.from(container.querySelectorAll<HTMLLIElement>("#experience ol > li"));
+    entries.forEach((entry, index) => {
+      const summary = entry.querySelector("p.leading-relaxed");
+      expect(summary).toHaveTextContent(sorted[index].summary.en);
+      expect(summary).toHaveClass("text-fg-soft");
+      expect(entry.querySelector("h3")).toHaveClass("leading-snug");
+      expect(entry.querySelector("h3")).toHaveClass("tracking-[-0.01em]");
+      if (sorted[index].stack.length > 0) {
+        const chip = entry.querySelector("h3 ~ div > span");
+        expect(chip).not.toBeNull();
+        expect(chip!.parentElement).toHaveClass("gap-2");
+        expect(chip!.parentElement).not.toHaveClass("gap-1.5");
+      }
+    });
+  });
+
   it("wraps each timeline entry in a staggered Reveal that carries its own marker", () => {
     const { container } = render(<Experience lang="en" />);
     const sorted = sortExperience(experience);

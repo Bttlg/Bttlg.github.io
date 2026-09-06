@@ -18,7 +18,7 @@ export function About({ lang, now = new Date() }: { lang: Locale; now?: Date }) 
     <Section id="about" title={t.sections.about}>
       <Reveal delay={staggerDelay(1)}>
         <div className="grid gap-8 md:grid-cols-[1fr_220px]">
-          <div className="space-y-4 leading-relaxed text-muted">
+          <div className="space-y-4 leading-relaxed text-fg-soft">
             {profile.about[lang].map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}

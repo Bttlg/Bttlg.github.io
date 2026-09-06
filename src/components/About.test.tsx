@@ -11,6 +11,9 @@ describe("About", () => {
     profile.about.mn.forEach((p) => expect(screen.getByText(p)).toBeInTheDocument());
     expect(screen.getByText(ui.mn.about.yearsValue.replace("{n}", "5"))).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: ui.mn.sections.about })).toBeInTheDocument();
+    // Prose tier for the main copy; the facts keep muted labels / fg values.
+    expect(screen.getByText(profile.about.mn[0]).parentElement).toHaveClass("text-fg-soft");
+    expect(screen.getByText(ui.mn.about.years)).toHaveClass("text-muted");
   });
 
   it("reveals the body in its own Reveal, one stagger step after the heading's", () => {

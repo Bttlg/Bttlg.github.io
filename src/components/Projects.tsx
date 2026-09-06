@@ -15,7 +15,7 @@ function Group({ id, title, items, lang }: { id: string; title: string; items: P
   return (
     <section aria-labelledby={`${id}-title`} className="mt-10 first:mt-0">
       <Reveal>
-        <h3 id={`${id}-title`} className="font-mono text-sm text-muted">
+        <h3 id={`${id}-title`} className="text-xs font-semibold tracking-wider text-muted uppercase">
           {title}
         </h3>
       </Reveal>
